@@ -1,0 +1,341 @@
+.ui-jqgrid {
+  -moz-box-sizing: content-box;
+}
+.ui-jqgrid-btable {
+  border-collapse: separate;
+}
+.ui-jqgrid-htable {
+  border-collapse: separate;
+}
+.ui-jqgrid-titlebar {
+  height: 40px;
+  line-height: 15px;
+  color: #676a6c;
+  background-color: #F9F9F9;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.ui-jqgrid .ui-jqgrid-title {
+  float: left;
+  margin: 1.1em 1em 0.2em;
+}
+.ui-jqgrid .ui-jqgrid-titlebar {
+  position: relative;
+  border-left: 0 solid;
+  border-right: 0 solid;
+  border-top: 0 solid;
+}
+.ui-widget-header {
+  background: none;
+  background-image: none;
+  background-color: #f5f5f6;
+  text-transform: uppercase;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.ui-jqgrid tr.ui-row-ltr td {
+  border-right-color: inherit;
+  border-right-style: solid;
+  border-right-width: 1px;
+  text-align: left;
+  border-color: #DDDDDD;
+  background-color: inherit;
+}
+.ui-search-toolbar input[type="text"] {
+  font-size: 12px;
+  height: 15px;
+  border: 1px solid #CCCCCC;
+  border-radius: 0;
+}
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+  background: #F9F9F9;
+  border: 1px solid #DDDDDD;
+  line-height: 15px;
+  font-weight: bold;
+  color: #676a6c;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.ui-widget-content {
+  box-sizing: content-box;
+}
+.ui-icon-triangle-1-n {
+  background-position: 1px -16px;
+}
+.ui-jqgrid tr.ui-search-toolbar th {
+  border-top-width: 0 !important;
+  border-top-color: inherit !important;
+  border-top-style: ridge !important;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+  background: #f5f5f5;
+  border-collapse: separate;
+  background: #f5f5f5;
+    border-collapse: separate;
+}
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+  background: #f2fbff;
+}
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  font-weight: normal;
+  color: #212121;
+}
+.ui-jqgrid .ui-pg-input {
+  font-size: inherit;
+  width: 50px;
+  border: 1px solid #CCCCCC;
+  height: 15px;
+}
+.ui-jqgrid .ui-pg-selbox {
+  display: block;
+  font-size: 1em;
+  height: 25px;
+  line-height: 18px;
+  margin: 0;
+  width: auto;
+}
+.ui-jqgrid .ui-pager-control {
+  position: relative;
+}
+.ui-jqgrid .ui-jqgrid-pager {
+  height: 32px;
+  position: relative;
+}
+.ui-pg-table .navtable .ui-corner-all {
+  border-radius: 0;
+}
+.ui-jqgrid .ui-pg-button:hover {
+  padding: 1px;
+  border: 0;
+}
+.ui-jqgrid .loading {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  width: auto;
+  height: auto;
+  z-index: 101;
+  padding: 6px;
+  margin: 5px;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+  border-width: 2px !important;
+  font-size: 11px;
+}
+.ui-jqgrid .form-control {
+  height: 10px;
+  width: auto;
+  display: inline;
+  padding: 10px 12px;
+}
+.ui-jqgrid-pager {
+  height: 32px;
+}
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-left,
+.ui-corner-tl {
+  border-top-left-radius: 0;
+}
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-right,
+.ui-corner-tr {
+  border-top-right-radius: 0;
+}
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-left,
+.ui-corner-bl {
+  border-bottom-left-radius: 0;
+}
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+  border-bottom-right-radius: 0;
+}
+.ui-widget-content {
+  border: 1px solid #ddd;
+}
+.ui-jqgrid .ui-jqgrid-titlebar {
+  padding: 0;
+}
+.ui-jqgrid .ui-jqgrid-titlebar {
+  border-bottom: 1px solid #ddd;
+}
+.ui-jqgrid tr.jqgrow td {
+/*   padding: 6px; */
+/*   padding: 6px; */
+}
+.ui-jqdialog .ui-jqdialog-titlebar {
+  padding: 10px 10px;
+}
+.ui-jqdialog .ui-jqdialog-title {
+  float: none !important;
+}
+.ui-jqdialog > .ui-resizable-se {
+  position: absolute;
+}
+.ui-pager-control > .ui-pg-table {
+	width:100%;table-layout:fixed;height:100%;
+}
+.ui-jqgrid tr.jqgrow td {
+    border-top: none;
+}
+
+th.ui-state-default.ui-th-column-header{
+    overflow: hidden;
+    white-space: normal;
+    text-align: center;
+    border-top: 0 none;
+	height: 30px;
+
+}
+
+.ui-jqgrid.row-height-S tr.jqgrow td {height: 22px; font-size: 1em; padding-left: 2px; padding-right: 2px;}
+.ui-jqgrid.row-height-S .ui-th-column, .ui-jqgrid.row-height-S .ui-jqgrid-htable th.ui-th-column {height: 25px;	}
+.ui-jqgrid.row-height-M tr.jqgrow td {height: 35px; font-size: 1.2em; padding-left: 5px; padding-right: 5px;}
+.ui-jqgrid.row-height-M .ui-th-column, .ui-jqgrid.row-height-M .ui-jqgrid-htable th.ui-th-column {height: 35px;	}
+.ui-jqgrid.row-height-L tr.jqgrow td {height: 25px; font-size: 1.4em; padding-left: 5px; padding-right: 5px;}
+.ui-jqgrid.row-height-L tr.jqgrow td input {height: 65%;width: 96%;font-size: 1.0em;}
+.ui-jqgrid.row-height-L .ui-th-column, .ui-jqgrid.row-height-L .ui-jqgrid-htable th.ui-th-column {height: 45px;	 font-size: 1.8em;}
+
+.master-grid-S {font-size: 1em; }
+.master-grid-M {font-size: 1.2em;}
+.master-grid-L {font-size: 1.4em;}
+.master-grid-L .sidebar {   width: 270px;}
+.master-grid-L .page-sidebar-minified .sidebar {   width: 60px;}
+.master-grid-L .page-sidebar-minified .content {   margin-left: 60px;}
+.master-grid-L .content{    margin-left: 270px;}
+
+@media (max-width: 767px) {
+	.master-grid-L .sidebar {   left: -270px; }
+	.master-grid-L .sidebar-bg {   left: -270px; }
+	.master-grid-L .page-sidebar-toggled .sidebar { left : 0px; }
+	.master-grid-L .page-sidebar-toggled .sidebar-bg { left : 0px; }
+
+	div.container-fluid ul.nav{
+		display:block;
+		background-color:white;
+		margin-left:-15px;
+		margin-right:-15px;
+		float:inherit;
+	}
+	/* ul.nav{display:none;} */
+	.content{margin-top:0px;}
+	/* .master-grid-L .content{    margin-left: -270px;} */
+}
+
+/* 페이지 헤더 콤보박스 */
+.master-grid-S ul.nav select {font-size:1em;}
+.master-grid-M ul.nav select {font-size:1.1em;}
+.master-grid-L ul.nav select {font-size:1.2em;}
+
+.master-grid-S .ui-jqgrid tr.jqgrow td {height: 22px;padding-left: 2px; padding-right: 2px; font-size: 0.9em;}
+.master-grid-S .ui-jqgrid .ui-th-column, .master-grid-S .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {height: 25px;	font-size: 0.9em;	}
+.master-grid-S .ui-jqgrid .ui-th-column-header, .master-grid-S .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {height: 25px;	font-size: 0.9em;	}
+
+.master-grid-M .ui-jqgrid tr.jqgrow td {height: 35px;padding-left: 5px; padding-right: 5px; font-size: 1em;}
+.master-grid-M .ui-jqgrid .ui-th-column, .master-grid-M .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {height: 35px;font-size: 1em; }
+.master-grid-M .ui-jqgrid .ui-th-column-header, .master-grid-M .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {height: 35px;font-size: 1em; }
+
+.master-grid-L .ui-jqgrid tr.jqgrow td {height: 25px; font-size: 1.8em; padding-left: 5px; padding-right: 5px;}
+.master-grid-L .ui-jqgrid tr.jqgrow td input {height: 65%;width: 96%;font-size: 1.0em;}
+.master-grid-L .ui-jqgrid .ui-th-column, .master-grid-L .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {height: 45px;	 font-size: 1.4em;}
+.master-grid-L .ui-jqgrid .ui-th-column-header, .master-grid-L .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {height: 45px;	 font-size: 1.4em;}
+
+/* 그리드 타이틀 */
+.master-grid-S .ui-jqgrid-title {font-size:1em;}
+.master-grid-M .ui-jqgrid-title {font-size:1.1em; margin-top:12px;}
+.master-grid-L .ui-jqgrid-title {font-size:1.2em; margin-top:12px;}
+
+/* 그리드 합계 란 */
+.master-grid-S  tr.footrow td{font-size: 1em; }
+.master-grid-M  tr.footrow td{font-size: 1.2em;}
+.master-grid-L  tr.footrow td{font-size: 1.4em;}
+
+/* 조회그룹 라벨 */
+.master-grid-S  div.input-group span.spanclass, .master-grid-S  div.input-group span.spanclassAsterisk{font-size: 1.1em; }
+.master-grid-M  div.input-group span.spanclass, .master-grid-M  div.input-group span.spanclassAsterisk{font-size: 1.15em;}
+.master-grid-L  div.input-group span.spanclass, .master-grid-L  div.input-group span.spanclassAsterisk{font-size: 1.2em;}
+
+/* 조회그룹 등 input  */
+.master-grid-S  div.input-group input{font-size: 1.1em; }
+.master-grid-M  div.input-group input{font-size: 1.15em; padding-left:5px; padding-right:5px;}
+.master-grid-L  div.input-group input{font-size: 1.2em;  padding-left:3px; padding-right:3px;}
+
+/* 조회그룹 등 select  */
+/* .master-grid-S  div.input-group select{font-size: 1.1em; }
+.master-grid-M  div.input-group select{font-size: 1.15em; padding-left:5px; padding-right:5px;}
+.master-grid-L  div.input-group select{font-size: 1.2em;  padding-left:3px; padding-right:3px;} */
+
+.master-grid-S  select{font-size: 1.1em; }
+.master-grid-M  select{font-size: 1.15em; padding-left:5px; padding-right:5px;}
+.master-grid-L  select{font-size: 1.2em;  padding-left:5px; padding-right:3px;}
+
+/* 버튼 들 */
+.master-grid-S  div.input-group button i{font-size: 0.8em; }
+.master-grid-M  div.input-group button i{font-size: 1em; }
+.master-grid-L  div.input-group button i{font-size: 1.2em; }
+
+.report-btn-group{
+    font-size: 20px;
+    right: 25px;
+    position: absolute;
+    top: 10px;
+}
+.report-btn-group.no-m{
+    right: 10px;
+}
+.report-btn-group i.fa{
+	cursor: pointer;
+	margin-left: 10px;
+}
+/* .ui-jqgrid.row-height-20 tr.jqgrow td {height: 20px;} */
+/* .ui-jqgrid.row-height-21 tr.jqgrow td {height: 21px;} */
+/* .ui-jqgrid.row-height-22 tr.jqgrow td {height: 22px;} */
+/* .ui-jqgrid.row-height-23 tr.jqgrow td {height: 23px;} */
+/* .ui-jqgrid.row-height-24 tr.jqgrow td {height: 24px;} */
+/* .ui-jqgrid.row-height-25 tr.jqgrow td {height: 25px;} */
+/* .ui-jqgrid.row-height-26 tr.jqgrow td {height: 26px;} */
+/* .ui-jqgrid.row-height-27 tr.jqgrow td {height: 27px;} */
+/* .ui-jqgrid.row-height-28 tr.jqgrow td {height: 28px;} */
+/* .ui-jqgrid.row-height-29 tr.jqgrow td {height: 29px;} */
+/* .ui-jqgrid.row-height-30 tr.jqgrow td {height: 30px;} */
+/* .ui-jqgrid.row-height-31 tr.jqgrow td {height: 31px;} */
+/* .ui-jqgrid.row-height-32 tr.jqgrow td {height: 32px;} */
+/* .ui-jqgrid.row-height-33 tr.jqgrow td {height: 33px;} */
+/* .ui-jqgrid.row-height-34 tr.jqgrow td {height: 34px;} */
+/* .ui-jqgrid.row-height-35 tr.jqgrow td {height: 35px;} */
+/* .ui-jqgrid.row-height-36 tr.jqgrow td {height: 36px;} */
+/* .ui-jqgrid.row-height-37 tr.jqgrow td {height: 37px;} */
+/* .ui-jqgrid.row-height-38 tr.jqgrow td {height: 38px;} */
+/* .ui-jqgrid.row-height-39 tr.jqgrow td {height: 39px;} */
+/* .ui-jqgrid.row-height-40 tr.jqgrow td {height: 40px;} */
+
+
+/* .ui-jqgrid-labels.ui-sortable.jqg-second-row-header > th{ */
+/*     overflow: hidden; */
+/*     white-space: nowrap; */
+/*     text-align: center; */
+/*     border-top: 0 none; */
+/* 	height: 30px; */
+/* } */
+i[data-domain-id]{
+	font-style: normal;
+}
+tr.focus-row{
+   background-color:#d6ebf5 !important;
+}

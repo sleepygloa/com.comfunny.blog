@@ -39,6 +39,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-jdbc')
     compile('mysql:mysql-connector-java')
+    compile('com.fasterxml.jackson.core:jackson-databind')
 
 
     compile('org.springframework.session:spring-session-jdbc')

@@ -481,6 +481,50 @@ div[class*="col-xs-w"], div[class*="col-sm-w"], div[class*="col-md-w"],
 .p-20{padding:20 auto;}
 .p-25{padding:25 auto;}
 
+.p-b-0{padding-bottom:0px;}
+.p-b-5{padding-bottom:5px;}
+.p-b-10{padding-bottom:10px;}
+.p-b-15{padding-bottom:15px;}
+.p-b-20{padding-bottom:20px;}
+.p-b-25{padding-bottom:25px;}
+.p-b-30{padding-bottom:30px;}
+.p-b-35{padding-bottom:35px;}
+.p-b-40{padding-bottom:40px;}
+.p-b-45{padding-bottom:45px;}
+
+.p-t-0{padding-top:0px;}
+.p-t-5{padding-top:5px;}
+.p-t-10{padding-top:10px;}
+.p-t-15{padding-top:15px;}
+.p-t-20{padding-top:20px;}
+.p-t-25{padding-top:25px;}
+.p-t-30{padding-top:30px;}
+.p-t-35{padding-top:35px;}
+.p-t-40{padding-top:40px;}
+.p-t-45{padding-top:45px;}
+
+.p-r-0{padding-right:0px;}
+.p-r-5{padding-right:5px;}
+.p-r-10{padding-right:10px;}
+.p-r-15{padding-right:15px;}
+.p-r-20{padding-right:20px;}
+.p-r-25{padding-right:25px;}
+.p-r-30{padding-right:30px;}
+.p-r-35{padding-right:35px;}
+.p-r-40{padding-right:40px;}
+.p-r-45{padding-right:45px;}
+
+.p-l-0{padding-left:0px;}
+.p-l-5{padding-left:5px;}
+.p-l-10{padding-left:10px;}
+.p-l-15{padding-left:15px;}
+.p-l-20{padding-left:20px;}
+.p-l-25{padding-left:25px;}
+.p-l-30{padding-left:30px;}
+.p-l-35{padding-left:35px;}
+.p-l-40{padding-left:40px;}
+.p-l-45{padding-left:45px;}
+
 .m-0{margin:0 auto;}
 .m-5{margin:5 auto;}
 .m-10{margin:10 auto;}
@@ -509,3 +553,25 @@ div[class*="col-xs-w"], div[class*="col-sm-w"], div[class*="col-md-w"],
 .m-t-35{margin-top:35px;}
 .m-t-40{margin-top:40px;}
 .m-t-45{margin-top:45px;}
+
+.m-r-0{margin-right:0px;}
+.m-r-5{margin-right:5px;}
+.m-r-10{margin-right:10px;}
+.m-r-15{margin-right:15px;}
+.m-r-20{margin-right:20px;}
+.m-r-25{margin-right:25px;}
+.m-r-30{margin-right:30px;}
+.m-r-35{margin-right:35px;}
+.m-r-40{margin-right:40px;}
+.m-r-45{margin-right:45px;}
+
+.m-l-0{margin-left:0px;}
+.m-l-5{margin-left:5px;}
+.m-l-10{margin-left:10px;}
+.m-l-15{margin-left:15px;}
+.m-l-20{margin-left:20px;}
+.m-l-25{margin-left:25px;}
+.m-l-30{margin-left:30px;}
+.m-l-35{margin-left:35px;}
+.m-l-40{margin-left:40px;}
+.m-l-45{margin-left:45px;}

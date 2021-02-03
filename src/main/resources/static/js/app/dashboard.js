@@ -41,7 +41,6 @@ function leftMenu(menuSeq){
         dataType : 'json',
         contentType : 'application/json; charset=utf-8'
         }).done(function(data){
-            console.log(data);
 
             var beforeMenuLev = 1;
             var beforeChildCnt = 0;
@@ -70,7 +69,7 @@ function leftMenu(menuSeq){
                     beforeMenuLev = 1;
 
 
-                    var li = $('<li class="nav-item" />');
+                    var li = $('<li class="nav-item p-l-20" />');
                     var a = $('<a class="nav-link" href="#"  aria-expanded="false" data-bs-target="#menu_'+rowData.menuSeq+'" aria-controls="menu_'+rowData.menuSeq+'" >'+rowData.menuNm+'</a>');
                     var span = $('<span class=""/>');
                     if(menuSeq == 7){

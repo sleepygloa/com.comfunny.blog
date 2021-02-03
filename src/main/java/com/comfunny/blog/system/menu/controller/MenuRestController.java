@@ -1,5 +1,6 @@
 package com.comfunny.blog.system.menu.controller;
 
+import com.comfunny.blog.config.parameters.Params;
 import com.comfunny.blog.system.menu.dto.MenuSaveRequestDto;
 import com.comfunny.blog.system.menu.service.MenuService;
 import com.comfunny.blog.system.menu.dto.MenuListResponseDto;
@@ -32,9 +33,9 @@ public class MenuRestController {
     }
 
 
-    @PostMapping("/b/menu/saveRow")
+    @PostMapping("/b/menu/save")
     public void save(@RequestBody Map map){
-
+        System.out.println("Ddddd"+map.toString());
         ObjectMapper mapper = new ObjectMapper();
         List<MenuSaveRequestDto> list =  mapper.convertValue((List<MenuSaveRequestDto>)map.get("list"), new TypeReference<List<MenuSaveRequestDto>>() {});
 

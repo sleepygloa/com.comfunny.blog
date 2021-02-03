@@ -1,14 +1,48 @@
 
+	<main>
+		<div id="sysMenuPageHeaderGrp" class="" >
+			<ol class="breadcrumb pull-right"></ol>
+			<h1 class="page-header"></h1>
+		</div>
 
-<main class="col-md-12 ms-sm-auto col-lg-12 px-md-4" style="padding-top:30px;">
-    <div id="menuContainer" class="container">
-        <div id="menuGrid" class="col-xs-w100">
-        </div>
-    </div>
-</main>
+		<div id="sysMenuContainer" class="container" >
+			<div id="sysMenuSearchHeaderGrp" class="search-form clearfix col-xs-w100" >
+				<form class="form-inline"  onsubmit="return false;">
 
+					<div class="input-group col-wms-search-group3">
+<!--						<span class="input-group-addon col-xs-w25 spanclass" data-domain-id="PDA_USE_YN"></span>
+	                    <select id="systemMenuPdaUseYN" class="form-control" >
+	                        <option value=""></option>
+	                    </select>-->
+					</div>
 
-<script src="/js/app/nambiTableApi.js"></script>
-<script src="/js/app/system/menu.js"></script>
+					<!-- 중복되는 부분 -->
+					<div class="form-group col-xs-w100 m-b-5">
+						<div class="input-group pull-right">
+							<button type="button" id="systemMenuSearchBtn" type="button"  class="btn btn-sm btn-primary m-r-5">
+			                    <i class="fa fa-search"></i><!--<i data-domain-id="SEARCH_BTN" >--> 조회</i>
+			                </button>
+			                <button type="button" id="systemMenuAddBtn" data-authRule="AUTH_NEW"  class="btn btn-sm btn-info m-r-5">
+								<i class="fa fa-plus"></i> <!--<i data-domain-id="MENU_ADD_BTN" >-->추가</i>
+							</button>
+<!--							<button type="button" id="systemMenuDelRowBtn" data-authRule="AUTH_DEL" class="btn btn-sm btn-danger m-r-5">
+								<i class="fa fa-minus"></i> &lt;!&ndash;<i data-domain-id="ROW_DEL_BTN" >&ndash;&gt;삭제</i>
+							</button>-->
+							<button type="button" id="systemMenuSaveRowBtn" data-authRule="AUTH_NEW AUTH_MOD AUTH_DEL"  class="btn btn-sm btn-success">
+								<i class="fa fa-download"></i> <!--<i data-domain-id="SAVE_BTN" >-->저장</i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
 
+			<div id="systemMenuHGridGrp" class="col-xs-w100">
+				<div>
+	          		<table id="systemMenuGrid"></table>
+	         		<!-- <div id="systemMenuGridNavi"></div> -->
+				</div>
+			</div>
+		</div>
 
+		<script src="/js/app/system/menu.js"></script>
+	</main>
