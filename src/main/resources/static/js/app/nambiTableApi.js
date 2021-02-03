@@ -1046,7 +1046,7 @@ function fnMakeCombo(targetStr, data){
 
                 //-1 : 댓글 신규 작성 폼.
                 for(var i = 0; i < dt_grid.length; i++){
-console.log(dt_grid[i]);
+
                         var dtGridRef = (i == -1? 0 : parseInt(dt_grid[i].ref)); //순번
                         var dtGridPRef = (i == -1? 0 : parseInt(dt_grid[i].pref));
                         var dtGridLevel = (i == -1? 0 : parseInt(dt_grid[i].level));
