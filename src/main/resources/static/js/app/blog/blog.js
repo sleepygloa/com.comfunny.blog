@@ -6,6 +6,9 @@ var blogJs = function(){
 	var proNm = "blog";
 
 	var $grid = $('#blogGrid');
+	var simplemde = new SimpleMDE({ element: document.getElementById("blogContent")});
+	var flag = "";
+
 	return {
 		init : function(){
 
@@ -47,6 +50,10 @@ var blogJs = function(){
                     //행이 1개 이상일때 포커스
                     if(ids && ids.length > 0){
                         $grid.setFocus(0);
+
+                        fnMarkdown('INSERT');
+
+                        fnReContent(0);
                     }
 
 //                    //첫로딩 D그리드 생성, 그 외 조회효과
@@ -74,7 +81,7 @@ var blogJs = function(){
                 onSelectRowEvent: function(currRowData, prevRowData){
                     fnMarkdown('VIEW', currRowData);
 
-                    fnReContent(currRowData.idx);
+                    fnReContent('VIEW');
                },
             });
         }
@@ -82,26 +89,29 @@ var blogJs = function(){
 
 	function fnEvents(){
     	//조회
-    	$('#systemMenuSearchBtn').click(function(){
+    	$('#blogSearchBtn').click(function(){
     		fnSearch();
+    		flag = "";
     	});
 
     	//추가
-    	$("#systemMenuAddBtn").click(function(){
-    		fnAdd();
+    	$("#blogAddBtn").click(function(){
+    		fnMarkdown('INSERT');
+    		flag = "INSERT";
     	});
 
     	//수정
     	$("#blogUpdateBtn").click(function(){
     		fnMarkdown('UPDATE');
+    		flag = "UPDATE";
     	});
 
     	//저장버튼
-    	$("#systemMenuSaveRowBtn").click(function(){
+    	$("#blogSaveBtn").click(function(){
     		fnSave();
     	});
     	//행삭제버튼
-    	$("#systemMenuDelRowBtn").click(function(){
+    	$("#blogDelBtn").click(function(){
     		fnDel();
     	});
 	}
@@ -122,9 +132,28 @@ var blogJs = function(){
             document.getElementById('output-html')["innerHTML"] = parseMd(rowData.markdownContent);
 
 
+        }else if(flag == "UPDATE"){
+            var rowid = $grid.getGridParam("selrow");
+            var selData = $grid.getRowData(rowid);
+
+
+            $('#blogViewMarkdown').css('display', 'none');
+            $('#blogUpdateMarkdown').css('display', 'block');
+
+
+            $('#blogCategoryA').attr('readonly', false).val(selData.categoryA);
+            $('#blogCategoryB').attr('readonly', false).val(selData.categoryB);
+            $('#blogCategoryC').attr('readonly', false).val(selData.categoryC);
+
+            $('#blogTitle').attr('readonly', false).val(selData.title);
+            $('#blogUrl').attr('readonly', false).val(selData.githubUrl);
+
+            $('#blogContent').val(selData.markdownContent);
+            simplemde.value(selData.markdownContent);
         }else{
             $('#blogViewMarkdown').css('display', 'none');
             $('#blogUpdateMarkdown').css('display', 'block');
+
 
             $('#blogCategoryA').attr('readonly', false).val('');
             $('#blogCategoryB').attr('readonly', false).val('');
@@ -134,14 +163,73 @@ var blogJs = function(){
             $('#blogUrl').attr('readonly', false).val('');
 
             $('#blogContent').val('');
-            //simplemde.value();
+            simplemde.value('');
         }
+    }
+
+    function fnSearch(){
+        $grid.paragonGridSearch();
+    }
+
+    function fnSave(){
+        var idx = "-1";
+        var saveUrl 	= "/b/blog/saveMd";
+        var msg 		= "저장 하시겠습니까?"
+
+        if(flag == "UPDATE"){
+            var rowid = $grid.getGridParam("selrow");
+            if(rowid == null) return;
+
+            var selData = $grid.getRowData(rowid);
+            idx = selData.idx;
+        }
+
+
+        var rowData = {
+            idx : idx,
+            title : $('#blogTitle').val(),
+            categoryA : $('#blogCategoryA').val(),
+            categoryB : $('#blogCategoryB').val(),
+            categoryC : $('#blogCategoryC').val(),
+            content : simplemde.value(),
+            url     : $('#blogUrl').val()
+        };
+
+        //ajax
+        WMSUtil.ajax('POST', JSON.stringify(rowData), saveUrl, msg, function(){
+            alert('저장되었습니다.');
+            fnSearch();
+        })
+    }
+
+    function fnDel(){
+        var idx = "-1";
+        var saveUrl 	= "/b/blog/delete";
+        var msg 		= "삭제 하시겠습니까?"
+        var rowid = $grid.getGridParam("selrow");
+        if(rowid == null) return;
+
+        var selData = $grid.getRowData(rowid);
+
+        var rowData = {
+            idx : selData.idx
+        };
+
+        //ajax
+        WMSUtil.ajax('DELETE', JSON.stringify(rowData), saveUrl, msg, function(){
+            alert('삭제 되었습니다.');
+            fnSearch();
+        })
 
     }
 
-    function fnReContent(idx, ref,reStep){
+    function fnReContent(flag, ref,reStep){
         var reBody = $('#blogRe');
         reBody.empty();
+
+        var rowid = $grid.getGridParam("selrow");
+        var idx = $grid.getRowData(rowid);
+
     	$.ajax({
     	    type        : "GET",
     		url         : "/b/blog/listRe",

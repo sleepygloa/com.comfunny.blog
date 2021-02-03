@@ -67,8 +67,8 @@ public class BlogRestController {
      * 글삭제
      ***************************************/
     @DeleteMapping("/b/blog/delete")
-    public void delete(@RequestParam int idx){
-        blogService.delete(idx);
+    public void delete(@RequestBody Map data){
+        blogService.delete(data);
     }
 
     /***************************************
@@ -103,8 +103,8 @@ public class BlogRestController {
      * 글 저장 (md)
      ***************************************/
     @PostMapping("/b/blog/saveMd")
-    public void saveMd(@RequestParam int idx, @RequestParam String title, @RequestParam String categoryA, @RequestParam String categoryB, @RequestParam String categoryC, @RequestParam String content, @RequestParam String url, @LoginUser SessionUser user){
-        blogService.saveMd(idx, title, categoryA, categoryB, categoryC, content, url, user);
+    public void saveMd(@RequestBody Map data, @LoginUser SessionUser user){
+        blogService.saveMd(data, user);
     }
 
 

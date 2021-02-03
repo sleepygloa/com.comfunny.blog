@@ -88,7 +88,10 @@ public class BlogService {
     }
 
     @Transactional
-    public void delete (int idx){
+    public void delete (Map data){
+
+        int idx = Integer.parseInt((String)data.get("idx"));
+
         int cnt = blogRepository.findMaster(idx);
         if(cnt == 0) new IllegalArgumentException("해당 게시글이 없습니다. id="+idx);
 
@@ -153,15 +156,14 @@ public class BlogService {
 
 
     @Transactional
-    public void saveMd(int idx, String title, String categoryA, String categoryB, String categoryC, String content, String url, SessionUser user){
-
-
+    public void saveMd(Map data, SessionUser user){
+        int idx = Integer.parseInt((String)data.get("idx"));
         int cnt = blogRepository.findMaster(idx);
         if(cnt == 0){
             idx = blogRepository.findMaxMaster();
-            blogRepository.insertMd(idx, 0,categoryA,categoryB,categoryC, title, content, url, user.getName(), user.getEmail());
+            blogRepository.insertMd(idx, 0, (String)data.get("categoryA"),(String)data.get("categoryB"),(String)data.get("categoryC"), (String)data.get("title"), (String)data.get("content"), (String)data.get("url"), user.getName(), user.getEmail());
         }else{
-            blogRepository.updateMd(idx, categoryA,categoryB,categoryC, title, content, url, user.getName(), user.getEmail());
+            blogRepository.updateMd(idx, (String)data.get("categoryA"),(String)data.get("categoryB"),(String)data.get("categoryC"), (String)data.get("title"), (String)data.get("content"), (String)data.get("url"), user.getName(), user.getEmail());
         }
 
     }

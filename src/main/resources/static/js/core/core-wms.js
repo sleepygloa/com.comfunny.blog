@@ -270,39 +270,24 @@ var WMSUtil = function(){
 
 			//데이터 request 잇음. dt_grid
 			if(jsonData != undefined){
-		        App.prcsStart();
 		        $.ajax({
 		            url      : saveUrl,
 		            data     : jsonData,
-		            dataType : 'json',
+		            //dataType : 'json',
 		            type     : type,
-		            cache    : false,
+		            //cache    : false,
 		            contentType : 'application/json; charset=utf-8',
 		            success  : function(data) {
-
-		            	//메세지 플래그가 없다면, false 라면
-		            	//실패처리는 메세지를 항상표시
-		            	if(sucMsgFlag == undefined || !sucMsgFlag){
-			            	if(data.stsCd == 200){
-			            		alert(data.msgTxt);
-		            			callback(data);
-			            	}else{
-			            		alert(data.msgTxt);
-			            		return false;
-			            	}
-		            	}else{
-		            		if(data.stsCd == 200){
-		            			callback(data);
-			            	}else{
-			            		alert(data.msgTxt);
-			            		return false;
-			            	}
-		            	}
+                        console.log(data)
+                        callback();
+		            }, error:function(data){
+		                console.log(data);
+		            }, fail : function(data){
+		                console.log(data);
 		            }
 		        });
 	        //데이터 request 없음.
 			}else{
-		        App.prcsStart();
 		        $.ajax({
 		            url      : saveUrl,
 //		            data     : jsonData,
