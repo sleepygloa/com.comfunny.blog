@@ -114,6 +114,18 @@ var blogJs = function(){
     	$("#blogDelBtn").click(function(){
     		fnDel();
     	});
+
+        //이미지 변환
+        $("#blogImgBtn").click(function(){
+            var fileUpload = $('<input type="file" class="form-control" id="blogFileUpload" aria-describedby="blogFileUploadAddon" aria-label="Upload" >');
+            fileUpload.trigger('click', function(){
+
+            });
+            fileUpload.on('change', function(){
+                getBase64($(this)[0].files[0]);
+            });
+        });
+
 	}
 
     function fnMarkdown(flag, rowData){
@@ -626,6 +638,31 @@ var blogJs = function(){
             });
         })
         el.append(ddBtnDelete);
+    }
+
+
+    function getBase64(file, callback) {
+       var reader = new FileReader();
+       reader.readAsDataURL(file);
+       reader.onload = function () {
+         console.log(reader.result);
+         textCopy(reader.result);
+         //return reader.result;
+       };
+       reader.onerror = function (error) {
+         console.log('Error: ', error);
+       };
+    }
+
+    function textCopy(text) {
+      var tempElem = document.createElement('textarea');
+      tempElem.value = text;
+      document.body.appendChild(tempElem);
+
+      tempElem.select();
+      tempElem.setSelectionRange(0, 9999);
+      document.execCommand("copy");
+      document.body.removeChild(tempElem);
     }
 
 }();
