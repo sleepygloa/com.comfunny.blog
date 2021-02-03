@@ -1,6 +1,6 @@
 package com.comfunny.blog.system.menu.controller;
 
-import com.comfunny.blog.config.parameters.Params;
+
 import com.comfunny.blog.system.menu.dto.MenuSaveRequestDto;
 import com.comfunny.blog.system.menu.service.MenuService;
 import com.comfunny.blog.system.menu.dto.MenuListResponseDto;
