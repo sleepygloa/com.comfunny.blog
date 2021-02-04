@@ -325,8 +325,7 @@ var blogJs = function(){
                                         if(flag == 'VIEW'){
                                             getViewReContentBtnUpdate(ddIdDiv, dtGridRef, dtGridPRef); //수정 전환
                                             getViewReContentBtnDelete(ddIdDiv, dtGridRef, dtGridPRef); //삭제
-                                        }
-                                        if(flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef){
+                                        }else  if(flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef){
                                             //저장
                                             getViewReContentBtnUpdateSave(ddIdDiv, dtGridRef, dtGridPRef); //수정 저장
                                         }
