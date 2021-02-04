@@ -9,6 +9,8 @@ var blogJs = function(){
 	var simplemde = new SimpleMDE({ element: document.getElementById("blogContent")});
 	var flag = "";
 
+	var selectRowData = {};
+
 	return {
 		init : function(){
 
@@ -27,7 +29,7 @@ var blogJs = function(){
                 //sortable         : false,
                 rownumbers		: true,
     //            shrinkToFit		: false,
-                multiselect		: true,
+                multiselect		: false,
                 rowEditable      : false,
                 rowClickFocus	: true,
                 height			: '300',
@@ -43,42 +45,24 @@ var blogJs = function(){
     //            caption			: "메뉴 목록",
     //            domainId		: 'MENU_LIST',
                 //ExpandColumn	: "MENU_NM",
+               //pager			: "#blogGridNavi",
                 gridComplete	: function()
                 {
+                    selectRowData = {};
                     var ids = $grid.jqGrid("getDataIDs");
 
                     //행이 1개 이상일때 포커스
                     if(ids && ids.length > 0){
-                        $grid.setFocus(0);
+                        selectRowData = $grid.getRowData(1);
+                        $grid.setFocus(1);
+                        fnMarkdown('VIEW', selectRowData);
 
-                        fnMarkdown('INSERT');
-
-                        fnReContent(0);
+                        fnReContent('VIEW');
                     }
 
-//                    //첫로딩 D그리드 생성, 그 외 조회효과
-//                    var clientCd 	= $ibExamHGrid.getRowData(ids[0]).CLIENT_CD;
-//                    var ibNo 		= $ibExamHGrid.getRowData(ids[0]).IB_NO;
-//                    var ibDetailSeq	= $ibExamHGrid.getRowData(ids[0]).IB_DETAIL_SEQ;
-//
-//                    var gridData = {
-//                            clientCd	: clientCd,
-//                            ibNo		: ibNo,
-//                            ibDetailSeq : ibDetailSeq
-//                    }
-//
-//                    if(firstLoad){
-//                        fnListD(gridData);
-//                        firstLoad = false;
-//                    }else{
-//                        if(ibNo != null){
-//                            $ibExamDGrid.paragonGridSearch({ibNo:ibNo, ibDetailSeq:ibDetailSeq, clientCd:clientCd});
-//                        }else{
-//                            $ibExamDGrid.paragonGridSearch({ibNo:null, ibDetailSeq:null});
-//                        }
-//                    }
                },
                 onSelectRowEvent: function(currRowData, prevRowData){
+                    selectRowData = currRowData;
                     fnMarkdown('VIEW', currRowData);
 
                     fnReContent('VIEW');
@@ -239,14 +223,14 @@ var blogJs = function(){
         var reBody = $('#blogRe');
         reBody.empty();
 
-        var rowid = $grid.getGridParam("selrow");
-        var idx = $grid.getRowData(rowid);
+        var idx = selectRowData.idx;
 
     	$.ajax({
     	    type        : "GET",
     		url         : "/b/blog/listRe",
             data        : {"idx" : idx},
     		dataType    : "json",
+    		async:false,
     		contentType : "application/json; charset=utf-8",
     		success     : function(result){
                 //CSS
@@ -380,11 +364,12 @@ var blogJs = function(){
 
                     }
 
-                getViewInsert(reBody);
+
             }
 
 
         });
+        getViewInsert(reBody);
     }
 
     //댓글 - 글쓰기
@@ -453,7 +438,7 @@ var blogJs = function(){
             var el = $(this);
             var split = el.attr("id").split("_");
 
-            getViewReContent('READD', 0, parseInt(split[1]));
+            fnReContent('READD', 0, parseInt(split[1]));
         });
 
         el.append(ddBtnReAdd)
@@ -468,7 +453,7 @@ var blogJs = function(){
 
             var el = $(this);
             var split = el.attr("id").split("_");
-            getViewReContent('UPDATE', split[1], split[2]);
+            fnReContent('UPDATE', split[1], split[2]);
         })
         el.append(ddBtnUpdate);
     }
@@ -484,7 +469,8 @@ var blogJs = function(){
             var el = $(this);
             var split = el.attr("id").split("_");
 
-            var idx = parseInt($('.td_row_s_'+rowId+'_idx').text());
+            var idx = selectRowData.idx;
+
             var content = $('#blogContent_'+split[1]+'_'+split[2]).val();
             if(content == ''){
                 alert('내용을 입력해주세요');
@@ -492,7 +478,7 @@ var blogJs = function(){
             }
 
             var data = {
-                 idx	    : idx,
+                 idx	    : parseInt(idx),
                  ref	    : parseInt(split[1]),
                  pRef       : parseInt(split[2]),
                  content	: content,
@@ -500,13 +486,13 @@ var blogJs = function(){
             }
 
             $.ajax({
-                url		: "/b/"+tableInitData.programId + "/saveRe",
+                url		: "/b/blog/saveRe",
                 type	: "POST",
                 data	: JSON.stringify(data),
                 contentType : "application/json; charset=utf-8",
                 success : function(){
                     alert("저장 되었습니다.");
-                    getViewReContent('VIEW');
+                    fnReContent('VIEW');
                 },
                 error : function(){
                     console.log(data);
@@ -528,7 +514,7 @@ var blogJs = function(){
             var el = $(this);
             var split = el.attr("id").split("_");
 
-            var idx = parseInt($('.td_row_s_'+rowId+'_idx').text());
+            var idx = parseInt(selectRowData.idx);
             var content = $('#blogContent_'+split[1]+'_'+split[2]).val();
             if(content == ''){
                 alert('내용을 입력해주세요');
@@ -544,13 +530,13 @@ var blogJs = function(){
             }
 
             $.ajax({
-                url		: "/b/"+tableInitData.programId + "/saveRe",
+                url		: "/b/blog/saveRe",
                 type	: "POST",
                 data	: JSON.stringify(data),
                 contentType : "application/json; charset=utf-8",
                 success : function(){
                     alert("저장 되었습니다.");
-                    getViewReContent('VIEW');
+                    fnReContent('VIEW');
                 },
                 error : function(){
                     console.log(data);
@@ -572,7 +558,7 @@ var blogJs = function(){
             var el = $(this);
             var split = el.attr("id").split("_");
 
-            var idx = parseInt($('.td_row_s_'+rowId+'_idx').text());
+            var idx = parseInt(selectRowData.idx);
             var content = $('#blogContent_'+split[1]+'_'+split[2]).val();
             if(content == ''){
                 alert('내용을 입력해주세요');
@@ -588,13 +574,13 @@ var blogJs = function(){
             }
 
             $.ajax({
-                url		: "/b/"+tableInitData.programId + "/saveRe",
+                url		: "/b/blog/saveRe",
                 type	: "POST",
                 data	: JSON.stringify(data),
                 contentType : "application/json; charset=utf-8",
                 success : function(){
                     alert("저장 되었습니다.");
-                    getViewReContent('VIEW');
+                    fnReContent('VIEW');
                 },
                 error : function(){
                     console.log(data);
@@ -615,7 +601,7 @@ var blogJs = function(){
             var el = $(this);
             var split = el.attr("id").split("_");
 
-            var idx = parseInt($('.td_row_s_'+rowId+'_idx').text());
+            var idx = parseInt(selectRowData.idx);
             var content = $('#blogContent_'+split[1]+'_'+split[2]).val();
 
             var data = {
@@ -624,13 +610,13 @@ var blogJs = function(){
             }
 
             $.ajax({
-                url		: "/b/"+tableInitData.programId + "/deleteRe",
+                url		: "/b/blog/deleteRe",
                 type	: "DELETE",
                 data	: JSON.stringify(data),
                 contentType : "application/json; charset=utf-8",
                 success : function(){
                     alert("삭제 되었습니다.");
-                    getViewReContent('VIEW');
+                    fnReContent('VIEW');
                 },
                 error : function(){
                     console.log(data);
@@ -664,7 +650,13 @@ var blogJs = function(){
       document.execCommand("copy");
       document.body.removeChild(tempElem);
     }
-
+    /******************************************************
+    * 글 상자 자동조절 높이
+    *******************************************************/
+    function resize(obj) {
+  	  obj.currentTarget.style.height = "50px";
+  	  obj.currentTarget.style.height = (12+obj.target.scrollHeight)+"px";
+  	}
 }();
 
 $(document).ready(function(){

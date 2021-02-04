@@ -149,5 +149,5 @@ GitHubCalendar(".calendar", "sleepygloa", { responsive: true, tooltips: false, g
     // delete the space underneath the module bar which is caused by minheight
     document.getElementsByClassName('calendar')[0].style.minHeight = "100px";
     // hide more and less legen below the contribution graph
-    document.getElementsByClassName('contrib-legend')[0].style.display = "none";
+    //document.getElementsByClassName('contrib-legend')[0].style.display = "none";
 });

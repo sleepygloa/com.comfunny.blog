@@ -1580,8 +1580,8 @@
             rowHeight:"M",
             autowidth: true,
             multiselectone: false, // TODO 체크박스 라디오 버튼처럼
-            rowNum: 10000, //WMS 100
-            rowList: [10000, 120000, 30000, 50000], //[100, 200, 300, 500]
+            rowNum: 5, //WMS 100
+            rowList: [5, 10, 15, 30], //[100, 200, 300, 500]
             colModel:[],
             colNames:[],
             customModel:[],
