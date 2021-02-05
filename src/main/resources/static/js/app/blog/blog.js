@@ -54,7 +54,7 @@ var blogJs = function(){
                     //행이 1개 이상일때 포커스
                     if(ids && ids.length > 0){
                         selectRowData = $grid.getRowData(1);
-                        $grid.setFocus(1);
+                        $grid.setFocus(0);
                         fnMarkdown('VIEW', selectRowData);
 
                         fnReContent('VIEW');
