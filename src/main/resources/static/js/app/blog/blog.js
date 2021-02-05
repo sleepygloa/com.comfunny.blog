@@ -317,7 +317,6 @@ var blogJs = function(){
                             * 버튼 유효성
                             ********************************************/
                             if(app.userEmail != "" && dt_grid[i].delYn == 'N') {
-                            console.log(flag, dtGridRef, dtGridPRef);
                                 //일반
                                 if(flag == 'VIEW'){
                                     if(dtGridPRef == 0) getViewReContentBtnReAdd(ddIdDiv, dtGridRef, dtGridPRef); //댓글달기
@@ -329,9 +328,9 @@ var blogJs = function(){
                                         getViewReContentBtnDelete(ddIdDiv, dtGridRef, dtGridPRef); //삭제
                                     }
 
-                                    if(dtGridRef == 0 && dtGridPRef == reStep){
-                                        getViewReContentBtnReSave(ddIdDiv, dtGridRef, dtGridPRef); //level1 댓글 저장
-                                    }
+                                }
+                                if(dtGridRef == 0 && dtGridPRef == reStep){
+                                    getViewReContentBtnReSave(ddIdDiv, dtGridRef, dtGridPRef); //level1 댓글 저장
                                 }
                                 if(flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef){
                                     //저장
