@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MenuService">
+
+	<select id="getLeftMenuInfo" resultType="HMap" >
+		SELECT /* [MenuService.query][getLeftMenuInfo][PDA LEFT 메뉴조회 사용자, 물류센터, 고객사 정보 조회][Kim Seon Ho][2018-09-05] */
+			DOMAIN_ID
+		,	DOMAIN_NM
+		FROM
+			TB_PARAGON_DOMAIN
+		WHERE
+			COMPANY_CD  = #{s_companyCd}
+		AND LANG_CD = #{s_language}
+		AND DOMAIN_ID IN ('USER_NM', 'DC_NM', 'CLIENT_NM')
+	</select>
+
+	<select id="getLeftMenu" resultType="HMap" >
+		SELECT /* [MenuService.query][getLeftMenu][LEFT 메뉴조회 조회][Kim Jin Ho][2016-09-13] */
+		       *
+          FROM
+	    	(SELECT PM.MENU_SEQ               AS MENU_SEQ
+			      , NVL(MENU_PARENT_SEQ,'0')  AS MENU_PARENT_SEQ
+			      , NVL(DOMAIN_NM,MENU_NM)    AS MENU_NM
+			      , NVL(MENU_ICO,' ')         AS MENU_ICO
+			      , CALL_URL                  AS CALL_URL
+			      , PM.PRO_CD                 AS PRO_CD
+			      , PM.PDA_USE_YN             AS PDA_USE_YN
+	              , PM.MENU_ORDER             AS MENU_ORDER
+			  FROM TB_PARAGON_MENU  PM
+			  JOIN  (
+	         		SELECT MENU_SEQ
+	           		  FROM TB_PARAGON_AUTH PA
+	           		  JOIN TB_PARAGON_AUTH_USER PAU
+	           		    ON PA.AUTH_GROUP_SEQ = PAU.AUTH_GROUP_SEQ
+	           		   AND USER_NO = #{s_userNo}
+			    	 WHERE PA.AUTH_CD = 'AUTH_VIEW'
+	      			   AND PA.AUTH_YN = 'Y'
+				) PSET
+			    ON PM.MENU_SEQ = PSET.MENU_SEQ
+			  LEFT OUTER JOIN TB_PARAGON_PRO PP
+			    ON PM.PRO_CD = PP.PRO_CD
+			  LEFT OUTER JOIN TB_PARAGON_DOMAIN PD
+			    ON PM.DOMAIN_ID = PD.DOMAIN_ID
+	       	   AND PD.LANG_CD = #{s_language}
+	       	   AND PD.COMPANY_CD = #{s_companyCd}
+			 WHERE PM.DEL_YN = 'N'
+	           AND PM.USE_YN = 'Y'
+           ) X WHERE X.PDA_USE_YN = NVL(#{s_pdaUseYn}, 'N')
+		 ORDER BY MENU_PARENT_SEQ, (MENU_ORDER+0)
+
+	</select>
+
+	<select id="getMenuTree" resultType="HMap" >
+		SELECT /* [MenuService.query][getMenuTree][LEFT 메뉴 TREE 조회 조회][Kim Jin Ho][2016-09-13] */
+		       MENU_SEQ id
+		     , NVL(MENU_PARENT_SEQ,'#') parent
+		     , MENU_NM text
+		     , 'true' child
+		  FROM TB_PARAGON_MENU
+		 ORDER BY MENU_ORDER
+	</select>
+
+	<select id="getMenuList" resultType="HMap" >
+		  SELECT  /* [MenuService.query][getLeftMenu][LEFT 메뉴조회 조회][Kim Jin Ho][2016-09-13] */
+		       *
+		  FROM (SELECT MENU_SEQ                   AS MENU_SEQ
+				     , NVL(MENU_PARENT_SEQ,'')    AS MENU_PARENT_SEQ
+				     , PP.PRO_CD                  AS PRO_CD
+				     , PP.PRO_NM                  AS PRO_NM
+				     , MENU_NM                    AS MENU_NM
+				     , DOMAIN_ID                  AS DOMAIN_ID
+				     , NVL(PM.MENU_ICO, '')       AS MENU_ICO
+				     , CALL_URL                   AS CALL_URL
+				     , MENU_ORDER                 AS MENU_ORDER
+				     , PM.USE_YN                  AS USE_YN
+				     , PM.IN_USER_ID              AS IN_USER_ID
+				     , TO_CHAR(PM.IN_DT,'YYYY-MM-DD')  AS IN_DT
+				     , PM.PDA_USE_YN                  AS PDA_USE_YN
+				  FROM TB_PARAGON_MENU  PM
+				  LEFT OUTER JOIN TB_PARAGON_PRO PP
+				    ON PM.PRO_CD = PP.PRO_CD
+		    )X
+		   	<if test="pdaUseYn != null and !pdaUseYn.equals('')">
+		    	WHERE X.PDA_USE_YN = #{pdaUseYn}
+			</if>
+		 ORDER BY MENU_PARENT_SEQ, (MENU_ORDER+0)
+	</select>
+
+	<update id="updateMenu" >
+		UPDATE TB_PARAGON_MENU /* [MenuService.query][updateMenu][메뉴 정보 수정][Kim Jin Ho][2016-09-13] */
+		   SET MENU_NM 	  = #{menuNm}
+		     , DOMAIN_ID  = #{domainId}
+		     , PRO_CD 	  = #{proCd}
+		     , MENU_ORDER = #{menuOrder}
+		     , MENU_ICO   = #{menuIco}
+		     , USE_YN 	  = #{useYn}
+		     , PDA_USE_YN 	  = #{pdaUseYn}
+		     , UP_USER_ID = #{s_userId}
+		     , UP_DT 	  = SYSDATE
+		 WHERE MENU_SEQ 	= 	#{menuSeq}
+		   AND COMPANY_CD 	= 	#{s_companyCd}
+	</update>
+
+	<insert id="insertMenu" >
+		INSERT /* [MenuService.query][insertMenu][메뉴 정보 등록][Kim Jin Ho][2016-09-13] */
+		  INTO TB_PARAGON_MENU (
+		  		  COMPANY_CD
+				, MENU_SEQ
+				, MENU_PARENT_SEQ
+				, MENU_NM
+				, DOMAIN_ID
+				, PRO_CD
+				, MENU_ORDER
+				, MENU_ICO
+				, PDA_USE_YN
+				, USE_YN
+				, UP_USER_ID
+				, IN_USER_ID
+		  )
+		VALUES(	  #{s_companyCd}
+				, SQ_MENU01.NEXTVAL
+				, #{menuParentSeq}
+				, #{menuNm}
+				, #{domainId}
+				, #{proCd}
+				, #{menuOrder}
+				, #{menuIco}
+				, #{pdaUseYn}
+				, #{useYn}
+				, #{s_userId}
+				, #{s_userId}
+		)
+	</insert>
+
+	<delete id="deleteMenu" >
+		DELETE /* [MenuService.query][deleteMenu][메뉴 정보 삭제][Kim Jin Ho][2016-09-13] */
+		  FROM TB_PARAGON_MENU
+		 WHERE MENU_SEQ = #{menuSeq}
+		   AND COMPANY_CD = #{s_companyCd}
+	</delete>
+
+</mapper>

@@ -45,7 +45,7 @@ var blogJs = function(){
     //            caption			: "메뉴 목록",
     //            domainId		: 'MENU_LIST',
                 //ExpandColumn	: "MENU_NM",
-               //pager			: "#blogGridNavi",
+                pager			: "#blogGridNavi",
                 gridComplete	: function()
                 {
                     selectRowData = {};

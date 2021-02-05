@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AllowedURIService">
+
+	<select id="getAllowedURIList" resultType="HMap" >
+		SELECT /* [AllowUrlService.query][getAllowedURIList][AllowdURI 목록조회 조회][Kim Jin Ho][2016-11-13] */
+		       ALLOW_SEQ
+		     , ALLOW_URI
+		     , ALLOW_DESC
+		     , ALLOW_GBN
+		     , USE_YN
+		     , IN_USER_ID
+		     , TO_CHAR(IN_DT,'YYYY-MM-DD') IN_DT
+		  FROM TB_PARAGON_ALLOWED_URI
+		 WHERE 1=1
+		   <if test="allowUriNm != null and !allowUriNm.equals('')">
+		   AND ALLOW_URI LIKE '%'||#{allowUri}||'%'
+		   </if>
+		   <if test="allowUseYn != null and !allowUseYn.equals('')">
+		   AND USE_YN = #{allowUseYn}
+		   </if>
+		 ORDER BY ALLOW_SEQ DESC
+	</select>
+
+	<select id="getCheckUpdate" resultType="String" >
+		SELECT /* [AllowUrlService.query][getCheckUpdate][AllowdURI 목록조회 조회][Kim Jin Ho][2016-11-13] */
+		       NVL(MAX(TO_CHAR(UP_DT,'YYYMMDDHH24MISS')),'') UP_DT
+		  FROM TB_PARAGON_ALLOWED_URI
+		 WHERE DEL_YN = 'N'
+	</select>
+
+
+	<update id="updateAllowedURI" >
+		UPDATE /* [AllowUrlService.query][updateAllowedURI][AllowedURI 정보 수정][Kim Jin Ho][2016-09-13] */
+		       TB_PARAGON_ALLOWED_URI
+		   SET ALLOW_URI 	= #{allowUri}
+		     , ALLOW_DESC 	= #{allowDesc}
+		     , ALLOW_GBN 	= #{allowGbn}
+		     , USE_YN 		= #{useYn}
+		     , UP_USER_ID 	= #{s_userId}
+		 WHERE ALLOW_SEQ =	 #{allowSeq}
+	</update>
+
+	<insert id="insertAllowedURI" >
+		INSERT /* [AllowUrlService.query][insertAllowedURI][AllowedURI 정보 등록][Kim Jin Ho][2016-09-13] */
+		  INTO TB_PARAGON_ALLOWED_URI (
+		  		  ALLOW_SEQ
+				, ALLOW_URI
+				, ALLOW_DESC
+				, ALLOW_GBN
+				, USE_YN
+				, IN_USER_ID
+				, UP_USER_ID
+		  )
+		VALUES(	  SQ_ALLOWED_URI01.NEXTVAL
+				, #{allowUri}
+				, #{allowDesc}
+				, #{allowGbn}
+				, #{useYn}
+				, #{s_userId}
+				, #{s_userId}
+		)
+	</insert>
+
+	<delete id="deleteAllowedURI" >
+		DELETE /* [CodeService.query][deleteAllowedURI][AllowedURI 정보 삭제][Kim Jin Ho][2016-09-13] */
+		  FROM TB_PARAGON_ALLOWED_URI
+		 WHERE ALLOW_SEQ = #{allowSeq}
+	</delete>
+
+
+</mapper>
