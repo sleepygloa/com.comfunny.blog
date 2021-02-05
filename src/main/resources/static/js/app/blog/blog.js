@@ -270,7 +270,7 @@ var blogJs = function(){
                             * 사용자 그룹
                             ********************************************/
                             var ddImgDiv = $('<div style="position: absolute; width:25px; height:25px; left:-30px; bottom:0px;"></div>');
-                                var uPic = dt_grid[i].picture; if( (flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef) || (flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef) ) uPic = app.userPicture;
+                                var uPic = dt_grid[i].picture; if( (flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef) || reAddFlag ) uPic = app.userPicture;
                                 var ddImgInput = $('<img src="'+uPic+'" style="width:25px; height: 25px; border-radius:50%; ">');
 
                             //이름영역
