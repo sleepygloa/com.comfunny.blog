@@ -224,6 +224,7 @@ var blogJs = function(){
         reBody.empty();
 
         var idx = selectRowData.idx;
+        var reAddFlag = false;
 
     	$.ajax({
     	    type        : "GET",
@@ -269,7 +270,8 @@ var blogJs = function(){
                             * 사용자 그룹
                             ********************************************/
                             var ddImgDiv = $('<div style="position: absolute; width:25px; height:25px; left:-30px; bottom:0px;"></div>');
-                                var ddImgInput = $('<img src="'+dt_grid[i].picture+'" style="width:25px; height: 25px; border-radius:50%; ">');
+                                var uPic = dt_grid[i].picture; if(flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef) uPic = app.userPicture;
+                                var ddImgInput = $('<img src="'+uPic+'" style="width:25px; height: 25px; border-radius:50%; ">');
 
                             //이름영역
                             var ddIdDiv = $('<div class="col-xs-w100 " style="min-height:25px;"/>');
@@ -280,6 +282,7 @@ var blogJs = function(){
                             var ddContentDiv = $('<div class="col-xs-w100 reContText" style="overflow-y:auto;height:auto;" />');
 
                             //글 리스트
+                            var uUsr = dt_grid[i].inUserId; if(flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef) uUsr = app.userName;
                             ddIdInput.val(dt_grid[i].inUserId);
                             ddTimeInput.val(dt_grid[i].upDt);
 
@@ -295,11 +298,10 @@ var blogJs = function(){
                                 });
                             }else{
                                 var ddIdTextArea = $('<pre id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="reContContent col-xs-w100" style="height:auto;"/>');
+                                ddIdTextArea.text(dt_grid[i].content);
                             }
                             if(dt_grid[i].delYn == 'Y') {
                                 ddIdTextArea.text('삭제된 댓글 입니다.');
-                            }else{
-                                ddIdTextArea.text(dt_grid[i].content);
                             }
 
                             ddImgDiv.append(ddImgInput);
@@ -314,26 +316,26 @@ var blogJs = function(){
                             /*******************************************
                             * 버튼 유효성
                             ********************************************/
-                            if(app.userEmail != "") {
-                                if(dt_grid[i].delYn == 'N'){
-                                    //일반
+                            if(app.userEmail != "" && dt_grid[i].delYn == 'N') {
+                            console.log(flag, dtGridRef, dtGridPRef);
+                                //일반
+                                if(flag == 'VIEW'){
+                                    if(dtGridPRef == 0) getViewReContentBtnReAdd(ddIdDiv, dtGridRef, dtGridPRef); //댓글달기
+                                }
+                                //사용자확인
+                                if(app.userEmail == dt_grid[i].upUserEmail){
                                     if(flag == 'VIEW'){
-                                        if(dtGridPRef == 0) getViewReContentBtnReAdd(ddIdDiv, dtGridRef, dtGridPRef); //댓글달기
+                                        if(!reAddFlag) getViewReContentBtnUpdate(ddIdDiv, dtGridRef, dtGridPRef); //수정 전환
+                                        getViewReContentBtnDelete(ddIdDiv, dtGridRef, dtGridPRef); //삭제
                                     }
-                                    //사용자확인
-                                    if(app.userEmail == dt_grid[i].upUserEmail){
-                                        if(flag == 'VIEW'){
-                                            getViewReContentBtnUpdate(ddIdDiv, dtGridRef, dtGridPRef); //수정 전환
-                                            getViewReContentBtnDelete(ddIdDiv, dtGridRef, dtGridPRef); //삭제
-                                        }else  if(flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef){
-                                            //저장
-                                            getViewReContentBtnUpdateSave(ddIdDiv, dtGridRef, dtGridPRef); //수정 저장
-                                        }
 
-                                        if(dtGridRef == 0 && dtGridPRef == reStep){
-                                            getViewReContentBtnReSave(ddIdDiv, dtGridRef, dtGridPRef); //level1 댓글 저장
-                                        }
+                                    if(dtGridRef == 0 && dtGridPRef == reStep){
+                                        getViewReContentBtnReSave(ddIdDiv, dtGridRef, dtGridPRef); //level1 댓글 저장
                                     }
+                                }
+                                if(flag == "UPDATE" && ref == dtGridRef && reStep == dtGridPRef){
+                                    //저장
+                                    getViewReContentBtnUpdateSave(ddIdDiv, dtGridRef, dtGridPRef); //수정 저장
                                 }
 
                             }
@@ -346,21 +348,21 @@ var blogJs = function(){
                         /*******************************************
                         * 댓글쓰기 시 필요함수
                         ********************************************/
-                        if(ref == 0 && reStep == dtGridRef && flag == "READD"){
+                        if(ref == 0 && reStep == dtGridRef && flag == "READD" && !reAddFlag){
                             i--;
                             flag = "VIEW";
+                            reAddFlag = true;
                         }else if(dtGridPRef != 0){
                             dd.append(ddTextRe);
                             ddDiv.removeClass('col-xs-w90');
                             ddDiv.addClass('col-xs-w85');
+                            if(reAddFlag) {
+                                flag = "READD";
+                                reAddFlag = false;
+                            }
                         }
-
-
                         dd.append(ddDiv);
                         reBody.append(dd);
-
-
-
                     }
 
 
