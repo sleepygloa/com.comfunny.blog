@@ -1,13 +1,4 @@
-/** Copyright (c) 2016 VertexID RND, Inc.
- *
- * Application Name : 메세지 관리[SystemMessageApp]
- * Program Code     : PWMSM110E
- * Description      :
- * Revision History
- * Author           Date                Description
- * ------------     -------------       ------------------
- * Kim Jin Ho       2016. 10. 24.       First Draft.
- */
+
 var SystemMessageApp = function () {
     "use strict";
 
@@ -34,15 +25,6 @@ var SystemMessageApp = function () {
 
     	$('#systemMessageSearchBtn').click(function(){
     		fnSearch();
-//    		$.ajax({
-//    			url		: "/ctrl/settings/system/message/listXmlData",
-//                data		: {
-//                	"codeGroupCd" : "SC0013"
-//                },
-//    			success	: function(data){
-//    				fnList();
-//    			}
-//    		});
     	});
 
     	$('#systemMessageMsgCd').keydown(function(e){
@@ -89,7 +71,7 @@ var SystemMessageApp = function () {
     		var strTxt = "msgTxt_"+i;
     		sendData[strTxt] = msgTxt[i];
     	}
-console.log(sendData);
+
     	$messageGrid.paragonGridSearch(sendData);
     }
 
@@ -115,7 +97,7 @@ console.log(sendData);
     	}
     	App.prcsStart();
         $.ajax({
-            url 		: '/ctrl/settings/system/message/updateMessage',
+            url 		: '/system/message/update',
             data 		: JSON.stringify(sendData),
             type 		: "POST",
             dataType 	: "json",
@@ -137,7 +119,7 @@ console.log(sendData);
     //[Fn] grid 도메인관리 목록
     function fnList(){
         $messageGrid.paragonGrid({
-            url				: '/ctrl/settings/system/message/listMessageData',
+            url				: '/system/message/list',
             rownumbers		: true,
             shrinkToFit		: false,
             multiselect		: true,

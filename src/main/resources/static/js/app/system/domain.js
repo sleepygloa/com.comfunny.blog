@@ -1,13 +1,4 @@
-/** Copyright (c) 2016 VertexID RND, Inc.
- *
- * Application Name : 도메인 관리[SystemDomainApp]
- * Program Code     : PC0032
- * Description      :
- * Revision History
- * Author           Date                Description
- * ------------     -------------       ------------------
- * Kim Jin Ho       2016. 10. 24.       First Draft.
- */
+
 var SystemDomainApp = function () {
     "use strict";
 
@@ -44,7 +35,7 @@ var SystemDomainApp = function () {
             fnListDomain();
 
             //도메인언어 관리 Grid, 관리자 관리 도메인그리드
-            fnSystemDomainManagerGrid();
+            //fnSystemDomainManagerGrid();
 
             //도메인관리 이벤트
             fnDomainEvents();
@@ -96,7 +87,7 @@ var SystemDomainApp = function () {
 
     function fnReload(){
         $.ajax({
-            url : '/ctrl/settings/system/domain/reloadDomain',
+            url : '/system/domain/reloadDomain',
             success : function(result) {
             	if(result.stsCd == 200){
             		alert(result.msgTxt);
@@ -111,7 +102,7 @@ var SystemDomainApp = function () {
     //[Fn] 프로그램명 가져오기 자동완성
     function fnGetProgramNms(data){
         $.ajax({
-            url : "/ctrl/settings/system/program/listProgramName",
+            url : "/system/program/listProgramName",
             data :data,
             type : "POST",
             dataType : "json",
@@ -127,17 +118,11 @@ var SystemDomainApp = function () {
             }
         });
     }
-    /********************************************************************
-     * 도메인관리 그리드 생성
-     * Since   : 2016-10-24
-     * COMP_ID : CP0009
-     * 작성자  : Kim Jin Ho
-     * 수정내역:
-     ********************************************************************/
+
     //[Fn] grid 도메인관리 목록
     function fnListDomain(){
         $domainGrid.paragonGrid({
-            url				: '/ctrl/settings/system/domain/listDomain',
+            url				: '/system/domain/list',
             rowEditable		: true,
             cellEditable	: false,
             sortable		: true,
@@ -147,6 +132,7 @@ var SystemDomainApp = function () {
 //          multielonly:true,
             rowClickFocus	: true,
             height			: '556',
+            rowNum : 100,
             colModel		: [
                 {editable: false, name:'DOMAIN_SEQ', align:"center",hidden:true},
                 {editable: true,name:'DOMAIN_ID', align:"center", disabled:true, width:120},
@@ -198,7 +184,7 @@ var SystemDomainApp = function () {
     //[Fn] grid 도메인관리 목록
     function fnSystemDomainManagerGrid(){
     	$systemDomainManagerGrid.paragonGrid({
-            url				: '/ctrl/settings/system/domain/listDomainManager',
+            url				: '/system/domain/listDomainManager',
             cellEditable	: false,
             rownumbers		: true,
             height			: '520',
@@ -303,7 +289,7 @@ var SystemDomainApp = function () {
 
         App.prcsStart();
         $.ajax({
-            url : "/ctrl/settings/system/domain/saveDomain",
+            url : "/system/domain/saveDomain",
             data :jsonData,
             type : "POST",
             dataType : "json",
@@ -335,7 +321,7 @@ var SystemDomainApp = function () {
 
             App.prcsStart();
             $.ajax({
-                url 		: "/ctrl/settings/system/domain/deleteDomain",
+                url 		: "/system/domain/deleteDomain",
                 data 		: chkData,
                 type 		: "POST",
                 dataType 	: "json",
