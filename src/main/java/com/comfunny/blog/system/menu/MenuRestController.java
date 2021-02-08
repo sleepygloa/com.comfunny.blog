@@ -28,7 +28,6 @@ public class MenuRestController {
 
     @PostMapping("/b/menu/save")
     public void save(@RequestBody Map map){
-        System.out.println("Ddddd"+map.toString());
         ObjectMapper mapper = new ObjectMapper();
         List<MenuSaveRequestDto> list =  mapper.convertValue((List<MenuSaveRequestDto>)map.get("list"), new TypeReference<List<MenuSaveRequestDto>>() {});
 

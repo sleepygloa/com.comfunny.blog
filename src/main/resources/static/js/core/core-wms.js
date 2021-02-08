@@ -800,12 +800,12 @@ var WMSUtil = function(){
 				var comboJson = null;
 
 				$.ajax({
-					url : "/ctrl/settings/system/code/listCodeGroupComboJson",
+					url : "/system/code/listCodeGroupComboJson",
 					data : {
 						codeGroupCd : groupCd,
 						order : order
 					},
-					type : "POST",
+					type : "GET",
 					dataType : "json",
 					async : false,
 					cache : false,
@@ -817,9 +817,9 @@ var WMSUtil = function(){
 			},
             selectBox : function(comEl, groupCd, selectCd, dis, first){
                 $.ajax({
-                    url      : "/ctrl/settings/system/code/listCodeGroupComboJson",
+                    url      : "/system/code/listCodeGroupComboJson",
                     data     : {codeGroupCd:groupCd},
-                    type     : "POST",
+                    type     : "GET",
                     dataType : "json",
                     async	 : false,
 //                    cache    : false,
@@ -839,9 +839,9 @@ var WMSUtil = function(){
             grid_selectBox : function(comEl, groupCd, selectCd, dis, first) {
                 var comboJson = null;
                 $.ajax({
-                    url      : "/ctrl/settings/system/code/listCodeGroupComboJson",
+                    url      : "/system/code/listCodeGroupComboJson",
                     data     : {codeGroupCd	: groupCd},
-                    type     : "POST",
+                    type     : "GET",
                     dataType : "json",
                     async	 : false,
                     acache    : false,

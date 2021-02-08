@@ -92,8 +92,7 @@ var SystemCodeApp = function () {
     //헤더 그리드 초기화
     function fnListH() {
 		$HGrid.paragonGrid({
-			url          : '/ctrl/settings/system/code/listCodeGroup',
-			componentId  : 'CP0007',
+			url          : '/system/code/list',
 			height       : '208',
 //			rowNum       : 15,
 			rowEditable  : true,
@@ -137,13 +136,12 @@ var SystemCodeApp = function () {
     //공통코드 그리드 초기화
     function fnListD(){
 		$DGrid.paragonGrid({
-        	url            : '/ctrl/settings/system/code/listCode',
-        	componentId    : 'CP0008',
+        	url            : '/system/code/listCode',
 			rowEditable    : true,
 			height         : '208',
             multiselect    : true,
             firstData      : false,
-            rowspan : true,
+            rowspan        : true,
             colModel       : [
                 {editable:false, name:'CODE_SEQ',		hidden:true},
                 {editable:false, name:'CODE_GROUP_CD', 	align:'center', rowspan:true},
