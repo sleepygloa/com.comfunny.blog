@@ -77,7 +77,6 @@ function leftMenu(menuSeq){
                     }else{
                         if(rowData.menuUrl != "") {
                             a.attr('onclick', "lodingPage('"+rowData.menuUrl+"'); if($('#sidebarMenu').hasClass('show') == true){ $('#sidebarMenu').removeClass('show');};");
-
                         }
                         //a.attr('href', rowData.menuUrl);
                         if(!(rowData.menuIcon == "null" ||rowData.menuIcon == ""))  span.addClass('fa fa-2x '+rowData.menuIcon) ;

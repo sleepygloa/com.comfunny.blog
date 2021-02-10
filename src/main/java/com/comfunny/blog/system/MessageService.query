@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MessageService">
+
+	<select id="listMessageData" resultType="HMap" >
+    SELECT /* [MessageService.query][listMessageData][메세지 그리드 조회][Kim Seon Ho][2018-11-28] */
+            M1.MSG_CD       AS MSG_CD
+        ,   M1.MSG_TXT      AS KO
+        ,   M2.MSG_TXT      AS EN
+        ,   M3.MSG_TXT      AS VI
+    FROM    TB_PARAGON_MESSAGE M1
+        ,   TB_PARAGON_MESSAGE M2
+        ,   TB_PARAGON_MESSAGE M3
+    WHERE   M1.COMPANY_CD   = M2.COMPANY_CD(+)
+    AND     M1.MSG_CD       = M2.MSG_CD(+)
+    AND     M1.COMPANY_CD   = M3.COMPANY_CD(+)
+    AND     M1.MSG_CD       = M3.MSG_CD(+)
+    AND     M1.LANG_CD(+)   = 'ko'
+    AND     M2.LANG_CD(+)   = 'en'
+    AND     M3.LANG_CD(+)   = 'vi'
+    AND		M1.COMPANY_CD	= #{s_companyCd}
+    <if test="msgCd_0 != null and !msgCd_0.equals('')">
+    AND		M1.MSG_CD		LIKE '%'||#{msgCd_0}||'%'
+    </if>
+	<if test="msgCd_1 != null and !msgCd_1.equals('')">
+    AND		M1.MSG_CD		LIKE '%'||#{msgCd_1}||'%'
+    </if>
+    <if test="msgCd_2 != null and !msgCd_2.equals('')">
+    AND		M1.MSG_CD		LIKE '%'||#{msgCd_2}||'%'
+    </if>
+    <if test="msgTxt_0 != null and !msgTxt_0.equals('')">
+    AND		(
+    				M1.MSG_TXT		LIKE '%'||#{msgTxt_0}||'%'
+    		OR		M2.MSG_TXT		LIKE '%'||#{msgTxt_0}||'%'
+    		OR		M3.MSG_TXT		LIKE '%'||#{msgTxt_0}||'%'
+    		)
+    </if>
+    <if test="msgTxt_1 != null and !msgTxt_1.equals('')">
+    AND		(
+    				M1.MSG_TXT		LIKE '%'||#{msgTxt_1}||'%'
+    		OR		M2.MSG_TXT		LIKE '%'||#{msgTxt_1}||'%'
+    		OR		M3.MSG_TXT		LIKE '%'||#{msgTxt_1}||'%'
+    		)
+    </if>
+    <if test="msgTxt_2 != null and !msgTxt_2.equals('')">
+    AND		(
+    				M1.MSG_TXT		LIKE '%'||#{msgTxt_2}||'%'
+    		OR		M2.MSG_TXT		LIKE '%'||#{msgTxt_2}||'%'
+    		OR		M3.MSG_TXT		LIKE '%'||#{msgTxt_2}||'%'
+    		)
+    </if>
+    ORDER BY M1.MSG_CD ASC
+	</select>
+
+	<select id="listMessage" resultType="HMap" >
+    SELECT /* [MessageService.query][listMessage][메세지 그리드 조회][Kim Seon Ho][2018-12-04] */
+            MSG_CD       AS MSG_CD
+        ,   MSG_TXT      AS MSG_TXT
+    FROM    TB_PARAGON_MESSAGE
+    WHERE   COMPANY_CD		= #{s_companyCd}
+    AND		LANG_CD      	= #{s_language}
+    AND		MSG_CD			= #{msgCd}
+	</select>
+
+	<select id="checkMessageCount" resultType="int" >
+    SELECT /* [MessageService.query][checkMessageCount][메세지 등록여부확인][Kim Seon Ho][2018-12-05] */
+		count(*)
+    FROM    TB_PARAGON_MESSAGE
+    WHERE   COMPANY_CD		= #{s_companyCd}
+    AND		LANG_CD      	= #{langCd}
+    AND		MSG_CD			= #{msgCd}
+	</select>
+
+
+	<insert id="insertMessage" >
+        INSERT /* [MessageService.query][insertMessage][메세지 등록][Kim Seon Ho][2018-12-05] */
+		INTO	TB_PARAGON_MESSAGE
+		(
+				COMPANY_CD
+			,	MSG_CD
+			,	LANG_CD
+			,	MSG_TXT
+		)
+		VALUES
+		(
+				#{s_companyCd}
+			,	#{msgCd}
+			,	#{langCd}
+			,	#{msgTxt}
+        )
+	</insert>
+
+	<update id="updateMessage" >
+		UPDATE 	TB_PARAGON_MESSAGE /* [MessageService.query][메세지 수정][Kim Seon Ho][2018-12-05] */
+		SET 	MSG_TXT		= #{msgTxt}
+		WHERE 	COMPANY_CD	= #{s_companyCd}
+		AND		MSG_CD 		= #{msgCd}
+		AND 	LANG_CD 	= #{langCd}
+	</update>
+
+</mapper>

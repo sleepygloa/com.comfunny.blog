@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SchedulerService">
+
+	<select id="getSchedulerList" resultType="HMap" >
+		SELECT /* [SchedulerService.query][getSchedulerList][스케줄러 목록조회 조회][Kim Jin Ho][2016-11-11] */
+		       SCHE_SEQ
+		     , SCHE_NM
+		     , SCHE_DESC
+		     , SCHE_CLASS_PATH
+		     , SCHE_SEC
+		     , SCHE_MIN
+		     , SCHE_HOUR
+		     , SCHE_DAY
+		     , SCHE_MONTH
+		     , SCHE_YEAR
+		     , USE_YN
+		     , IN_USER_ID
+		     , TO_CHAR(IN_DT,'YYYY-MM-DD') IN_DT
+		  FROM TB_PARAGON_SCHEDULER
+		 WHERE DEL_YN = 'N'
+		   <if test="useYn != null and !useYn.equals('')">
+		   AND USE_YN = 'Y'
+		   </if>
+		 ORDER BY SCHE_SEQ ASC
+	</select>
+
+
+	<select id="getSchedulerInfo" resultType="HMap" >
+		SELECT /* [SchedulerService.query][getSchedulerInfo][스케줄러 상세정보][Kim Jin Ho][2016-11-11] */
+		       SCHE_SEQ
+		     , SCHE_NM
+		     , SCHE_DESC
+		     , SCHE_CLASS_PATH
+		     , SCHE_SEC
+		     , SCHE_MIN
+		     , SCHE_HOUR
+		     , SCHE_DAY
+		     , SCHE_MONTH
+		     , SCHE_YEAR
+		     , USE_YN
+		     , IN_USER_ID
+		     , TO_CHAR(IN_DT,'YYYY-MM-DD') IN_DT
+		  FROM TB_PARAGON_SCHEDULER
+		 WHERE SCHE_SEQ = #{scheSeq}
+	</select>
+	<select id="updateSchedulerUseYn" resultType="HMap" >
+		UPDATE TB_PARAGON_SCHEDULER /* [SchedulerService.query][updateSchedulerInfo][스케줄러 실행/중지][Kim Jin Ho][2016-09-13] */
+		   SET USE_YN           = #{useYn}
+		 WHERE SCHE_SEQ 		= #{scheSeq}
+	</select>
+
+	<select id="updateScheduler" resultType="HMap" >
+		UPDATE TB_PARAGON_SCHEDULER /* [SchedulerService.query][updateSchedulerInfo][스케줄러 정보 수정][Kim Jin Ho][2016-09-13] */
+		   SET SCHE_NM          = #{scheNm}
+		     , SCHE_DESC        = #{scheDesc}
+		     , SCHE_CLASS_PATH  = #{scheClass_path}
+		     , SCHE_SEC         = #{scheSec}
+		     , SCHE_MIN         = #{scheMin}
+		     , SCHE_HOUR        = #{scheHour}
+		     , SCHE_DAY         = #{scheDay}
+		     , SCHE_MONTH       = #{scheMonth}
+		     , SCHE_YEAR        = #{scheYear}
+		     , USE_YN           = #{useYn}
+
+		 WHERE SCHE_SEQ 		= #{scheSeq}
+	</select>
+
+	<insert id="insertScheduler" >
+		INSERT /* [CodeService.query][insertCodeGroup][스케줄러 등록][Kim Jin Ho][2016-09-13] */
+		  INTO TB_PARAGON_SCHEDULER (
+		  		  SCHE_SEQ
+		  		, SCHE_NM
+				, SCHE_DESC
+				, SCHE_CLASS_PATH
+				, SCHE_SEC
+				, SCHE_MIN
+				, SCHE_HOUR
+				, SCHE_DAY
+				, SCHE_MONTH
+				, SCHE_YEAR
+				, USE_YN
+				, IN_USER_ID
+				, IN_DT
+		  )
+		VALUES(	  SQ_SCHEDULER01.NEXTVAL
+				, #{scheNm}
+				, #{scheDesc}
+				, #{scheClass_path}
+				, #{scheSec}
+				, #{scheMin}
+				, #{scheHour}
+				, #{scheDay}
+				, #{scheMonth}
+				, #{scheYear}
+				, 'N'
+				, #{s_userId}
+				, SYSDATE
+		)
+	</insert>
+
+	<delete id="deleteScheduler" >
+		DELETE /* [SchedulerService.query][deleteCodeGroup][스케줄러 삭제][Kim Jin Ho][2016-09-13] */
+		  FROM TB_PARAGON_SCHEDULER
+		  WHERE SCHE_SEQ = #{scheSeq}
+	</delete>
+
+
+
+
+</mapper>

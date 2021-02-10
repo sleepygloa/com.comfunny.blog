@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserService">
+
+	<select id="listUserInfo" resultType="HMap" >
+		SELECT /* [UserService.query][listUserInfo][사용자 목록 조회][Kim Jin Ho][2016-09-13] */
+				I.COMPANY_CD
+			,	I.USER_NO
+			,	I.USER_ID
+			,	I.USER_NM
+			,	I.USER_POSITION                 AS USER_POSITION
+			,	I.USER_PHONE
+			,	I.USER_EMAIL
+			,	I.USE_YN                        AS USE_YN
+			,	I.USER_JOIN_DATE
+			,	I.USER_LANG                     AS USER_LANG_CD
+			,	I.USER_LANG                     AS USER_LANG
+			,   I.PRINT_DRIVER				    AS PRINT_DRIVER
+		FROM	TB_PARAGON_USER_INFO I
+			,	TB_PARAGON_COMM_CODE C
+			,	TB_PARAGON_COMM_CODE C2
+			,	TB_PARAGON_COMM_CODE C3
+        WHERE   I.COMPANY_CD		= C.COMPANY_CD(+)
+        AND     I.USER_LANG	    	= C.CODE_CD(+)
+        AND     C.CODE_GROUP_CD 	= 'SC0013'
+        AND		I.COMPANY_CD    	= C2.COMPANY_CD(+)
+        AND     I.USER_POSITION	    = C2.CODE_CD(+)
+        AND     C2.CODE_GROUP_CD 	= 'SC0016'
+        AND		I.COMPANY_CD    	= C3.COMPANY_CD(+)
+        AND     I.USE_YN	    	= C3.CODE_CD(+)
+        AND     C3.CODE_GROUP_CD 	= 'USE_YN'
+		AND		I.ADMIN_YN			!= 'Y'
+		  <if test="userId != null and !userId.equals('')">
+		AND		I.USER_ID LIKE '%'||#{userId}||'%'
+		  </if>
+		  <if test="userNm != null and !userNm.equals('')">
+		AND		I.USER_NM LIKE '%'||#{userNm}||'%'
+		  </if>
+		ORDER BY I.IN_DT DESC
+	</select>
+
+	<select id="getUserInfo" resultType="HMap" >
+		SELECT /* [UserService.query][getDetailUserInfo][사용자 정보 조회][Han Seong Jin][2016-09-13] */
+		       COMPANY_CD
+			 , USER_NO
+			 , USER_ID
+		     , USER_PWD
+		     , USER_NM
+		     , USER_JOIN_DATE
+		     , USER_BIRTH_DATE
+		     , USER_POSITION
+		     , USER_PHONE
+		     , USER_EMAIL
+		     , USE_YN
+		     , USER_LANG
+		  FROM TB_PARAGON_USER_INFO
+		 WHERE USER_ID = #{userId}
+	</select>
+
+	<select id="getCompanyCode" resultType="HMap">
+		 SELECT /* [UserService.query][getCompanyCode][회사코드조회][Hong Jeong Bo][2019-02-19] */
+		       COMPANY_CD		AS VALUE
+		     , MAX(COMPANY_CD)  AS NAME
+		     , MAX(COMPANY_NM) 	AS COMPANY_NM
+		 FROM TB_COMPANY_M
+		 WHERE 1=1
+		 GROUP
+		 	BY COMPANY_CD
+	</select>
+
+
+<!-- 	<select id="getCheckUserNo" resultType="HMap" >
+		SELECT /* [UserService.query][getCheckNo][사번 중복 조회][Han Seong Jin][2016-09-13] */
+			   USER_NO
+		  FROM TB_PARAGON_USER_INFO
+		  WHERE
+		  	  USER_NO = #{userNo}
+	</select> -->
+
+    <select id="getCheckUserId" resultType="HMap" >
+        SELECT /* [UserService.query][getCheckUserId][아이디 중복 조회][최 판 석][2018-03-07] */
+                USER_ID
+          FROM
+                TB_PARAGON_USER_INFO
+          WHERE
+                USER_ID = #{userId}
+    </select>
+
+
+	<insert id="insertUser" >
+		INSERT /* [UserService.query][insertUser][사용자 등록][Han Seong Jin][2016-11-01] */
+        INTO    TB_PARAGON_USER_INFO
+        (
+                USER_SEQ
+            ,   COMPANY_CD
+            ,   USER_NO
+            ,   USER_ID
+            ,   USER_PWD
+            ,   USER_NM
+            ,   USER_POSITION
+            ,   USER_JOIN_DATE
+            ,   USER_LANG
+            ,	USER_COUNTRY
+            ,   USER_PHONE
+            ,   USER_EMAIL
+            ,   IN_USER_ID
+            ,   PRINT_DRIVER
+            ,   IN_DT
+            ,   PWD_CHG_DATE
+        )
+        VALUES
+        (
+                SQ_USER01.NEXTVAL
+            ,   #{s_companyCd}
+            ,   #{userNo}
+            ,   #{userId}
+            ,   #{userPwd}
+            ,   #{userNm}
+            ,   #{userPosition}
+            ,   #{userJoinDate}
+            ,   #{userLang}
+            ,   #{userCountry}
+            ,   #{userPhone}
+            ,   #{userEmail}
+            ,   #{s_userId}
+            ,	#{userPrintDriver}
+            ,   SYSDATE
+            ,   SYSDATE
+		)
+	</insert>
+
+	<update id="updateUser" >
+        UPDATE /* [UserService.query][updateUser][사용자 정보 수정][Han Seong Jin][2016-09-13] */
+            TB_PARAGON_USER_INFO
+        SET COMPANY_CD      = #{s_companyCd}
+        ,   USER_NO         = #{userNo}
+        ,   USER_ID         = #{userId}
+        ,   USER_NM         = #{userNm}
+		  <if test="userPwd != null and !userPwd.equals('')">
+        ,   USER_PWD        = #{userPwd}
+        ,   PWD_CHG_DATE    = SYSDATE
+		  </if>
+        ,   USER_POSITION   = #{userPosition}
+        ,   USER_JOIN_DATE  = #{userJoinDate}
+        ,   USER_PHONE      = #{userPhone}
+        ,   USER_EMAIL      = #{userEmail}
+        ,   USE_YN          = #{useYn}
+        ,   UP_USER_ID      = #{s_userId}
+        ,   USER_LANG       = #{userLang}
+        ,   USER_COUNTRY    = #{userCountry}
+        ,   PRINT_DRIVER	= #{userPrintDriver}
+        ,   UP_DT           = SYSDATE
+	  WHERE	USER_ID = #{userId}
+	</update>
+
+	<delete id="deleteUser" >
+		DELETE /* [UserService.query][updateUser][사용자 정보 삭제][Han Seong Jin][2016-09-13] */
+		  FROM TB_PARAGON_USER_INFO
+		 WHERE USER_ID = #{userId}
+	</delete>
+
+
+	<update id="updatePw" >
+        UPDATE /* [UserService.query][updatePw][사용자정보 비밀번호 변경][Kim Seon Ho][2019-03-31] */
+            TB_PARAGON_USER_INFO
+        SET USER_PWD        = #{newUserPwd}
+        ,   PWD_CHG_DATE    = SYSDATE
+        ,   UP_USER_ID      = #{s_userId}
+        ,   UP_DT           = SYSDATE
+	  WHERE	USER_ID         = #{s_userId}
+	</update>
+
+</mapper>
+
+
+

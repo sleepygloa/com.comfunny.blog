@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.comfunny.blog.system.domain.DomainDao">
+
+
+    <select id="listLabelDomain" resultType="java.util.HashMap">
+        SELECT
+        DOMAIN_ID
+        ,	DOMAIN_NM
+        FROM
+        SYS_DOMAIN
+        WHERE
+        LANG_CD		= #{s_language}
+        AND DOMAIN_ID IN ( ${IN} )
+    </select>
+
+    <select id="list" resultType="java.util.HashMap" >
+        SELECT
+        DOMAIN_SEQ
+        , DOMAIN_ID
+        , DOMAIN_NM
+        , DOMAIN_SIMP_NM
+        , DOMAIN_DESC
+        , DOMAIN_TYPE
+        , LANG_CD
+        , USE_YN
+        , IN_USER_ID
+        , IN_DT
+        FROM SYS_DOMAIN
+        WHERE 1=1
+        AND DEL_YN ='N'
+        <if test="domainType != null and !domainType.equals('')">
+            AND DOMAIN_TYPE = #{domainType}
+        </if>
+        <if test="langCd != null and !langCd.equals('')">
+            AND LANG_CD = #{langCd}
+        </if>
+        <if test="domainNm != null and !domainNm.equals('')">
+            AND DOMAIN_NM LIKE '%${domainNm}%'
+        </if>
+        <if test="domainId != null and !domainId.equals('')">
+            AND DOMAIN_ID  LIKE '%${domainId}%'
+        </if>
+        <if test="domainDesc != null and !domainDesc.equals('')">
+            AND DOMAIN_DESC  LIKE '%${domainDesc}%'
+        </if>
+        <if test="useYn != null and !useYn.equals('')">
+            AND USE_YN = #{useYn}
+        </if>
+        ORDER BY LANG_CD, DOMAIN_TYPE, DOMAIN_SEQ DESC
+    </select>
+
+
+    <select id="listDomainManager" resultType="java.util.HashMap" >
+        SELECT
+        *
+        FROM (
+        SELECT
+        DOMAIN_ID
+        ,	DOMAIN_TYPE
+        ,	MIN(KO_CD)		AS KO_NM
+        ,	MIN(EN_CD)		AS EN_NM
+        ,	MIN(VI_CD)		AS VI_NM
+        ,   CASE WHEN DOMAIN_TYPE = '01' AND MIN(KO_CD) IS     NULL THEN 'Y' END AS BTN_KO_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '01' AND MIN(EN_CD) IS     NULL THEN 'Y' END AS BTN_EN_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '01' AND MIN(VI_CD) IS     NULL THEN 'Y' END AS BTN_VI_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '02' AND MIN(KO_CD) IS     NULL THEN 'Y' END AS COL_KO_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '02' AND MIN(EN_CD) IS     NULL THEN 'Y' END AS COL_EN_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '02' AND MIN(VI_CD) IS     NULL THEN 'Y' END AS COL_VI_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '03' AND MIN(KO_CD) IS     NULL THEN 'Y' END AS LABEL_KO_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '03' AND MIN(EN_CD) IS     NULL THEN 'Y' END AS LABEL_EN_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '03' AND MIN(VI_CD) IS     NULL THEN 'Y' END AS LABEL_VI_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '04' AND MIN(KO_CD) IS NOT NULL THEN 'Y' END AS MENU_KO_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '04' AND MIN(EN_CD) IS     NULL THEN 'Y' END AS MENU_EN_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '04' AND MIN(VI_CD) IS     NULL THEN 'Y' END AS MENU_VI_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '05' AND MAX(INSTR(DOMAIN_ID, '_')) =  0 AND MIN(KO_CD) IS NOT NULL THEN 'Y' END AS PRO_KO_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '05' AND MAX(INSTR(DOMAIN_ID, '_')) =  0 AND MIN(EN_CD) IS     NULL THEN 'Y' END AS PRO_EN_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '05' AND MAX(INSTR(DOMAIN_ID, '_')) =  0 AND MIN(VI_CD) IS     NULL THEN 'Y' END AS PRO_VI_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '05' AND MAX(INSTR(DOMAIN_ID, '_')) != 0 AND MIN(KO_CD) IS     NULL THEN 'Y' END AS PRO_POP_KO_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '05' AND MAX(INSTR(DOMAIN_ID, '_')) != 0 AND MIN(EN_CD) IS     NULL THEN 'Y' END AS PRO_POP_EN_ERR
+        ,   CASE WHEN DOMAIN_TYPE = '05' AND MAX(INSTR(DOMAIN_ID, '_')) != 0 AND MIN(VI_CD) IS     NULL THEN 'Y' END AS PRO_POP_VI_ERR
+        FROM	(
+        SELECT
+        DOMAIN_ID
+        ,	DOMAIN_NM
+        ,   DOMAIN_TYPE
+        ,	(CASE WHEN LANG_CD = 'ko' THEN DOMAIN_NM END)	AS KO_CD
+        ,	(CASE WHEN LANG_CD = 'en' THEN DOMAIN_NM END)	AS EN_CD
+        ,	(CASE WHEN LANG_CD = 'vi' THEN DOMAIN_NM END)	AS VI_CD
+        FROM
+        SYS_DOMAIN
+        WHERE 1=1
+
+        AND DEL_YN 		='N'
+        <if test="domainType != null and !domainType.equals('')">
+            AND DOMAIN_TYPE = #{domainType}
+        </if>
+        <if test="langCd != null and !langCd.equals('')">
+            AND LANG_CD 	= #{langCd}
+        </if>
+        <if test="domainNm != null and !domainNm.equals('')">
+            AND DOMAIN_NM 	LIKE '%${domainNm}%'
+        </if>
+        <if test="domainId != null and !domainId.equals('')">
+            AND DOMAIN_ID  	LIKE '%${domainId}%'
+        </if>
+        <if test="domainDesc != null and !domainDesc.equals('')">
+            AND DOMAIN_DESC LIKE '%${domainDesc}%'
+        </if>
+        <if test="useYn != null and !useYn.equals('')">
+            AND USE_YN 			= #{useYn}
+        </if>
+        )
+        GROUP BY    DOMAIN_ID,	DOMAIN_TYPE
+        )
+        <if test='errYn != null and errYn.equals("Y")'>
+            WHERE	BTN_KO_ERR 		= 'Y'
+            OR      BTN_EN_ERR 		= 'Y'
+            OR      BTN_VI_ERR 		= 'Y'
+            OR		COL_KO_ERR 		= 'Y'
+            OR      COL_EN_ERR 		= 'Y'
+            OR      COL_VI_ERR 		= 'Y'
+            OR		MENU_KO_ERR 	= 'Y'
+            OR      MENU_EN_ERR 	= 'Y'
+            OR      MENU_VI_ERR 	= 'Y'
+            OR      PRO_KO_ERR 		= 'Y'
+            OR      PRO_EN_ERR 		= 'Y'
+            OR      PRO_VI_ERR 		= 'Y'
+            OR      PRO_POP_KO_ERR 	= 'Y'
+            OR      PRO_POP_EN_ERR 	= 'Y'
+            OR      PRO_POP_VI_ERR 	= 'Y'
+        </if>
+        <if test='errYn != null and errYn.equals("N")'>
+            WHERE   BTN_KO_ERR 		IS NULL
+            OR      BTN_EN_ERR 		IS NULL
+            OR      BTN_VI_ERR 		IS NULL
+            OR		COL_KO_ERR 		IS NULL
+            OR      COL_EN_ERR 		IS NULL
+            OR      COL_VI_ERR 		IS NULL
+            OR		MENU_KO_ERR 	IS NULL
+            AND     MENU_EN_ERR 	IS NULL
+            AND     MENU_VI_ERR 	IS NULL
+            AND     PRO_KO_ERR 		IS NULL
+            AND     PRO_EN_ERR 		IS NULL
+            AND     PRO_VI_ERR 		IS NULL
+            AND     PRO_POP_KO_ERR 	IS NULL
+            AND     PRO_POP_EN_ERR 	IS NULL
+            AND     PRO_POP_VI_ERR 	IS NULL
+        </if>
+
+    </select>
+
+    <select id="getConfigLanguageList" resultType="java.util.HashMap" >
+        SELECT /* [DomainService.query][getConfigLanguageList][언어종류 조회][Kim Jin Ho][2016-09-13] */
+        CODE_CD
+        FROM TB_PARAGON_COMM_CODE
+        WHERE COMPANY_CD = #{s_companyCd}
+        AND CODE_GROUP_CD = 'SC0013'
+        AND DEL_YN ='N'
+        AND USE_YN ='Y'
+    </select>
+
+    <select id="getConfigDomainList" resultType="java.util.HashMap" >
+        SELECT
+        DOMAIN_ID
+        , DOMAIN_NM
+        , DOMAIN_SIMP_NM
+        , LANG_CD
+        FROM SYS_DOMAIN
+        WHERE DEL_YN ='N'
+        AND USE_YN ='Y'
+        ORDER BY DOMAIN_ID DESC
+    </select>
+
+    <select id="getColunmToDomain"  resultType="String" >
+        WITH TB_COLUNM_NAMES AS
+        <foreach collection="dt_colnames" item="item" open="(" separator="UNION ALL" close=")"  index="idx"  >
+            SELECT '${item.colname}' AS DOMAIN_ID , '${idx}' AS DOMAIN_ORDER FROM DUAL
+        </foreach>
+        SELECT NVL(PD.DOMAIN_NM,CN. DOMAIN_ID) COLUNM_NM
+        FROM TB_COLUNM_NAMES CN
+        LEFT OUTER JOIN SYS_DOMAIN PD
+        ON CN.DOMAIN_ID = PD.DOMAIN_ID
+        ORDER BY DOMAIN_ORDER
+    </select>
+
+
+    <select id="getCheckUpdate" resultType="String" >
+        SELECT
+        NVL(MAX(TO_CHAR(UP_DT,'YYYMMDDHH24MISS')),'') UP_DT
+        FROM SYS_DOMAIN
+        WHERE DEL_YN = 'N'
+        AND USE_YN ='Y'
+    </select>
+
+    <update id="updateDomain" >
+        UPDATE SYS_DOMAIN
+        SET DOMAIN_NM = #{domainNm}
+        , DOMAIN_SIMP_NM = #{domainSimpNm}
+        , DOMAIN_DESC = #{domainDesc}
+        , DOMAIN_TYPE = #{domainType}
+        , LANG_CD = #{langCd}
+        , USE_YN = #{useYn}
+        , UP_USER_ID = #{s_userId}
+        , UP_DT = SYSDATE
+        WHERE COMPANY_CD = #{s_companyCd}
+        AND DOMAIN_SEQ = #{domainSeq}
+    </update>
+
+    <insert id="insertDomain" >
+        INSERT
+        INTO SYS_DOMAIN (
+        COMPANY_CD
+        , DOMAIN_SEQ
+        , DOMAIN_ID
+        , DOMAIN_NM
+        , DOMAIN_SIMP_NM
+        , DOMAIN_DESC
+        , DOMAIN_TYPE
+        , LANG_CD
+        , IN_USER_ID
+        , UP_USER_ID
+        )
+        VALUES(   #{s_companyCd}
+        , SQ_DOMAIN01.NEXTVAL
+        , #{domainId}
+        , #{domainNm}
+        , #{domainSimpNm}
+        , #{domainDesc}
+        , #{domainType}
+        , #{langCd}
+        , #{s_userId}
+        , #{s_userId}
+        )
+    </insert>
+
+    <delete id="deleteDomain" >
+        DELETE SYS_DOMAIN
+        WHERE COMPANY_CD = #{s_companyCd}
+        AND DOMAIN_SEQ = #{domainSeq}
+    </delete>
+
+    <select id="listInDomain" resultType="java.util.HashMap" >
+        SELECT
+        DOMAIN_ID
+        ,	DOMAIN_NM
+        FROM
+        SYS_DOMAIN
+        WHERE
+        LANG_CD = #{s_language}
+        AND		DOMAIN_ID IN ( ${inData} )
+    </select>
+
+</mapper>
