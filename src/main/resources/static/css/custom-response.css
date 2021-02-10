@@ -701,4 +701,5 @@ div[id$=SearchHeaderGrp]{
 
 div[id$=GridGrp]{
 	margin-bottom:5px;
+	overflow:auto;
 }
