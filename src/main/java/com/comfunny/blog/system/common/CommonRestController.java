@@ -42,18 +42,20 @@ public class CommonRestController {
             }catch (Exception e){
                 flag = true;
             }
-//        }else if(addMsg != null){
-//            try{
-//                outParams.setMsgLangCd(inParams.getString("s_language"), inParams.getMsgCd(), new String[]{addMsg});
-//            }catch (Exception e){
-//                flag = true;
-//            }
-        }else{
-            try {
-//                outParams.setMsgLangCd(inParams.getString("s_language"), (String)map.get("msgCd"));
+        }else if(addMsg != null){
+            try{
                 row.put("s_language", "ko");
                 row.put("msgCd", (String)map.get("msgCd"));
-                row.put("msgTxt", messageService.setMsgLangCd(row).get("MSG_TXT"));
+                row.put("addMsg", addMsg);
+                row.put("msgTxt", messageService.setMsgLangCd(row));
+            }catch (Exception e){
+                flag = true;
+            }
+        }else{
+            try {
+                row.put("s_language", "ko");
+                row.put("msgCd", (String)map.get("msgCd"));
+                row.put("msgTxt", messageService.setMsgLangCd(row));
 
 
             } catch (Exception e) {

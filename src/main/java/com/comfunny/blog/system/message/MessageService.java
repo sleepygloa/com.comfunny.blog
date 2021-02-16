@@ -21,8 +21,24 @@ public class MessageService {
         return messageDao.list(map);
     }
 
-    public Map<String, Object> setMsgLangCd(Map<String, Object> map) throws Exception{
-        return messageDao.listMessage(map);
+    public String setMsgLangCd(Map<String, Object> map) throws Exception{
+
+        Map<String, Object> returnMap = messageDao.listMessage(map);
+
+        if(returnMap == null) return null;
+
+        String MSG_TXT = (String)returnMap.get("MSG_TXT");
+        if(map.get("addMsg") != null){
+            String[] args = (String[])map.get("addMsg");
+            int strCnt = 0;
+            for(String str : args){
+                String arr = "{" + strCnt + "}";
+                MSG_TXT = MSG_TXT.replace(arr, str.toString());
+                strCnt++;
+            }
+        }
+
+        return MSG_TXT;
     }
 
 
