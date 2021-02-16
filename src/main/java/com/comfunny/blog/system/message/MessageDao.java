@@ -10,4 +10,6 @@ public interface MessageDao {
 
     public List<Map<String, Object>> list(Map<String,Object> map) throws Exception;
 
+    public Map<String, Object> listMessage(Map<String,Object> map) throws Exception;
+
 }

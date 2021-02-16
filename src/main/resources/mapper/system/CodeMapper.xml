@@ -171,8 +171,22 @@
         </if>
         ORDER BY CODE_ORDER ASC
     </select>
-
     <select id="getCommCodeName" resultType="java.util.HashMap">
+        SELECT
+        NVL(PD.DOMAIN_NM,PCC.CODE_NM)    NAME
+        FROM SYS_COMM_CODE PCC , TB_PARAGON_DOMAIN PD
+        WHERE (PCC.CODE_GROUP_CD || PCC.CODE_CD) = PD.DOMAIN_ID(+)
+        AND PD.LANG_CD(+)    = #{s_language}
+        AND CODE_GROUP_CD    = #{codeGroupCd}
+        AND CODE_CD          = #{codeOther}
+        AND PCC.USE_YN       = 'Y'
+        <if test="iobGbn != null and !iobGbn.equals('')">
+            AND PCC.CODE_OTHER1  = #{iobGbn}
+        </if>
+        ORDER BY CODE_ORDER ASC
+    </select>
+
+    <select id="getCommCodeNamebb" resultType="java.util.HashMap">
         SELECT
         NVL(PD.DOMAIN_NM,PCC.CODE_NM)    NAME
         FROM SYS_COMM_CODE PCC , TB_PARAGON_DOMAIN PD
@@ -288,7 +302,7 @@
         AND USE_YN = 'Y'
         AND CODE_GROUP_CD 	= #{codeGroupCd}
         <if test="codeCd != null and !codeCd.equals('')">
-            AND CODE_CD 			= #{codeCd}
+            AND CODE_CD     = #{codeCd}
         </if>
         ORDER BY CODE_GROUP_CD ASC , CODE_ORDER ASC
     </select>

@@ -45,17 +45,18 @@ var Util = function () {
 				return true;
 			}
 		},
-        alertAjax : function(sendData, flag){
+        alertAjax : function(map, flag){
             if(flag == null){
             }else if(flag == 'alert'){
                 $.ajax({
-                    url         : "/ctrl/comm/alert",
-                    data        : sendData,
-                    type        : "POST",
+                    url         : "/system/common/alert",
+                    data        : map,
+                    type        : "GET",
                     dataType    : "json",
                     cache       : false,
                     async       : false,
                     success     : function(result) {
+                    console.log(result);
                         if(result.stsCd == 100){
                             alert(result.msgTxt);
                         }else{
@@ -66,9 +67,9 @@ var Util = function () {
             }else if(flag == 'confirm'){
                 var returnVal;
                 $.ajax({
-                    url      : "/ctrl/comm/alert",
-                    data     : sendData,
-                    type     : "POST",
+                    url      : "/system/common/alert",
+                    data     : map,
+                    type     : "GET",
                     dataType : "json",
                     cache    : false,
                     async    : false,
@@ -123,12 +124,12 @@ var Util = function () {
         getProNm : function(codeGroupCd, codeOther){
             var returnVal;
             $.ajax({
-                url      : "/ctrl/comm/getProNm",
+                url      : "/system/common/getProNm",
                 data     : {
                         codeGroupCd : codeGroupCd
                     ,   codeOther   : codeOther
                 },
-                type     : "POST",
+                type     : "GET",
                 dataType : "json",
                 cache    : false,
                 async    : false,

@@ -59,8 +59,7 @@
         MSG_CD       AS MSG_CD
         ,   MSG_TXT      AS MSG_TXT
         FROM    SYS_MESSAGE
-        WHERE   COMPANY_CD		= #{s_companyCd}
-        AND		LANG_CD      	= #{s_language}
+        WHERE   LANG_CD      	= #{s_language}
         AND		MSG_CD			= #{msgCd}
     </select>
 

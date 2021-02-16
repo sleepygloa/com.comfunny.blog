@@ -34,6 +34,14 @@ public class CodeService {
 		return codeDao.getCodeGroupComboList(map);
 	}
 
+    /**
+     * [공통] 모든화면에서 사용하는 콤보박스 의 값 조회
+     * getCodeGroupComboList
+     * */
+    public Map<String, Object> getCommCodeName(Map<String, Object> map) throws Exception{
+        return codeDao.getCommCodeName(map);
+    }
+
 //
 //    @Transactional(readOnly = true)
 //    public List<MenuListResponseDto> findAlldesc(int menuSeq){

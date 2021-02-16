@@ -21,6 +21,8 @@ public interface CodeDao {
 
     public List<Map<String, Object>> getCodeGroupComboList(Map<String, Object> map) throws Exception;
 
+    public Map<String, Object> getCommCodeName(Map<String, Object> map) throws Exception;
+
 //    public List<Map<String, Object>> list(){
 //        return this.sqlsession.selectList("CodeDao.list");
 //    }
