@@ -6,7 +6,7 @@ var blogJs = function(){
 	var proNm = "blog";
 
 	var $grid = $('#blogGrid');
-	var simplemde = new SimpleMDE({ element: document.getElementById("blogContent")});
+	//var simplemde = new SimpleMDE({ element: document.getElementById("blogContent")});
 	var flag = "";
 
 	var selectRowData = {};
@@ -117,6 +117,10 @@ var blogJs = function(){
             $('#blogViewMarkdown').css('display', 'block');
             $('#blogUpdateMarkdown').css('display', 'none');
 
+            viewer.setMarkdown(rowData.markdownContent);
+
+//              viewer.getMarkdown();
+
             $('#blogCategoryA').attr('readonly', true).val(rowData.categoryA);
             $('#blogCategoryB').attr('readonly', true).val(rowData.categoryB);
             $('#blogCategoryC').attr('readonly', true).val(rowData.categoryC);
@@ -124,8 +128,9 @@ var blogJs = function(){
             $('#blogTitle').attr('readonly', true).val(rowData.title);
             $('#blogUrl').attr('readonly', true).val(rowData.githubUrl);
 
-            $('#markdown').text(rowData.markdownContent);
-            document.getElementById('output-html')["innerHTML"] = parseMd(rowData.markdownContent);
+            //$('#blogContent').text(rowData.markdownContent);
+            //$('#blogContent').toastuiEditor({})
+            //document.getElementById('output-html')["innerHTML"] = parseMd(rowData.markdownContent);
 
 
         }else if(flag == "UPDATE"){
@@ -136,6 +141,7 @@ var blogJs = function(){
             $('#blogViewMarkdown').css('display', 'none');
             $('#blogUpdateMarkdown').css('display', 'block');
 
+            editor.setMarkdown(selData.markdownContent);
 
             $('#blogCategoryA').attr('readonly', false).val(selData.categoryA);
             $('#blogCategoryB').attr('readonly', false).val(selData.categoryB);
@@ -144,11 +150,13 @@ var blogJs = function(){
             $('#blogTitle').attr('readonly', false).val(selData.title);
             $('#blogUrl').attr('readonly', false).val(selData.githubUrl);
 
-            $('#blogContent').val(selData.markdownContent);
-            simplemde.value(selData.markdownContent);
+//            $('#blogContent').val(selData.markdownContent);
+            //$('#blogContent').toastuiEditor({})
+//            simplemde.value(selData.markdownContent);
         }else{
             $('#blogViewMarkdown').css('display', 'none');
             $('#blogUpdateMarkdown').css('display', 'block');
+
 
 
             $('#blogCategoryA').attr('readonly', false).val('');
@@ -158,8 +166,9 @@ var blogJs = function(){
             $('#blogTitle').attr('readonly', false).val('');
             $('#blogUrl').attr('readonly', false).val('');
 
-            $('#blogContent').val('');
-            simplemde.value('');
+            //$('#blogContent').val('');
+            //$('#blogContent').toastuiEditor({})
+//            simplemde.value('');
         }
     }
 
@@ -187,9 +196,10 @@ var blogJs = function(){
             categoryA : $('#blogCategoryA').val(),
             categoryB : $('#blogCategoryB').val(),
             categoryC : $('#blogCategoryC').val(),
-            content : simplemde.value(),
+            content : editor.getMarkdown(),
             url     : $('#blogUrl').val()
         };
+
 
         //ajax
         WMSUtil.ajax('POST', JSON.stringify(rowData), saveUrl, msg, function(){

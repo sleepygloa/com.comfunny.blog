@@ -35,9 +35,8 @@
 
             <div class="form-group">
                 <label for="content">Content:</label>
-                <!--<textarea type="text" rows="4"  id="blogContent" placeholder="Content" class="form-control"
-                           autocomplete="off"></textarea>-->
-                <div id="blogContent"></div>
+                <textarea type="text" rows="4"  id="blogContent" placeholder="Content" class="form-control"
+                           autocomplete="off"></textarea>
             </div>
 
             <!--<button class="btn btn-primary" type="submit">Submit form</button>-->
@@ -45,15 +44,8 @@
         </div>
     </div>
 
-<script>
-        const editor = new toastui.Editor({
-        el: document.querySelector('#blogContent'),
-        previewStyle: 'tab',
-        height: '500px',
-        initialValue: content
-      });
-</script>
 <!--<script>
 var simplemde = new SimpleMDE({ element: document.getElementById("blogContent"), status : false, toolbar : false});
 </script>-->
 
+<script src="https://uicdn.toast.com/editor/latest/toastui-jquery-editor.min.js"></script>
