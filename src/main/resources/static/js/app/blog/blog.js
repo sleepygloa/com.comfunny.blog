@@ -32,7 +32,7 @@ var blogJs = function(){
                 multiselect		: false,
                 rowEditable      : false,
                 rowClickFocus	: true,
-                height			: '300',
+                height			: '200',
                 colModel:[
                     {editable:false,name:'idx',        width:100},
                     {editable:false, name:"title",      width:300},

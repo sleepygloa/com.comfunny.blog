@@ -99,15 +99,15 @@
 
     <update id="updateCodeGroup" >
         UPDATE SYS_COMM_CODE_GROUP
-        SET CODE_GROUP_NM = #{codeGroupNm}
-        , CODE_GROUP_DESC = #{codeGroupDesc}
-        , CODE_GROUP_TYPE = #{codeGroupType}
-        , SYS_YN = #{sysYn}
-        , USE_YN = #{useYn}
-        , UP_USER_ID = #{s_userId}
-        , UP_DT = SYSDATE
+        SET CODE_GROUP_NM    = #{codeGroupNm}
+        , CODE_GROUP_DESC    = #{codeGroupDesc}
+        , CODE_GROUP_TYPE    = #{codeGroupType}
+        , SYS_YN             = #{sysYn}
+        , USE_YN             = #{useYn}
+        , UP_USER_ID         = #{s_userId}
+        , UP_DT              = SYSDATE
         WHERE CODE_GROUP_SEQ = #{codeGroupSeq}
-        AND COMPANY_CD = #{s_companyCd}
+        AND COMPANY_CD       = #{s_companyCd}
     </update>
 
     <insert id="insertCodeGroup" >

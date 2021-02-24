@@ -15,13 +15,17 @@ public interface CodeDao {
 //    @Autowired
 //    private SqlSession sqlsession;
 
-    public List<Map<String, Object>> list() throws Exception;
+    public List<Map<String, Object>> list(Map<String, Object> map) throws Exception;
 
     public List<Map<String, Object>> listCode(Map<String, Object> map) throws Exception;
 
     public List<Map<String, Object>> getCodeGroupComboList(Map<String, Object> map) throws Exception;
 
     public Map<String, Object> getCommCodeName(Map<String, Object> map) throws Exception;
+
+    public void insertCodeGroup(Map<String, Object> map) throws Exception;
+
+    public void updateCodeGroup(Map<String, Object> map) throws Exception;
 
 //    public List<Map<String, Object>> list(){
 //        return this.sqlsession.selectList("CodeDao.list");

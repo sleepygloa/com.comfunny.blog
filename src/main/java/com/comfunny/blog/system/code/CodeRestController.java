@@ -14,8 +14,8 @@ public class CodeRestController {
     private final CodeService codeService;
 
     @GetMapping("/system/code/list")
-    public List<Map<String, Object>> list()throws Exception{
-        return codeService.list();
+    public List<Map<String, Object>> list(@RequestParam Map<String, Object> map)throws Exception{
+        return codeService.list(map);
     }
 
     @GetMapping("/system/code/listCode")
@@ -30,12 +30,12 @@ public class CodeRestController {
 		return  codeService.getCodeGroupComboList(map);
 	}
 
-//
-//	//코드관리 그룹 저장
-//	@RequestMapping("/saveCodeGroup")
-//	public List<Map<String, Object>> saveCodeGroup(List<Map<String, Object>> inParams) {
-//		return codeService.saveCodeGroup(inParams);
-//	}
+
+	//코드관리 그룹 저장
+	@RequestMapping("/saveCodeGroup")
+	public void saveCodeGroup(@RequestParam List<Map<String, Object>> list) throws Exception {
+		codeService.saveCodeGroup(list);
+	}
 //
 //	//코드관리 그룹 삭제
 //    @RequestMapping("/deleteCodeGroup")
