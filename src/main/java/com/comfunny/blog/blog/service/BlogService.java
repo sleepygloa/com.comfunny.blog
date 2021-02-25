@@ -4,6 +4,9 @@ import com.comfunny.blog.blog.domain.*;
 import com.comfunny.blog.blog.dto.*;
 import com.comfunny.blog.config.auth.LoginUser;
 import com.comfunny.blog.config.auth.dto.SessionUser;
+import com.comfunny.blog.posts.domain.Posts;
+import com.comfunny.blog.posts.dto.PostsResponseDto;
+import com.comfunny.blog.posts.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,8 @@ public class BlogService {
                 .collect(Collectors.toList());
     }
 
+
+
     @Transactional(readOnly = true)
     public List<BlogListResponseDto> findAlldesc(String searchA){
         return blogRepository.findAllDesc(searchA).stream()
@@ -50,6 +55,13 @@ public class BlogService {
                 .collect(Collectors.toList());
     }
 
+    public BlogListResponseDto findById(Long idx){
+        Blog entity = blogRepository.findById(idx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + idx));
+
+        return new BlogListResponseDto(entity);
+    }
+
     @Transactional(readOnly = true)
     public List<BlogListCategoryResponseDto> findCategory(){
         return blogCategoryRepository.findCategory().stream()
@@ -58,33 +70,18 @@ public class BlogService {
     }
 
     @Transactional
-    public void save(List<Map<String, Object>> list, SessionUser user){
-
-        Map<String, Object> mMap = list.get(0);
-
-        int idx = (int)mMap.get("idx");
-        int cnt = blogRepository.findMaster(idx);
-        String name = user.getName();
-        String email = user.getEmail();
-        if(cnt == 0){
-            idx = blogRepository.findMaxMaster();
-            blogRepository.insertMaster(idx, (int)mMap.get("pIdx"), (String)mMap.get("categoryA"), (String)mMap.get("categoryB"), (String)mMap.get("categoryC"),
-                    (String)mMap.get("subject"), name, email);
-        }else{
-            blogRepository.updateMaster(idx, (String)mMap.get("categoryA"), (String)mMap.get("categoryB"), (String)mMap.get("categoryC"),
-                    (String)mMap.get("subject"), name, email);
-        }
-        blogDetailRepository.deleteDetail(idx);
-        for(Map<String, Object> map : list){
-            blogDetailRepository.saveDetail(idx, (int)map.get("i"), (String)map.get("type"), (String)map.get("content"), (String)map.get("imgWidthScale"));
-        }
-
+    public Long save(BlogSaveRequestDto dto){
+        return blogRepository.save(dto.toEntity()).getIdx();
     }
 
-    public List<BlogDetailListResponseDto> findById(int idx){
-        return blogDetailRepository.findBlogDetailAllDesc(idx).stream()
-                .map(BlogDetailListResponseDto::new)
-                .collect(Collectors.toList());
+    @Transactional
+    public Long update(Long idx, BlogSaveRequestDto requestDto){
+        Blog blog = blogRepository.findById(idx)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + idx));
+
+        blog.update(requestDto.getTitle(), requestDto.getUpUserId(), requestDto.getUpUserEmail(), requestDto.getMarkdownContent());
+
+        return idx;
     }
 
     @Transactional

@@ -4,7 +4,10 @@ import com.comfunny.blog.blog.dto.*;
 import com.comfunny.blog.blog.service.BlogService;
 import com.comfunny.blog.config.auth.LoginUser;
 import com.comfunny.blog.config.auth.dto.SessionUser;
+import com.comfunny.blog.posts.dto.PostsResponseDto;
+import com.comfunny.blog.posts.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -22,10 +25,13 @@ public class BlogRestController {
     /***************************************
      * 블로그 리스트 조회
      ***************************************/
-    @GetMapping("/b/blog/list")
-    public List<BlogListResponseDto> list(@RequestParam(value="searchA", defaultValue = "") String searchA, @RequestParam(value="searchB", defaultValue = "") String searchB){
+    @GetMapping("/blogss")
+    public List<BlogListResponseDto> blogFindAllDesc(@RequestParam(value="searchA", defaultValue = "") String searchA, @RequestParam(value="searchB", defaultValue = "") String searchB, Model model){
         if(searchA.equals("")){
-            return blogService.findAlldesc();
+            List<BlogListResponseDto> list = blogService.findAlldesc();
+            model.addAttribute("list", list);
+            return null;
+
         }else{
             if(searchB.equals("")){
                 try {
@@ -49,19 +55,48 @@ public class BlogRestController {
 
     }
 
+
+    /***************************************
+     * 글 상세보기
+     ***************************************/
+    @GetMapping("/blogs/content/{idx}")
+    public BlogListResponseDto blogFindById(@PathVariable("idx") Long idx, Model model){
+        return blogService.findById(idx);
+    }
+
+    /***************************************
+     * 글  신규 저장
+     ***************************************/
+    @PostMapping("/blogs/content/")
+    public Long save(@RequestBody BlogSaveRequestDto requestDto, @LoginUser SessionUser user){
+//        requestDto.setInUserId(user.getName());
+//        requestDto.setUpUserId(user.getName());
+//        requestDto.setInUserEmail(user.getEmail());
+//        requestDto.setUpUserEmail(user.getEmail());
+
+        return blogService.save(requestDto);
+    }
+
+    /***************************************
+     * 글 수정 저장
+     ***************************************/
+    @PutMapping("/blogs/content/{idx}")
+    public Long update(@PathVariable("idx") Long idx, @RequestBody BlogSaveRequestDto requestDto, @LoginUser SessionUser user){
+//        requestDto.setInUserId(user.getName());
+//        requestDto.setUpUserId(user.getName());
+//        requestDto.setInUserEmail(user.getEmail());
+//        requestDto.setUpUserEmail(user.getEmail());
+
+        return blogService.update(idx, requestDto);
+    }
+
     /***************************************
      * 블로그 카테고리 데이터셋 조회
      ***************************************/
     @GetMapping("/b/blog/listCategory")
     public List<BlogListCategoryResponseDto> findGetegory(){ return blogService.findCategory(); }
 
-    /***************************************
-     * 글 저장
-     ***************************************/
-    @PostMapping("/b/blog/save")
-    public void save(@RequestBody Map map, @LoginUser SessionUser user){
-        blogService.save((List<Map<String, Object>>)map.get("list"), user);
-    }
+
 
     /***************************************
      * 글삭제
@@ -71,13 +106,7 @@ public class BlogRestController {
         blogService.delete(data);
     }
 
-    /***************************************
-     * 글 상세보기
-     ***************************************/
-    @GetMapping("/b/blog/view")
-    public List<BlogDetailListResponseDto> findById(@RequestParam int idx){
-        return blogService.findById(idx);
-    }
+
 
     /***************************************
      * 댓글 리스트 조회

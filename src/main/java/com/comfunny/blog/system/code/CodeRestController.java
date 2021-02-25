@@ -1,6 +1,10 @@
 package com.comfunny.blog.system.code;
 
 
+import com.comfunny.blog.config.auth.LoginUser;
+import com.comfunny.blog.system.menu.MenuSaveRequestDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +36,10 @@ public class CodeRestController {
 
 
 	//코드관리 그룹 저장
-	@RequestMapping("/saveCodeGroup")
-	public void saveCodeGroup(@RequestParam List<Map<String, Object>> list) throws Exception {
+	@PostMapping("/system/code/saveCodeGroup")
+	public void saveCodeGroup(@RequestBody Map<String, Object> map) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> list =  mapper.convertValue((List<Map<String, Object>>)map.get("list"), new TypeReference<List<Map<String, Object>>>() {});
 		codeService.saveCodeGroup(list);
 	}
 //

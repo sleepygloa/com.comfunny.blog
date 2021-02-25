@@ -21,11 +21,13 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model, @LoginUser SessionUser user){
-        model.addAttribute("posts", postsService.findAlldesc());
+        //model.addAttribute("posts", postsService.findAlldesc());
         if(user != null){
             model.addAttribute("userName", user.getName());
             model.addAttribute("userEmail", user.getEmail());
         }
+
+
 
         return "index";
     }
@@ -34,11 +36,11 @@ public class IndexController {
      *************************************************************/
     @GetMapping("/resume/ko")
     public String resume_ko(){
-        return "resume_ko";
+        return "resume/resume_ko";
     }
     @GetMapping("/resume/en")
     public String resume_en(){
-        return "resume_en";
+        return "resume/resume_en";
     }
 
     /************************************************************

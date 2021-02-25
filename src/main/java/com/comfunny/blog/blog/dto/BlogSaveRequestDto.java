@@ -1,36 +1,48 @@
 package com.comfunny.blog.blog.dto;
 
+import com.comfunny.blog.blog.domain.Blog;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @NoArgsConstructor
 public class BlogSaveRequestDto {
-    private Long idx;
-    private Long i;
-    private String type;
-    private String content;
-    private String imgWidthScale;
+
     private String title;
+    private String inUserId;
+    private String upUserId;
+    private String inUserEmail;
+    private String upUserEmail;
+    private String markdownContent;
+
+
 
     @Builder
-    public BlogSaveRequestDto(Long idx, Long i, String type, String content, String imgWidthScale, String title) {
-        this.idx = idx;
-        this.i = i;
-        this.type = type;
-        this.content = content;
-        this.imgWidthScale = imgWidthScale;
+    public BlogSaveRequestDto(String title, String inUserId, String upUserId, String inUserEmail, String upUserEmail, String markdownContent) {
         this.title = title;
+        this.inUserId = inUserId;
+        this.upUserId = upUserId;
+        this.inUserEmail = inUserEmail;
+        this.upUserEmail = upUserEmail;
+        this.markdownContent = markdownContent;
     }
 
-    public BlogSaveRequestDto toEntity(){
-        return BlogSaveRequestDto.builder()
-                .idx(idx)
-                .i(i)
-                .type(type)
-                .content(content)
-                .imgWidthScale(imgWidthScale)
+
+    public Blog toEntity(){
+        return Blog.builder()
+                .title(title)
+                .inUserId(inUserId)
+                .upUserId(upUserId)
+                .inUserEmail(inUserEmail)
+                .upUserEmail(upUserEmail)
+                .markdownContent(markdownContent)
                 .build();
     }
 }

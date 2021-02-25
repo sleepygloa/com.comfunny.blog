@@ -1,0 +1,64 @@
+
+    <div class="input-group">
+
+        <input class="form-control" type="text" list="blogCategoryAList" id="blogCategoryA" readonly >
+        <datalist id="blogCategoryAList">
+        </datalist>
+        <span class="input-group-text"> - </span>
+        <input class="form-control" type="text" list="blogCategoryBList" id="blogCategoryB" readonly>
+        <datalist id="blogCategoryBList">
+        </datalist>
+        <span class="input-group-text"> - </span>
+        <input class="form-control" type="text" list="blogCategoryCList" id="blogCategoryC" readonly>
+        <datalist id="blogCategoryCList">
+        </datalist>
+    </div>
+
+    <div class="input-group">
+        <span class="input-group-text"> 제목 </span>
+        {{#detail}}
+            <input type="text" id="blogTitle" placeholder="Title" autocomplete="off" class="form-control"
+                   value="{{title}}"/>
+        {{/detail}}
+
+    </div>
+
+    <div class="input-group">
+        <span class="input-group-text"> URL </span>
+        {{#detail}}
+            <input type="text" id="blogUrl" placeholder="Url" autocomplete="off" class="form-control"
+                   value="{{githubUrl}}"/>
+            <input type="text" id="blogMarkDown" placeholder="Url" autocomplete="off" class="form-control"
+                   value="{{markdownContent}}"/>
+        {{/detail}}
+
+    </div>
+
+
+
+
+    <div id="blogViewMarkdown" class="container col-xs-w100" >
+
+    </div>
+
+    <button type="button" id="blogUpdateBtn" data-authRule="AUTH_MOD" class="btn btn-sm btn-warning m-r-5">
+        <i class="fa fa-minus"></i> <!--<i data-domain-id="ROW_DEL_BTN" >-->수정</i>
+    </button>
+
+    <div class="container  col-xs-w100">
+        <div id="blogRe">
+
+
+        </div>
+    </div>
+
+<!-- Toast Editor 2.0.0 -->
+<script src="/js/core/toastui-editor-all.min.js"></script>
+
+<script>
+var initialValue = $('#blogMarkDown').val();
+
+
+
+
+</script>

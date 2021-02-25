@@ -170,7 +170,7 @@ var SystemCodeApp = function () {
     //[Fn] Grid Save Data Row. (제품관리 flag: 1 )
     function fnHSave() {
         //저장버튼 이벤트 로직 수행.
-        var saveUrl = '/ctrl/settings/system/code/saveCodeGroup';
+        var saveUrl = '/system/code/saveCodeGroup';
         var msg = 'MSG_COM_CFM_003'; //저장하시겠습니까?
         var rowData = {
                 modFlag         : 'MOD_FLAG',
@@ -183,7 +183,7 @@ var SystemCodeApp = function () {
                 useYn           : 'USE_YN'
         };
 
-        var jsonData = $HGrid.getSelectedJsonDataChk('dt_data', rowData, $HGrid);
+        var jsonData = $HGrid.getSelectedJsonDataChk('list', rowData, $HGrid);
     	// 그리드에서 저장이 필요한 데이터만 가져옴
     	var jsonObj = JSON.parse(jsonData);
 
@@ -218,7 +218,7 @@ var SystemCodeApp = function () {
         if(!valiTotalFlag) return false;
 
         //ajax Event.
-    	WMSUtil.ajax(jsonData, saveUrl, msg, function(){
+    	WMSUtil.ajax('POST', jsonData, saveUrl, msg, function(){
             $HGrid.paragonGridReload();
     	})
 
@@ -229,7 +229,7 @@ var SystemCodeApp = function () {
     function fnDSave() {
 
         //저장버튼 이벤트 로직 수행.
-        var saveUrl = '/ctrl/settings/system/code/saveCode';
+        var saveUrl = '/system/code/saveCode';
         var msg = 'MSG_COM_CFM_003'; //저장하시겠습니까?
         var rowData = {
                 modFlag      : 'MOD_FLAG',
@@ -293,7 +293,7 @@ var SystemCodeApp = function () {
 
         if (addFlag === false) {
             //삭제버튼 이벤트 로직 수행.
-            var saveUrl = '/ctrl/settings/system/code/deleteCodeGroup';
+            var saveUrl = '/system/code/deleteCodeGroup';
             var msg = 'MSG_COM_CFM_001'; //삭제하시겠습니까?
             var rowData = {
                 modFlag: 'MOD_FLAG',
@@ -318,7 +318,7 @@ var SystemCodeApp = function () {
 
         if (addFlag === false) {
             //삭제버튼 이벤트 로직 수행.
-            var saveUrl = '/ctrl/settings/system/code/deleteCode';
+            var saveUrl = '/system/code/deleteCode';
             var msg = 'MSG_COM_CFM_001'; //삭제하시겠습니까?
             var rowData = {
                 modFlag : 'MOD_FLAG',

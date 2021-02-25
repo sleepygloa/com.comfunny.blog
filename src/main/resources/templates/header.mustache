@@ -17,18 +17,18 @@
 <!--    <link href="/css/custom.css" rel="stylesheet" >
     <link href="/css/common.css" rel="stylesheet" >-->
     <link href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css"  rel="stylesheet" />
-    <link href="/plugin/github-markdown.css" rel="stylesheet" >
-    <link href="/css/core/ui.jqgrid.css" rel="stylesheet">
-    <link href="/css/core/core-jqgrid.css" rel="stylesheet">
-    <link href="/css/dashboard.css" rel="stylesheet">
-    <link href="/css/custom-response.css" rel="stylesheet">
+    <!--<link href="/plugin/github-markdown.css" rel="stylesheet" >-->
+    <!--<link href="/css/core/ui.jqgrid.css" rel="stylesheet">
+    <link href="/css/core/core-jqgrid.css" rel="stylesheet">-->
+    <!--<link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/custom-response.css" rel="stylesheet">-->
 
     <!-- Toast Editor 2.0.0과 의존성 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/2.0.0/toastui-editor.min.css" />
 
 
-    <style>
+<!--    <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -42,7 +42,7 @@
           font-size: 3.5rem;
         }
       }
-    </style>
+    </style>-->
 
 </head>
 <body>
@@ -50,31 +50,52 @@
 
 
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Nambi's Vlog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/resume/ko">이력서</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/blogs">블로그</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            포트폴리오
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="#">소개</a></li>
+                            <li><a class="dropdown-item" href="#">WMS</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Link</a>
+                    </li>
+                    {{#userName}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">로그아웃</a>
+                        </li>
 
+                    {{/userName}}
+                    {{^userName}}
+                        <li class="nav-item">
+                            <a class="nav-link " href="/i/login">로그인</a>
+                        </li>
 
+                    {{/userName}}
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
 
-    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">Nambi's Vlog</a>
-        <button id="sideMenuToggler" class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
-
-        {{#userName}}
-            <a class="nav-link col-md-3 col-lg-2 login" href="/logout">로그아웃</a>
-        {{/userName}}
-
-        {{^userName}}
-            <a class="nav-link col-md-3 col-lg-2 login" href="/i/login">로그인</a>
-        {{/userName}}
-
-    </header>
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul id="menuUl" class="nav flex-column">
-
-                    </ul>
-                </div>
-            </nav>
