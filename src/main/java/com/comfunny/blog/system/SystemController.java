@@ -1,14 +1,9 @@
 package com.comfunny.blog.system;
 
-import com.comfunny.blog.blog.dto.Post;
 import lombok.RequiredArgsConstructor;
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @RequiredArgsConstructor
 @Controller

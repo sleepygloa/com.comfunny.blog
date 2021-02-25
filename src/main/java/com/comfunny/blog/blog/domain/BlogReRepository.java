@@ -9,13 +9,19 @@ import java.util.List;
 
 public interface BlogReRepository extends JpaRepository<BlogRe, Long> {
 
-    @Query(value = "SELECT a.REF, a.P_REF, a.IDX, a.CONTENT, a.DEL_YN, a.IN_USER_ID, a.UP_USER_ID, a.IN_USER_EMAIL, a.UP_USER_EMAIL, a.IN_DT, a.UP_DT, CASE WHEN b.p_ref IS NULL THEN a.ref ELSE b.ref END LEVEL, c.picture AS PICTURE" +
-                   "  FROM blog_re a" +
-        "  LEFT OUTER JOIN blog_re b ON a.P_REF = b.REF" +
-        "  LEFT OUTER JOIN user c ON a.UP_USER_EMAIL = c.email" +
-                   " WHERE a.IDX = :idx  " +
-                " ORDER BY LEVEL, a.REF", nativeQuery = true)
-    List<BlogRe> listRe(@Param("idx") int idx);
+    @Query(value = "SELECT * FROM blog_re p WHERE DEL_YN = 'N' AND p.IDX = :idx ORDER BY p.REF ASC", nativeQuery = true)
+    List<BlogRe> listRe(@Param("idx") long idx);
+
+    @Query(value = "SELECT * FROM blog_re p WHERE DEL_YN = 'N' AND p.IDX = :idx AND p.P_REF = :ref ORDER BY p.REF ASC", nativeQuery = true)
+    List<BlogRe> listReChild(@Param("idx") long idx, @Param("ref") long ref);
+
+//    @Query(value = "SELECT a.REF, a.P_REF, a.IDX, a.CONTENT, a.DEL_YN, a.IN_USER_ID, a.UP_USER_ID, a.IN_USER_EMAIL, a.UP_USER_EMAIL, a.IN_DT, a.UP_DT, CASE WHEN b.p_ref IS NULL THEN a.ref ELSE b.ref END LEVEL, c.picture AS PICTURE" +
+//                   "  FROM blog_re a" +
+//        "  LEFT OUTER JOIN blog_re b ON a.P_REF = b.REF" +
+//        "  LEFT OUTER JOIN user c ON a.UP_USER_EMAIL = c.email" +
+//                   " WHERE a.IDX = :idx  " +
+//                " ORDER BY LEVEL, a.REF", nativeQuery = true)
+//    List<BlogRe> listRe(@Param("idx") int idx);
 
     @Query(value = "SELECT count(*) as cnt FROM blog_re WHERE REF = :ref ", nativeQuery = true)
     int findMaster(@Param("ref") int ref);

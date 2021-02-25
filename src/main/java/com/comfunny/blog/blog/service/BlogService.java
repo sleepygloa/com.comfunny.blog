@@ -98,9 +98,19 @@ public class BlogService {
 
     @Transactional(readOnly = true)
     public List<BlogReListResponseDto> listRe(int idx){
-        return blogReRepository.listRe(idx).stream()
-                .map(BlogReListResponseDto::new)
-                .collect(Collectors.toList());
+        List<BlogReListResponseDto> list =  blogReRepository.listRe(idx).stream()
+                                            .map(BlogReListResponseDto::new)
+                                            .collect(Collectors.toList());
+
+        for(BlogReListResponseDto dto : list){
+            List<BlogReListResponseDto> childList = blogReRepository.listReChild(idx, dto.getRef()).stream()
+                    .map(BlogReListResponseDto::new)
+                    .collect(Collectors.toList());
+
+            dto.setChildList(childList);
+        }
+
+        return list;
     }
 
     @Transactional

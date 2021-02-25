@@ -90,6 +90,8 @@ public class BlogRestController {
         return blogService.update(idx, requestDto);
     }
 
+
+    
     /***************************************
      * 블로그 카테고리 데이터셋 조회
      ***************************************/
@@ -111,8 +113,8 @@ public class BlogRestController {
     /***************************************
      * 댓글 리스트 조회
      ***************************************/
-    @GetMapping("/b/blog/listRe")
-    public List<BlogReListResponseDto> listRe(@RequestParam int idx){
+    @GetMapping("/blogs/content/re/{idx}")
+    public List<BlogReListResponseDto> listRe(@PathVariable("idx") int idx){
         return blogService.listRe(idx);
     }
 

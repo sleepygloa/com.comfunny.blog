@@ -1,19 +1,13 @@
 package com.comfunny.blog.blog.controller;
 
-import com.comfunny.blog.blog.dto.BlogDetailListResponseDto;
 import com.comfunny.blog.blog.dto.BlogListResponseDto;
-import com.comfunny.blog.blog.dto.Post;
 import com.comfunny.blog.blog.service.BlogService;
 import com.comfunny.blog.config.auth.LoginUser;
 import com.comfunny.blog.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 

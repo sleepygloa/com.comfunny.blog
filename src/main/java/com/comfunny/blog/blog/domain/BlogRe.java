@@ -18,9 +18,6 @@ public class BlogRe extends BaseTimeEntity2 {
     private Long ref;
 
     @Column(nullable = false)
-    private Long level;
-
-    @Column(nullable = false)
     private Long pRef;
 
     @Column(nullable = false)
@@ -44,8 +41,6 @@ public class BlogRe extends BaseTimeEntity2 {
     @Column(nullable = false)
     private String upUserEmail;
 
-    @Column(nullable = false)
-    private String picture;
 
     @Column(nullable = false)
     private LocalDateTime inDt;
@@ -54,9 +49,8 @@ public class BlogRe extends BaseTimeEntity2 {
     private LocalDateTime upDt;
 
     @Builder
-    public BlogRe(Long ref, Long level, Long pRef, Long idx, String content, String delYn, String inUserId, String upUserId, String inUserEmail, String upUserEmail, LocalDateTime inDt, LocalDateTime upDt, String picture) {
+    public BlogRe(Long ref, Long pRef, Long idx, String content, String delYn, String inUserId, String upUserId, String inUserEmail, String upUserEmail,  LocalDateTime inDt, LocalDateTime upDt) {
         this.ref = ref;
-        this.level = level;
         this.pRef = pRef;
         this.idx = idx;
         this.content = content;
@@ -65,7 +59,6 @@ public class BlogRe extends BaseTimeEntity2 {
         this.upUserId = upUserId;
         this.inUserEmail = inUserEmail;
         this.upUserEmail = upUserEmail;
-        this.picture = picture;
         this.inDt = inDt;
         this.upDt = upDt;
     }
