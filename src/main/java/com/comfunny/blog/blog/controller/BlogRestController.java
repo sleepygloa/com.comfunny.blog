@@ -25,35 +25,35 @@ public class BlogRestController {
     /***************************************
      * 블로그 리스트 조회
      ***************************************/
-    @GetMapping("/blogss")
-    public List<BlogListResponseDto> blogFindAllDesc(@RequestParam(value="searchA", defaultValue = "") String searchA, @RequestParam(value="searchB", defaultValue = "") String searchB, Model model){
-        if(searchA.equals("")){
-            List<BlogListResponseDto> list = blogService.findAlldesc();
-            model.addAttribute("list", list);
-            return null;
-
-        }else{
-            if(searchB.equals("")){
-                try {
-                    searchA  = URLDecoder.decode(searchA, StandardCharsets.UTF_8.toString());
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return blogService.findAlldesc(searchA);
-
-            }else{
-                try {
-                    searchA  = URLDecoder.decode(searchA, StandardCharsets.UTF_8.toString());
-                    searchB  = URLDecoder.decode(searchB, StandardCharsets.UTF_8.toString());
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return blogService.findAlldesc(searchA, searchB);
-            }
-
-        }
-
-    }
+//    @GetMapping("/blogss")
+//    public List<BlogListResponseDto> blogFindAllDesc(@RequestParam(value="searchA", defaultValue = "") String searchA, @RequestParam(value="searchB", defaultValue = "") String searchB, Model model){
+//        if(searchA.equals("")){
+////            List<BlogListResponseDto> list = blogService.findAlldesc();
+////            model.addAttribute("list", list);
+//            return null;
+//
+//        }else{
+////            if(searchB.equals("")){
+////                try {
+////                    searchA  = URLDecoder.decode(searchA, StandardCharsets.UTF_8.toString());
+////                } catch (UnsupportedEncodingException e) {
+////                    e.printStackTrace();
+////                }
+////                return blogService.findAlldesc(searchA);
+////
+////            }else{
+////                try {
+////                    searchA  = URLDecoder.decode(searchA, StandardCharsets.UTF_8.toString());
+////                    searchB  = URLDecoder.decode(searchB, StandardCharsets.UTF_8.toString());
+////                } catch (UnsupportedEncodingException e) {
+////                    e.printStackTrace();
+////                }
+////                return blogService.findAlldesc(searchA, searchB);
+////            }
+//
+//        }
+//
+//    }
 
 
     /***************************************
@@ -69,10 +69,10 @@ public class BlogRestController {
      ***************************************/
     @PostMapping("/blogs/content/")
     public Long save(@RequestBody BlogSaveRequestDto requestDto, @LoginUser SessionUser user){
-//        requestDto.setInUserId(user.getName());
-//        requestDto.setUpUserId(user.getName());
-//        requestDto.setInUserEmail(user.getEmail());
-//        requestDto.setUpUserEmail(user.getEmail());
+        requestDto.setInUserId(user.getName());
+        requestDto.setUpUserId(user.getName());
+        requestDto.setInUserEmail(user.getEmail());
+        requestDto.setUpUserEmail(user.getEmail());
 
         return blogService.save(requestDto);
     }
@@ -82,10 +82,10 @@ public class BlogRestController {
      ***************************************/
     @PutMapping("/blogs/content/{idx}")
     public Long update(@PathVariable("idx") Long idx, @RequestBody BlogSaveRequestDto requestDto, @LoginUser SessionUser user){
-//        requestDto.setInUserId(user.getName());
-//        requestDto.setUpUserId(user.getName());
-//        requestDto.setInUserEmail(user.getEmail());
-//        requestDto.setUpUserEmail(user.getEmail());
+        requestDto.setInUserId(user.getName());
+        requestDto.setUpUserId(user.getName());
+        requestDto.setInUserEmail(user.getEmail());
+        requestDto.setUpUserEmail(user.getEmail());
 
         return blogService.update(idx, requestDto);
     }
@@ -95,8 +95,8 @@ public class BlogRestController {
     /***************************************
      * 블로그 카테고리 데이터셋 조회
      ***************************************/
-    @GetMapping("/b/blog/listCategory")
-    public List<BlogListCategoryResponseDto> findGetegory(){ return blogService.findCategory(); }
+//    @GetMapping("/b/blog/listCategory")
+//    public List<BlogListCategoryResponseDto> findGetegory(){ return blogService.findCategory(); }
 
 
 
@@ -114,15 +114,22 @@ public class BlogRestController {
      * 댓글 리스트 조회
      ***************************************/
     @GetMapping("/blogs/content/re/{idx}")
-    public List<BlogReListResponseDto> listRe(@PathVariable("idx") int idx){
+    public List<Map<String, Object>> listRe(@PathVariable("idx") Long idx){
         return blogService.listRe(idx);
     }
 
     /***************************************
-     * 댓글 저장
+     * 댓글 신규 저장
      ***************************************/
-    @PostMapping("/b/blog/saveRe")
-    public void saveRe(@RequestBody Map data, @LoginUser SessionUser user){ blogService.saveRe(data, user); }
+    @PostMapping("/blogs/content/re")
+    public Long saveRe(@RequestBody BlogReSaveRequestDto requestDto, @LoginUser SessionUser user){
+        requestDto.setInUserId(user.getName());
+        requestDto.setUpUserId(user.getName());
+        requestDto.setInUserEmail(user.getEmail());
+        requestDto.setUpUserEmail(user.getEmail());
+
+        return blogService.saveRe(requestDto);
+    }
 
     /***************************************
      * 댓글 삭제

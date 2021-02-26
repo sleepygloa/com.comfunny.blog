@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -23,12 +24,20 @@ public class BlogController {
     @GetMapping("/blogs")
     public String blog(Model model, @LoginUser SessionUser user){
 
-        List<BlogListResponseDto> list = blogService.findAlldesc();
+        List<Map<String, Object>> list = blogService.findAlldesc();
         model.addAttribute("list", list);
+
+        if(list.size() > 0){
+            System.out.println(list.get(0).toString());
+            model.addAttribute("detail", blogService.findById(Long.valueOf((int)list.get(0).get("IDX"))));
+
+            model.addAttribute("re", blogService.listRe(Long.valueOf((int)list.get(0).get("IDX"))));
+        }
 
         if(user != null){
             model.addAttribute("userName", user.getName());
             model.addAttribute("userEmail", user.getEmail());
+            model.addAttribute("userPic", user.getPicture());
         }
         return "blog/blogs";
     }

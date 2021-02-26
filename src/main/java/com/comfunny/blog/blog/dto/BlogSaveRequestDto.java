@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Setter
 @Getter
 @NoArgsConstructor
 public class BlogSaveRequestDto {

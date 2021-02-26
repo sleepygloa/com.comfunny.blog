@@ -1,6 +1,7 @@
 package com.comfunny.blog.blog.dto;
 
 import com.comfunny.blog.blog.domain.BlogRe;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,18 +29,18 @@ public class BlogReListResponseDto {
 
     private List<BlogReListResponseDto> childList;
 
-    public BlogReListResponseDto(BlogRe entity){
-        this.idx = entity.getIdx();
-        this.ref = entity.getRef();
-        this.pRef = entity.getPRef();
-        this.content = entity.getContent();
-        this.delYn = entity.getDelYn();
-        this.inUserId = entity.getInUserId();
-        this.upUserId = entity.getUpUserId();
-        this.inUserEmail = entity.getInUserEmail();
-        this.upUserEmail = entity.getUpUserEmail();
-        this.inDt = entity.getInDt();
-        this.upDt = entity.getUpDt();
-    }
+//    public BlogReListResponseDto(BlogRe entity){
+//        this.idx = entity.getIdx();
+//        this.ref = entity.getRef();
+//        this.pRef = entity.getPRef();
+//        this.content = entity.getContent();
+//        this.delYn = entity.getDelYn();
+//        this.inUserId = entity.getInUserId();
+//        this.upUserId = entity.getUpUserId();
+//        this.inUserEmail = entity.getInUserEmail();
+//        this.upUserEmail = entity.getUpUserEmail();
+//        this.inDt = entity.getInDt();
+//        this.upDt = entity.getUpDt();
+//    }
 
 }

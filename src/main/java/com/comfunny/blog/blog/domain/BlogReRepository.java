@@ -1,6 +1,7 @@
 package com.comfunny.blog.blog.domain;
 
 
+import com.comfunny.blog.blog.dto.BlogReListResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,10 +10,12 @@ import java.util.List;
 
 public interface BlogReRepository extends JpaRepository<BlogRe, Long> {
 
-    @Query(value = "SELECT * FROM blog_re p WHERE DEL_YN = 'N' AND p.IDX = :idx ORDER BY p.REF ASC", nativeQuery = true)
+    @Query(value = "SELECT p.*, u.picture FROM blog_re p " +
+                           " JOIN user u ON p.IN_USER_EMAIL = u.email WHERE p.DEL_YN = 'N' AND p.IDX = :idx ORDER BY p.REF ASC", nativeQuery = true)
     List<BlogRe> listRe(@Param("idx") long idx);
 
-    @Query(value = "SELECT * FROM blog_re p WHERE DEL_YN = 'N' AND p.IDX = :idx AND p.P_REF = :ref ORDER BY p.REF ASC", nativeQuery = true)
+    @Query(value = "SELECT p.*, u.picture FROM blog_re p " +
+            " JOIN user u ON p.IN_USER_EMAIL = u.email WHERE p.DEL_YN = 'N' AND p.IDX = :idx AND p.P_REF = :ref ORDER BY p.REF ASC", nativeQuery = true)
     List<BlogRe> listReChild(@Param("idx") long idx, @Param("ref") long ref);
 
 //    @Query(value = "SELECT a.REF, a.P_REF, a.IDX, a.CONTENT, a.DEL_YN, a.IN_USER_ID, a.UP_USER_ID, a.IN_USER_EMAIL, a.UP_USER_EMAIL, a.IN_DT, a.UP_DT, CASE WHEN b.p_ref IS NULL THEN a.ref ELSE b.ref END LEVEL, c.picture AS PICTURE" +

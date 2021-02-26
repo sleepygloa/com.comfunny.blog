@@ -7,7 +7,9 @@ import com.comfunny.blog.config.auth.dto.SessionUser;
 import com.comfunny.blog.posts.domain.Posts;
 import com.comfunny.blog.posts.dto.PostsResponseDto;
 import com.comfunny.blog.posts.dto.PostsUpdateRequestDto;
+import com.comfunny.blog.system.code.CodeDao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,42 +34,41 @@ public class BlogService {
     //댓글
     private final BlogReRepository blogReRepository;
 
-    @Transactional(readOnly = true)
-    public List<BlogListResponseDto> findAlldesc(){
-        return blogRepository.findAllDesc().stream()
-                .map(BlogListResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-
+    @Autowired
+    private CodeDao codeDao;
+    private final BlogDao blogDao;
 
     @Transactional(readOnly = true)
-    public List<BlogListResponseDto> findAlldesc(String searchA){
-        return blogRepository.findAllDesc(searchA).stream()
-                .map(BlogListResponseDto::new)
-                .collect(Collectors.toList());
+    public List<Map<String, Object>> findAlldesc(){
+        return blogDao.list();
     }
 
-    @Transactional(readOnly = true)
-    public List<BlogListResponseDto> findAlldesc(String searchA, String searchB){
-        return blogRepository.findAllDesc(searchA, searchB).stream()
-                .map(BlogListResponseDto::new)
-                .collect(Collectors.toList());
-    }
+//    @Transactional(readOnly = true)
+//    public List<BlogListResponseDto> findAlldesc(String searchA){
+//        return blogRepository.findAllDesc(searchA).stream()
+//                .map(BlogListResponseDto::new)
+//                .collect(Collectors.toList());
+//    }
+//
+//    @Transactional(readOnly = true)
+//    public List<BlogListResponseDto> findAlldesc(String searchA, String searchB){
+//        return blogRepository.findAllDesc(searchA, searchB).stream()
+//                .map(BlogListResponseDto::new)
+//                .collect(Collectors.toList());
+//    }
 
     public BlogListResponseDto findById(Long idx){
         Blog entity = blogRepository.findById(idx)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + idx));
-
         return new BlogListResponseDto(entity);
     }
 
-    @Transactional(readOnly = true)
-    public List<BlogListCategoryResponseDto> findCategory(){
-        return blogCategoryRepository.findCategory().stream()
-                .map(BlogListCategoryResponseDto::new)
-                .collect(Collectors.toList());
-    }
+//    @Transactional(readOnly = true)
+//    public List<BlogListCategoryResponseDto> findCategory(){
+//        return blogCategoryRepository.findCategory().stream()
+//                .map(BlogListCategoryResponseDto::new)
+//                .collect(Collectors.toList());
+//    }
 
     @Transactional
     public Long save(BlogSaveRequestDto dto){
@@ -86,7 +87,6 @@ public class BlogService {
 
     @Transactional
     public void delete (Map data){
-
         int idx = Integer.parseInt((String)data.get("idx"));
 
         int cnt = blogRepository.findMaster(idx);
@@ -97,58 +97,21 @@ public class BlogService {
 
 
     @Transactional(readOnly = true)
-    public List<BlogReListResponseDto> listRe(int idx){
-        List<BlogReListResponseDto> list =  blogReRepository.listRe(idx).stream()
-                                            .map(BlogReListResponseDto::new)
-                                            .collect(Collectors.toList());
+    public List<Map<String, Object>> listRe(Long idx){
+        List<Map<String, Object>> list =  blogDao.listRe(idx);
 
-        for(BlogReListResponseDto dto : list){
-            List<BlogReListResponseDto> childList = blogReRepository.listReChild(idx, dto.getRef()).stream()
-                    .map(BlogReListResponseDto::new)
-                    .collect(Collectors.toList());
+        for(Map<String, Object> map : list){
+            List<Map<String, Object>> childList = blogDao.listReChild(idx, (Long)map.get("ref"));
 
-            dto.setChildList(childList);
+            map.put("re", childList);
         }
 
         return list;
     }
 
     @Transactional
-    public void saveRe(Map map, SessionUser user){
-
-        String flag = (String)map.get("flag");
-        if(flag.equals("INSERT")){
-            int ref = blogReRepository.findMaxMaster();
-            blogReRepository.insertRe((int)map.get("idx"), ref, 0, user.getName(), user.getEmail(), (String)map.get("content"));
-        }else if(flag.equals("UPDATE")){
-            int ref = (int)map.get("ref");
-            int cnt = blogReRepository.findMaster(ref);
-            if(cnt == 0) new IllegalArgumentException("해당 게시글이 없습니다. id="+ref);
-
-            blogReRepository.updateRe((int)map.get("idx"), ref, (String)map.get("content"), user.getName(), user.getEmail());
-        }else if(flag.equals("INSERT_RE")){
-            int ref = blogReRepository.findMaxMaster();
-            blogReRepository.insertRe((int)map.get("idx"), ref, (int)map.get("pRef"), user.getName(), user.getEmail(), (String)map.get("content"));
-        }
-
-
-
-//        Map<String, Object> mMap = list.get(0);
-//
-//        int idx = (int)mMap.get("idx");
-//        if(cnt == 0){
-//            idx = blogRepository.findMaxMaster();
-//            blogRepository.insertMaster(idx, (int)mMap.get("pIdx"), (String)mMap.get("categoryA"), (String)mMap.get("categoryB"), (String)mMap.get("categoryC"),
-//                    (String)mMap.get("hashIndex"),(String)mMap.get("subject"));
-//        }else{
-//            blogRepository.updateMaster(idx, (String)mMap.get("categoryA"), (String)mMap.get("categoryB"), (String)mMap.get("categoryC"),
-//                    (String)mMap.get("hashIndex"),(String)mMap.get("subject"));
-//        }
-//        blogDetailRepository.deleteDetail(idx);
-//        for(Map<String, Object> map : list){
-//            blogDetailRepository.saveDetail(idx, (int)map.get("i"), (String)map.get("type"), (String)map.get("content"), (String)map.get("imgWidthScale"));
-//        }
-
+    public Long saveRe(BlogReSaveRequestDto dto){
+        return blogReRepository.save(dto.toEntity()).getIdx();
     }
 
     @Transactional

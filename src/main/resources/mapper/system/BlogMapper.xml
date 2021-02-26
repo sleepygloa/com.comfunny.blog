@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.comfunny.blog.blog.dto.BlogDao">
+
+    <select id="list" resultType="java.util.HashMap" >
+        SELECT
+          B.IDX
+        , B.TITLE
+        , B.MARKDOWN_CONTENT
+        , B.IN_USER_ID
+        , B.IN_USER_EMAIL
+        FROM blog B
+     ORDER BY B.IDX
+    </select>
+
+    <select id="listRe" resultType="java.util.HashMap" >
+       SELECT
+              B.REF
+            , B.IDX
+            , B.P_REF
+            , B.CONTENT
+            , B.IN_USER_ID
+            , B.IN_USER_EMAIL
+            , B.UP_DT
+            , U.PICTURE
+         FROM blog_re B
+         JOIN user U
+           ON B.IN_USER_EMAIL = U.EMAIL
+        WHERE B.IDX = #{idx}
+     ORDER BY B.REF
+    </select>
+
+    <select id="listReChild" resultType="java.util.HashMap" >
+        SELECT
+        B.REF
+        , B.IDX
+        , B.P_REF
+        , B.CONTENT
+        , B.IN_USER_ID
+        , B.IN_USER_EMAIL
+        , B.UP_DT
+        , U.PICTURE
+        FROM blog_re B
+        JOIN user U
+        ON B.IN_USER_EMAIL = U.EMAIL
+        WHERE B.IDX = #{idx}
+          AND B.REF = #{ref}
+        ORDER BY B.REF
+    </select>
+
+</mapper>

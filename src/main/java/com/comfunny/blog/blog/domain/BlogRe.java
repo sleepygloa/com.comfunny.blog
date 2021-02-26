@@ -4,6 +4,7 @@ import com.comfunny.blog.domain.BaseTimeEntity2;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,7 +18,8 @@ public class BlogRe extends BaseTimeEntity2 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ref;
 
-    @Column(nullable = false)
+    @ColumnDefault("0")
+    @Column(insertable = false)
     private Long pRef;
 
     @Column(nullable = false)
@@ -27,6 +29,10 @@ public class BlogRe extends BaseTimeEntity2 {
     private String content;
 
     @Column(nullable = false)
+    private String passwd;
+
+    @ColumnDefault("N")
+    @Column(insertable = false)
     private String delYn;
 
     @Column(nullable = false)
@@ -41,38 +47,32 @@ public class BlogRe extends BaseTimeEntity2 {
     @Column(nullable = false)
     private String upUserEmail;
 
-
-    @Column(nullable = false)
-    private LocalDateTime inDt;
-
-    @Column(nullable = false)
-    private LocalDateTime upDt;
-
     @Builder
-    public BlogRe(Long ref, Long pRef, Long idx, String content, String delYn, String inUserId, String upUserId, String inUserEmail, String upUserEmail,  LocalDateTime inDt, LocalDateTime upDt) {
+    public BlogRe(Long ref, Long idx, String content, String passwd, String inUserId, String upUserId, String inUserEmail, String upUserEmail) {
+        this.ref = ref;
+        this.idx = idx;
+        this.content = content;
+        this.passwd = passwd;
+        this.inUserId = inUserId;
+        this.upUserId = upUserId;
+        this.inUserEmail = inUserEmail;
+        this.upUserEmail = upUserEmail;
+    }
+
+
+
+    public void update(Long ref, Long pRef, Long idx, String content, String passwd, String delYn, String inUserId, String upUserId, String inUserEmail, String upUserEmail) {
         this.ref = ref;
         this.pRef = pRef;
         this.idx = idx;
         this.content = content;
+        this.passwd = passwd;
         this.delYn = delYn;
         this.inUserId = inUserId;
         this.upUserId = upUserId;
         this.inUserEmail = inUserEmail;
         this.upUserEmail = upUserEmail;
-        this.inDt = inDt;
-        this.upDt = upDt;
     }
-//    public void update(Long idx, Long pIdx, String title, String subject, String content, String useYn, String delYn, String inUserId, String upUserId){
-//        this.idx = idx;
-//        this.pIdx = pIdx;
-//        this.title = title;
-//        this.subject = subject;
-//        this.content = content;
-//        this.useYn = useYn;
-//        this.delYn = delYn;
-//        this.inUserId = inUserId;
-//        this.upUserId = upUserId;
-//    }
 
 
 

@@ -1,41 +1,47 @@
 package com.comfunny.blog.blog.dto;
 
+import com.comfunny.blog.blog.domain.BlogRe;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @NoArgsConstructor
 public class BlogReSaveRequestDto {
     private Long idx;
     private Long ref;
-    private Long reStep;
-    private Long reLevel;
-    private String writer;
     private String content;
-    private String flag;
+    private String passwd;
+
+    private String inUserId;
+    private String upUserId;
+    private String inUserEmail;
+    private String upUserEmail;
 
     @Builder
-    public BlogReSaveRequestDto(Long idx, Long ref, Long reStep, Long reLevel, String writer, String content, String flag) {
+    public BlogReSaveRequestDto(Long idx, Long ref, String content, String passwd, String inUserId, String upUserId, String inUserEmail, String upUserEmail) {
         this.idx = idx;
         this.ref = ref;
-        this.reStep = reStep;
-        this.reLevel = reLevel;
-        this.writer = writer;
         this.content = content;
-        this.flag = flag;
+        this.passwd = passwd;
+        this.inUserId = inUserId;
+        this.upUserId = upUserId;
+        this.inUserEmail = inUserEmail;
+        this.upUserEmail = upUserEmail;
     }
 
-
-    public BlogReSaveRequestDto toEntity(){
-        return BlogReSaveRequestDto.builder()
+    public BlogRe toEntity(){
+        return BlogRe.builder()
                 .idx(idx)
                 .ref(ref)
-                .reStep(reStep)
-                .reLevel(reLevel)
-                .writer(writer)
                 .content(content)
-                .flag(flag)
+                .passwd(passwd)
+                .inUserId(inUserId)
+                .upUserId(upUserId)
+                .inUserEmail(inUserEmail)
+                .upUserEmail(upUserEmail)
                 .build();
     }
 }
