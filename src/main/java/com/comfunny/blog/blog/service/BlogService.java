@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -98,12 +99,17 @@ public class BlogService {
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> listRe(Long idx){
-        List<Map<String, Object>> list =  blogDao.listRe(idx);
+        System.out.println(idx);
+        Map<String, Object> map = new HashMap<>();
+        map.put("idx", idx);
 
-        for(Map<String, Object> map : list){
-            List<Map<String, Object>> childList = blogDao.listReChild(idx, (Long)map.get("ref"));
+        List<Map<String, Object>> list =  blogDao.listRe(map);
 
-            map.put("re", childList);
+        for(Map<String, Object> map2 : list){
+            map.put("ref", Long.valueOf((int)list.get(0).get("ref")));
+            List<Map<String, Object>> childList = blogDao.listReChild(map);
+            if(childList.size() > 0) map2.put("re", childList);
+
         }
 
         return list;

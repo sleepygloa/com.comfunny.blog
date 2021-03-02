@@ -5,48 +5,78 @@
 
     <select id="list" resultType="java.util.HashMap" >
         SELECT
-          B.IDX
-        , B.TITLE
-        , B.MARKDOWN_CONTENT
-        , B.IN_USER_ID
-        , B.IN_USER_EMAIL
+          B.idx
+        , B.title
+        , B.markdown_content
+        , B.in_user_id
+        , B.in_user_email
         FROM blog B
-     ORDER BY B.IDX
+       WHERE B.del_yn = 'N'
+     ORDER BY B.idx
     </select>
 
     <select id="listRe" resultType="java.util.HashMap" >
-       SELECT
-              B.REF
-            , B.IDX
-            , B.P_REF
-            , B.CONTENT
-            , B.IN_USER_ID
-            , B.IN_USER_EMAIL
-            , B.UP_DT
-            , U.PICTURE
-         FROM blog_re B
-         JOIN user U
-           ON B.IN_USER_EMAIL = U.EMAIL
-        WHERE B.IDX = #{idx}
-     ORDER BY B.REF
+        WITH RECURSIVE CTE AS (
+        SELECT
+        B.ref
+        , B.idx
+        , B.p_ref
+        , B.content
+        , B.in_user_id
+        , B.in_user_email
+        , B.up_user_id
+        , B.up_user_email
+        , B.up_dt
+        , 1 AS LEVEL
+        , CONCAT(B.ref) AS SORT
+        FROM blog_re B
+        WHERE B.idx = #{idx}
+        AND p_ref = '0'
+        UNION ALL
+        SELECT
+        BB.ref
+        , BB.idx
+        , BB.p_ref
+        , BB.content
+        , BB.in_user_id
+        , BB.in_user_email
+        , BB.up_user_id
+        , BB.up_user_email
+        , BB.up_dt
+        , 1 + LEVEL AS LEVEL
+        , CONCAT(SORT, '  ', CONCAT(BB.ref)) AS SORT
+        FROM blog_re BB
+        JOIN CTE
+        ON BB.p_ref = CTE.ref
+        WHERE BB.idx = #{idx}
+        )
+        SELECT B.*
+        , U.picture
+        FROM CTE B
+        JOIN user U
+        ON B.in_user_email = U.email
+        ORDER BY B.SORT
+
     </select>
 
     <select id="listReChild" resultType="java.util.HashMap" >
         SELECT
-        B.REF
-        , B.IDX
-        , B.P_REF
-        , B.CONTENT
-        , B.IN_USER_ID
-        , B.IN_USER_EMAIL
-        , B.UP_DT
-        , U.PICTURE
+          B.ref
+        , B.idx
+        , B.p_ref
+        , B.content
+        , B.in_user_id
+        , B.in_user_email
+        , B.up_user_id
+        , B.up_user_email
+        , B.up_dt
+        , U.picture
         FROM blog_re B
         JOIN user U
-        ON B.IN_USER_EMAIL = U.EMAIL
-        WHERE B.IDX = #{idx}
-          AND B.REF = #{ref}
-        ORDER BY B.REF
+        ON B.in_user_email = U.email
+        WHERE B.idx = #{idx}
+          AND B.ref = #{ref}
+        ORDER BY B.ref
     </select>
 
 </mapper>

@@ -29,9 +29,9 @@ public class BlogController {
 
         if(list.size() > 0){
             System.out.println(list.get(0).toString());
-            model.addAttribute("detail", blogService.findById(Long.valueOf((int)list.get(0).get("IDX"))));
-
-            model.addAttribute("re", blogService.listRe(Long.valueOf((int)list.get(0).get("IDX"))));
+            model.addAttribute("detail", blogService.findById(Long.valueOf((int)list.get(0).get("idx"))));
+//
+//            model.addAttribute("re", blogService.listRe(Long.valueOf((int)list.get(0).get("idx"))));
         }
 
         if(user != null){

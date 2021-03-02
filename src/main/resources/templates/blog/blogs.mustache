@@ -22,7 +22,7 @@
         {{#list}}
             <tr>
             <th scope="row">{{idx}}</th>
-            <td ><a href="#" onClick="getContent({{idx}});return false;">{{title}}</a></td>
+            <td ><a href="#" id="idx_{{idx}}">{{title}}</a></td>
             </tr>
         {{/list}}
 
@@ -59,61 +59,6 @@
 
         <div class="container  col-xs-w100">
             <div id="blogRe">
-                {{#re}}
-                    <div>
-                        <div class="input-group">
-                            <span class="input-group-text"></span>
-                            <pre id="blogContent_{{pRef}}" class="form-control" aria-label="With textarea">{{content}}</pre>
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <button type="button" class="btn btn-outline-secondary"><img src="{{picture}}" style="width:15px; height:15px; border-radius:15px"/></button>
-                            <input  type="text" class="form-control" aria-label="Text input with segmented dropdown button" value="{{inUserId}}" readonly>
-                            <input id="blogPwInsert" type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="비밀번호">
-                            <button type="button" class="btn btn-outline-secondary" onClick="blogReSave()">글쓰기</button>
-                            <!--                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                                </button>-->
-                            <!--                    <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                                </ul>-->
-
-                        </div>
-                    </div>
-                {{/re}}
-
-
-                <div>
-                    <div class="input-group">
-                        <span class="input-group-text"></span>
-                        <textarea id="blogContentInsert" class="form-control" aria-label="With textarea"></textarea>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <button type="button" class="btn btn-outline-secondary">{{#userPic}}<img src="{{userPic}}" style="width:15px; height:15px; border-radius:15px"/>{{/userPic}}</button>
-                        {{#userName}}<input  type="text" class="form-control" aria-label="Text input with segmented dropdown button" value="{{userName}}" readonly>{{/userName}}
-                        {{^userName}}<input  type="text" class="form-control" aria-label="Text input with segmented dropdown button" value="" readonly>{{/userName}}
-                        <input id="blogPwInsert" type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="비밀번호">
-                        {{#userName}}
-                            <button type="button" class="btn btn-outline-secondary" onClick="blogReSave()">글쓰기</button>
-                        {{/userName}}
-
-
-                        <!--                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <span class="visually-hidden">Toggle Dropdown</span>
-                                            </button>-->
-                        <!--                    <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item" href="#">Separated link</a></li>
-                                            </ul>-->
-
-                    </div>
-                </div>
 
 
             </div>
@@ -142,153 +87,10 @@ const viewer = toastui.Editor.factory({
 
 viewer.setMarkdown($('#blogContentHidden').val());
 
-function getContent(idx){
-    $.ajax({
-        type : 'GET',
-        url : '/blogs/content/'+idx,
-        contentType : 'application/json; charset=utf-8'
-    }).done(function(data){
-        console.log(data);
-
-        //element 세팅
-        $('#blogViewMarkdown').css('display', 'block');
-        $('#blogUpdateMarkdown').css('display', 'none');
-        $('#blogTitle').attr('readonly', true);
-        $('#blogUpdateBtn').css('display', 'block');
-        $('#blogDelBtn').css('display', 'none');
-        $('#blogSaveBtn').css('display', 'none');
-
-        //form 세팅
-        $('#blogIdx').val(data.idx);
-        $('#blogTitle').val(data.title);
-        viewer.setMarkdown(data.markdownContent);
-
-        getContentRe(idx);
-
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    });
-}
-function getContentUpdate(){
-    var idx = $('#blogIdx').val();
-
-    //element 세팅
-    $('#blogViewMarkdown').css('display', 'none');
-    $('#blogUpdateMarkdown').css('display', 'block');
-    $('#blogTitle').attr('readonly', false);
-    $('#blogUpdateBtn').css('display', 'none');
-    $('#blogDelBtn').css('display', 'block');
-    $('#blogSaveBtn').css('display', 'block');
-
-    //form 세팅
-    $('#blogIdx').val('');
-    $('#blogTitle').val('');
-    editor.setMarkdown('');
-
-    if(idx > 0){
-        $.ajax({
-            type : 'GET',
-            url : '/blogs/content/'+idx,
-            contentType : 'application/json; charset=utf-8'
-        }).done(function(data){
-            console.log(data);
-
-            //element 세팅
-            $('#blogViewMarkdown').css('display', 'none');
-            $('#blogUpdateMarkdown').css('display', 'block');
-            $('#blogTitle').attr('readonly', false);
-            $('#blogUpdateBtn').css('display', 'none');
-            $('#blogDelBtn').css('display', 'block');
-            $('#blogSaveBtn').css('display', 'block');
-
-            //form 세팅
-            $('#blogIdx').val(data.idx);
-            $('#blogTitle').val(data.title);
-            editor.setMarkdown(data.markdownContent);
 
 
 
-        }).fail(function(error){
-            alert(JSON.stringify(error));
-        });
-
-
-    }
-
-}
-
-function save(){
-    var idx = $('#blogIdx').val();
-    console.log(idx);
-
-    var data = {
-        title : $('#blogTitle').val(),
-        markdownContent : editor.getMarkdown(),
-    }
-
-    var type = 'POST';
-    var url = '/blogs/content/';
-    if(idx > 0) {
-        type = 'PUT';
-        url = '/blogs/content/'+idx;
-    }
-
-    $.ajax({
-        type : type,
-        url : url,
-        dataType : 'json',
-        contentType : 'application/json; charset=utf-8',
-        data : JSON.stringify(data)
-    }).done(function(data){
-        console.log(data);
-
-        alert('저장되었습니다');
-        window.location.href='/blogs/';
-
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    });
-}
-function getContentRe(idx){
-    $.ajax({
-        type : 'GET',
-        url : '/blogs/content/re/'+idx,
-        contentType : 'application/json; charset=utf-8'
-    }).done(function(data){
-    console.log(data);
-
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    });
-}
-
-//댓글 저장
-function blogReSave(){
-    var idx = $('#blogIdx').val();
-
-    var data = {
-        idx : idx,
-        passwd : $('#blogPwInsert').val(),
-        content : $('#blogContentInsert').val()
-    }
-
-    $.ajax({
-        type : 'POST',
-        url : '/blogs/content/re',
-        dataType : 'json',
-        contentType : 'application/json; charset=utf-8',
-        data : JSON.stringify(data)
-    }).done(function(data){
-        console.log(data);
-
-        alert('저장되었습니다');
-        getContentRe(idx);
-
-    }).fail(function(error){
-        alert(JSON.stringify(error));
-    });
-}
 </script>
 
-<!--<script src="/js/app/blog/blogs.js"></script>-->
+<script src="/js/app/blog/blogs.js"></script>
 {{>footer}}

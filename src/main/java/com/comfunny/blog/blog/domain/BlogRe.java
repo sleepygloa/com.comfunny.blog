@@ -19,7 +19,6 @@ public class BlogRe extends BaseTimeEntity2 {
     private Long ref;
 
     @ColumnDefault("0")
-    @Column(insertable = false)
     private Long pRef;
 
     @Column(nullable = false)
@@ -48,8 +47,9 @@ public class BlogRe extends BaseTimeEntity2 {
     private String upUserEmail;
 
     @Builder
-    public BlogRe(Long ref, Long idx, String content, String passwd, String inUserId, String upUserId, String inUserEmail, String upUserEmail) {
+    public BlogRe(Long ref, Long pRef, Long idx, String content, String passwd, String inUserId, String upUserId, String inUserEmail, String upUserEmail) {
         this.ref = ref;
+        this.pRef = pRef;
         this.idx = idx;
         this.content = content;
         this.passwd = passwd;
@@ -61,16 +61,11 @@ public class BlogRe extends BaseTimeEntity2 {
 
 
 
-    public void update(Long ref, Long pRef, Long idx, String content, String passwd, String delYn, String inUserId, String upUserId, String inUserEmail, String upUserEmail) {
-        this.ref = ref;
-        this.pRef = pRef;
-        this.idx = idx;
+    public void update(String content, String passwd, String delYn, String upUserId, String upUserEmail) {
         this.content = content;
         this.passwd = passwd;
         this.delYn = delYn;
-        this.inUserId = inUserId;
         this.upUserId = upUserId;
-        this.inUserEmail = inUserEmail;
         this.upUserEmail = upUserEmail;
     }
 

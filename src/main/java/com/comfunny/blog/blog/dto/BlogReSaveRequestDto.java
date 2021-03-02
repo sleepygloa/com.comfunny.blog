@@ -12,6 +12,7 @@ import lombok.Setter;
 public class BlogReSaveRequestDto {
     private Long idx;
     private Long ref;
+    private Long pRef;
     private String content;
     private String passwd;
 
@@ -21,9 +22,10 @@ public class BlogReSaveRequestDto {
     private String upUserEmail;
 
     @Builder
-    public BlogReSaveRequestDto(Long idx, Long ref, String content, String passwd, String inUserId, String upUserId, String inUserEmail, String upUserEmail) {
+    public BlogReSaveRequestDto(Long idx, Long ref, Long pRef, String content, String passwd, String inUserId, String upUserId, String inUserEmail, String upUserEmail) {
         this.idx = idx;
         this.ref = ref;
+        this.pRef = pRef;
         this.content = content;
         this.passwd = passwd;
         this.inUserId = inUserId;
@@ -32,10 +34,15 @@ public class BlogReSaveRequestDto {
         this.upUserEmail = upUserEmail;
     }
 
+
+
+
+
     public BlogRe toEntity(){
         return BlogRe.builder()
                 .idx(idx)
                 .ref(ref)
+                .pRef(pRef)
                 .content(content)
                 .passwd(passwd)
                 .inUserId(inUserId)

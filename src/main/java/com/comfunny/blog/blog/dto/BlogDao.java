@@ -13,8 +13,8 @@ public interface BlogDao {
 
     public List<Map<String, Object>> list() ;
 
-    public List<Map<String, Object>> listRe(Long idx) ;
+    public List<Map<String, Object>> listRe(Map<String, Object> map) ;
 
-    public List<Map<String, Object>> listReChild(Long idx, Long ref) ;
+    public List<Map<String, Object>> listReChild(Map<String, Object> map) ;
 
 }
