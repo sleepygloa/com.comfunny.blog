@@ -99,7 +99,7 @@ public class BlogService {
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> listRe(Long idx){
-        System.out.println(idx);
+
         Map<String, Object> map = new HashMap<>();
         map.put("idx", idx);
 
