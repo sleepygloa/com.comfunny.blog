@@ -369,17 +369,17 @@ function blogReSave(ref, pRef){
         * ref -1 : 댓글쓰기 폼.
         ********************************************/
         var dd = $('<div />');
-        if(dtGridPRef != 0) dd.css('padding-left', '15px');
+        if(dtGridPRef != 0) dd.css('padding-left', '30px');
 
         //컨텐츠영역
-        var ddContentDiv = $('<div class="input-group" />');
+        var ddContentDiv = $('<div class="input-group input-group-sm" />');
             //댓글리스트, 신규댓글확인
             if(dtGridRef != 0){
-                var ddIdTextArea = $('<pre id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" readonly style="margin-bottom:0px;" />');
+                var ddIdTextArea = $('<pre id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" style="margin-bottom:0px;margin-left:33px;" />');
                 ddIdTextArea.text(rowData.content);
                 ddContentDiv.append(ddIdTextArea);
             }else{
-                var ddIdTextArea = $('<textarea id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" readonly/>');
+                var ddIdTextArea = $('<textarea id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" readonly style="margin-left:33px;"/>');
                 //세션확인
                 if(app.userEmail != "") {
                     ddIdTextArea.attr('readonly', false);
