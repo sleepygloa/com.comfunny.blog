@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.comfunny.blog.system.message.MessageDao">
+
+
+    <select id="list" resultType="java.util.HashMap" >
+             SELECT
+                    M1.MSG_CD       AS MSG_CD
+                  , M1.MSG_TXT      AS KO
+                  , M2.MSG_TXT      AS EN
+                  , M3.MSG_TXT      AS VI
+               FROM SYS_MESSAGE M1
+    LEFT OUTER JOIN SYS_MESSAGE M2
+                 ON M1.COMPANY_CD = M2.COMPANY_CD
+                AND M1.MSG_CD     = M2.MSG_CD
+                AND M2.LANG_CD    = 'en'
+    LEFT OUTER JOIN SYS_MESSAGE M3
+                 ON M1.COMPANY_CD = M3.COMPANY_CD
+                AND M1.MSG_CD     = M3.MSG_CD
+                AND M3.LANG_CD    = 'vi'
+              WHERE 1=1
+                AND M1.LANG_CD    = 'ko'
+                <if test="msgCd_0 != null and !msgCd_0.equals('')">
+                AND M1.MSG_CD		LIKE '%'||#{msgCd_0}||'%'
+                </if>
+                <if test="msgCd_1 != null and !msgCd_1.equals('')">
+                AND	M1.MSG_CD		LIKE '%'||#{msgCd_1}||'%'
+                </if>
+                <if test="msgCd_2 != null and !msgCd_2.equals('')">
+                AND	M1.MSG_CD		LIKE '%'||#{msgCd_2}||'%'
+                </if>
+                <if test="msgTxt_0 != null and !msgTxt_0.equals('')">
+                 AND (
+                      M1.MSG_TXT		LIKE '%'||#{msgTxt_0}||'%'
+                   OR M2.MSG_TXT		LIKE '%'||#{msgTxt_0}||'%'
+                   OR M3.MSG_TXT		LIKE '%'||#{msgTxt_0}||'%'
+                      )
+                </if>
+                <if test="msgTxt_1 != null and !msgTxt_1.equals('')">
+                 AND (
+                     M1.MSG_TXT		LIKE '%'||#{msgTxt_1}||'%'
+                  OR M2.MSG_TXT		LIKE '%'||#{msgTxt_1}||'%'
+                  OR M3.MSG_TXT		LIKE '%'||#{msgTxt_1}||'%'
+                     )
+                </if>
+                <if test="msgTxt_2 != null and !msgTxt_2.equals('')">
+                 AND (
+                     M1.MSG_TXT		LIKE '%'||#{msgTxt_2}||'%'
+                  OR M2.MSG_TXT		LIKE '%'||#{msgTxt_2}||'%'
+                  OR M3.MSG_TXT		LIKE '%'||#{msgTxt_2}||'%'
+                     )
+                </if>
+            ORDER BY M1.MSG_CD ASC
+    </select>
+
+    <select id="listMessage" resultType="java.util.HashMap" >
+        SELECT
+        MSG_CD       AS MSG_CD
+        ,   MSG_TXT      AS MSG_TXT
+        FROM    SYS_MESSAGE
+        WHERE   LANG_CD      	= #{s_language}
+        AND		MSG_CD			= #{msgCd}
+    </select>
+
+    <select id="checkMessageCount" resultType="int" >
+        SELECT 
+        count(*)
+        FROM    SYS_MESSAGE
+        WHERE   COMPANY_CD		= #{s_companyCd}
+        AND		LANG_CD      	= #{langCd}
+        AND		MSG_CD			= #{msgCd}
+    </select>
+
+
+    <insert id="insertMessage" >
+        INSERT 
+        INTO	SYS_MESSAGE
+        (
+        COMPANY_CD
+        ,	MSG_CD
+        ,	LANG_CD
+        ,	MSG_TXT
+        )
+        VALUES
+        (
+        #{s_companyCd}
+        ,	#{msgCd}
+        ,	#{langCd}
+        ,	#{msgTxt}
+        )
+    </insert>
+
+    <update id="updateMessage" >
+        UPDATE 	SYS_MESSAGE 
+        SET 	MSG_TXT		= #{msgTxt}
+        WHERE 	COMPANY_CD	= #{s_companyCd}
+        AND		MSG_CD 		= #{msgCd}
+        AND 	LANG_CD 	= #{langCd}
+    </update>
+</mapper>

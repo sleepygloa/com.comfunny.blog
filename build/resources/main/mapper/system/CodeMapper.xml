@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.comfunny.blog.system.code.CodeDao">
+
+
+    <select id="list" resultType="java.util.HashMap" >
+       SELECT
+              CODE_GROUP_SEQ
+            , CODE_GROUP_CD
+            , CODE_GROUP_NM
+            , CODE_GROUP_DESC
+            , CODE_GROUP_TYPE
+            , SYS_YN
+            , USE_YN
+            , IN_USER_ID
+            , IN_DT
+         FROM SYS_COMM_CODE_GROUP
+        WHERE 1=1
+        <if test="codeGroupCd != null and !codeGroupCd.equals('')">
+            AND CODE_GROUP_CD LIKE '%'||UPPER(#{codeGroupCd})||'%'
+        </if>
+        <if test="codeGroupNm != null and !codeGroupNm.equals('')">
+            AND CODE_GROUP_NM LIKE '%${codeGroupNm}%'
+        </if>
+        <if test="codeGroupType != null and !codeGroupType.equals('')">
+            AND CODE_GROUP_TYPE = #{codeGroupType}
+        </if>
+        <if test="useYn != null and !useYn.equals('')">
+            AND USE_YN = #{useYn}
+        </if>
+        ORDER BY CODE_GROUP_CD DESC
+    </select>
+
+    <select id="listCode" resultType="java.util.HashMap" >
+        SELECT
+              CODE_SEQ
+            , CODE_CD
+            , CODE_GROUP_CD
+            , CODE_NM
+            , CODE_ORDER
+            , CODE_DESC
+            , CODE_OTHER1
+            , CODE_OTHER2
+            , CODE_OTHER3
+            , CODE_OTHER4
+            , CODE_OTHER5
+            , USE_YN
+            , IN_USER_ID
+            , IN_DT
+         FROM SYS_COMM_CODE
+        WHERE DEL_YN = 'N'
+        <if test="codeGroupCd != null and !codeGroupCd.equals('')">
+            AND CODE_GROUP_CD = #{codeGroupCd}
+        </if>
+        ORDER BY CODE_GROUP_CD ASC , CODE_ORDER ASC
+    </select>
+
+    <select id="getCodeGroupComboList" resultType="java.util.HashMap">
+        SELECT
+              CODE_CD        VALUE
+            , CODE_NM        NAME
+         FROM SYS_COMM_CODE
+        WHERE CODE_GROUP_CD = #{codeGroupCd}
+          AND USE_YN     	= 'Y'
+          <if test="iobGbn != null and !iobGbn.equals('')">
+          AND CODE_OTHER1 	= #{iobGbn}
+          </if>
+     ORDER BY CODE_ORDER <if test="order != null and !order.equals('')">${order}</if>
+    </select>
+
+    <select id="getCodeGroupComboListss" resultType="java.util.HashMap">
+        SELECT
+        PCC.CODE_CD VALUE
+        , NVL(PD.DOMAIN_NM,PCC.CODE_NM) NAME
+        FROM SYS_COMM_CODE PCC , TB_PARAGON_DOMAIN PD
+        WHERE (PCC.CODE_GROUP_CD||PCC.CODE_CD) = PD.DOMAIN_ID(+)
+        AND PD.LANG_CD(+) 	= #{s_language}
+        AND CODE_GROUP_CD 	= #{codeGroupCd}
+        AND PCC.USE_YN     	= 'Y'
+        <if test="iobGbn != null and !iobGbn.equals('')">
+            AND PCC.CODE_OTHER1 	= #{iobGbn}
+        </if>
+        ORDER BY CODE_ORDER <if test="order != null and !order.equals('')">${order}</if>
+    </select>
+
+
+    <select id="getCodeGroupDataCheck" resultType="java.util.HashMap">
+        SELECT
+        count(*) AS COUNT
+        FROM    SYS_COMM_CODE_GROUP
+        WHERE   USE_YN          = 'Y'
+        AND     CODE_GROUP_CD   IN
+        <foreach collection="dt_data" item="list" open="(" separator=", " close=")">
+            #{list.codeGroupCd}
+        </foreach>
+    </select>
+
+
+    <update id="updateCodeGroup" >
+        UPDATE SYS_COMM_CODE_GROUP
+        SET CODE_GROUP_NM    = #{codeGroupNm}
+        , CODE_GROUP_DESC    = #{codeGroupDesc}
+        , CODE_GROUP_TYPE    = #{codeGroupType}
+        , SYS_YN             = #{sysYn}
+        , USE_YN             = #{useYn}
+        , UP_USER_ID         = #{s_userId}
+        , UP_DT              = SYSDATE
+        WHERE CODE_GROUP_SEQ = #{codeGroupSeq}
+        AND COMPANY_CD       = #{s_companyCd}
+    </update>
+
+    <insert id="insertCodeGroup" >
+        INSERT
+        INTO SYS_COMM_CODE_GROUP (
+          CODE_GROUP_SEQ
+        , CODE_GROUP_CD
+        , CODE_GROUP_NM
+        , CODE_GROUP_DESC
+        , CODE_GROUP_TYPE
+        , SYS_YN
+        , USE_YN
+        , IN_USER_ID
+        , UP_USER_ID
+        )
+        VALUES(	  SQ_COMM_CODE_GROUP01.NEXTVAL
+        , #{codeGroupCd}
+        , #{codeGroupNm}
+        , #{codeGroupDesc}
+        , #{codeGroupType}
+        , #{sysYn}
+        , #{useYn}
+        , #{s_userId}
+        , #{s_userId}
+        )
+    </insert>
+
+    <delete id="deleteCodeGroup" >
+        DELETE
+          FROM SYS_COMM_CODE_GROUP
+         WHERE CODE_GROUP_CD = #{codeGroupCd}
+    </delete>
+
+
+    <select id="getCodeGroupNameList" resultType="java.util.HashMap">
+        SELECT
+        NVL(PD.DOMAIN_NM,PCCG.CODE_GROUP_NM) value
+        , '['||CODE_GROUP_CD ||'] '||NVL(PD.DOMAIN_NM,PCCG.CODE_GROUP_NM)  label
+        , PCCG.CODE_GROUP_CD pcd
+        FROM SYS_COMM_CODE_GROUP PCCG , TB_PARAGON_DOMAIN PD
+        WHERE PCCG.CODE_GROUP_CD = PD.DOMAIN_ID(+)
+        AND PD.LANG_CD(+) = #{s_language}
+        AND PD.COMPANY_CD(+) = #{s_companyCd}
+        AND PCCG.CODE_GROUP_CD LIKE '%'||#{codeGroupCd}||'%'
+        AND PCCG.COMPANY_CD = #{s_companyCd}
+    </select>
+
+
+    <select id="getCodeGroupComboLoctype" resultType="java.util.HashMap">
+        SELECT
+        PCC.CODE_CD VALUE
+        , NVL(PD.DOMAIN_NM,PCC.CODE_NM) NAME
+        FROM SYS_COMM_CODE PCC , TB_PARAGON_DOMAIN PD
+        WHERE (PCC.CODE_GROUP_CD||PCC.CODE_CD) = PD.DOMAIN_ID(+)
+        AND PD.LANG_CD(+) = #{s_language}
+        AND CODE_GROUP_CD = #{codeGroupCd}
+        AND PCC.USE_YN     = 'Y'
+        AND PCC.CODE_OTHER3 = '1'
+        <if test="iobGbn != null and !iobGbn.equals('')">
+            AND PCC.CODE_OTHER1 = #{iobGbn}
+        </if>
+        ORDER BY CODE_ORDER ASC
+    </select>
+    <select id="getCommCodeName" resultType="java.util.HashMap">
+        SELECT
+        NVL(PD.DOMAIN_NM,PCC.CODE_NM)    NAME
+        FROM SYS_COMM_CODE PCC , TB_PARAGON_DOMAIN PD
+        WHERE (PCC.CODE_GROUP_CD || PCC.CODE_CD) = PD.DOMAIN_ID(+)
+        AND PD.LANG_CD(+)    = #{s_language}
+        AND CODE_GROUP_CD    = #{codeGroupCd}
+        AND CODE_CD          = #{codeOther}
+        AND PCC.USE_YN       = 'Y'
+        <if test="iobGbn != null and !iobGbn.equals('')">
+            AND PCC.CODE_OTHER1  = #{iobGbn}
+        </if>
+        ORDER BY CODE_ORDER ASC
+    </select>
+
+    <select id="getCommCodeNamebb" resultType="java.util.HashMap">
+        SELECT
+        NVL(PD.DOMAIN_NM,PCC.CODE_NM)    NAME
+        FROM SYS_COMM_CODE PCC , TB_PARAGON_DOMAIN PD
+        WHERE (PCC.CODE_GROUP_CD || PCC.CODE_CD) = PD.DOMAIN_ID(+)
+        AND PD.LANG_CD(+)    = #{s_language}
+        AND CODE_GROUP_CD    = #{codeGroupCd}
+        AND CODE_CD          = #{codeOther}
+        AND PCC.USE_YN       = 'Y'
+        <if test="iobGbn != null and !iobGbn.equals('')">
+            AND PCC.CODE_OTHER1  = #{iobGbn}
+        </if>
+        ORDER BY CODE_ORDER ASC
+    </select>
+
+    <select id="getCodeCdList" resultType="java.util.HashMap">
+        SELECT
+        CODE_CD
+        , CODE_NM
+        FROM SYS_COMM_CODE
+        WHERE CODE_GROUP_CD = #{codeGroupCd}
+        ORDER BY CODE_ORDER ASC
+    </select>
+
+    <select id="getCodeDataCheck" resultType="java.util.HashMap">
+        SELECT
+        count(*) AS COUNT
+        FROM
+        SYS_COMM_CODE
+        WHERE   DEL_YN = 'N'
+        AND		USE_YN = 'Y'
+        AND 	CODE_GROUP_CD 	= #{codeGroupCd}
+        AND     CODE_CD IN
+        <foreach collection="dt_data" item="list" open="(" separator=", " close=")">
+            #{list.codeCd}
+        </foreach>
+    </select>
+
+
+
+    <update id="updateCode" >
+        UPDATE SYS_COMM_CODE
+        SET CODE_CD 		= #{codeCd}
+        , CODE_NM 		= #{codeNm}
+        , CODE_DESC 	= #{codeDesc}
+        , CODE_ORDER 	= #{codeOrder}
+        , CODE_OTHER1 	= #{codeOther1}
+        , CODE_OTHER2 	= #{codeOther2}
+        , CODE_OTHER3 	= #{codeOther3}
+        , CODE_OTHER4 	= #{codeOther4}
+        , CODE_OTHER5 	= #{codeOther5}
+        , USE_YN 		= #{useYn}
+        , IN_USER_ID 	= #{s_userId}
+        WHERE CODE_SEQ = #{codeSeq}
+    </update>
+
+    <insert id="insertCode" >
+        INSERT
+        INTO SYS_COMM_CODE (
+          CODE_SEQ
+        , CODE_CD
+        , CODE_GROUP_CD
+        , CODE_NM
+        , CODE_DESC
+        , CODE_ORDER
+        , CODE_OTHER1
+        , CODE_OTHER2
+        , CODE_OTHER3
+        , CODE_OTHER4
+        , CODE_OTHER5
+        , USE_YN
+        , IN_USER_ID
+        , IN_DT
+        )
+        VALUES(	   SQ_COMM_CODE01.NEXTVAL
+        , #{codeCd}
+        , #{codeGroupCd}
+        , #{codeNm}
+        , #{codeDesc}
+        , #{codeOrder}
+        , #{codeOther1}
+        , #{codeOther2}
+        , #{codeOther3}
+        , #{codeOther4}
+        , #{codeOther5}
+        , #{useYn}
+        , #{s_userId}
+        , SYSDATE
+        )
+    </insert>
+
+    <delete id="deleteCode" >
+        DELETE
+        FROM SYS_COMM_CODE
+        WHERE CODE_SEQ = #{codeSeq}
+    </delete>
+
+    <select id="getCodeNameList" resultType="java.util.HashMap">
+        SELECT CODE_NM AS value
+        , '['|| CODE_CD ||'] '||CODE_NM AS label
+        , CODE_CD AS pcd
+        FROM SYS_COMM_CODE
+        WHERE CODE_CD LIKE '%'||#{codeCd}||'%'
+    </select>
+
+    <select id="getCodeName" resultType="java.util.HashMap" >
+        SELECT
+        CODE_CD
+        ,	CODE_NM
+        ,	CODE_OTHER1
+        ,	CODE_OTHER2
+        FROM SYS_COMM_CODE
+        WHERE DEL_YN = 'N'
+        AND USE_YN = 'Y'
+        AND CODE_GROUP_CD 	= #{codeGroupCd}
+        <if test="codeCd != null and !codeCd.equals('')">
+            AND CODE_CD     = #{codeCd}
+        </if>
+        ORDER BY CODE_GROUP_CD ASC , CODE_ORDER ASC
+    </select>
+
+    <select id="listCodeGroupRangeSelect" resultType="java.util.HashMap">
+        SELECT
+        CC.CODE_CD VALUE
+        ,	NVL(D.DOMAIN_NM, CC.CODE_NM) NAME
+        FROM	SYS_COMM_CODE CC
+        ,	TB_PARAGON_DOMAIN D
+        WHERE (CC.CODE_GROUP_CD||CC.CODE_CD) = D.DOMAIN_ID(+)
+        AND 	D.LANG_CD(+) 		= #{s_language}
+        AND 	CC.CODE_GROUP_CD 	= #{codeGroupCd}
+        AND 	CC.USE_YN     		= 'Y'
+        AND 	SUBSTR(CC.CODE_OTHER1, ${range}, 1)	= #{other}
+        ORDER BY CC.CODE_ORDER ASC
+    </select>
+
+    <select id="listCodeGroupComboJsonNmDesc" resultType="java.util.HashMap">
+        SELECT
+        CODE_NM VALUE
+        ,	CODE_DESC || ' (' || CODE_NM || ')'  AS NAME
+        FROM SYS_COMM_CODE
+        WHERE DEL_YN = 'N'
+        AND USE_YN = 'Y'
+        AND CODE_GROUP_CD 	= #{codeGroupCd}
+        <if test="codeCd != null and !codeCd.equals('')">
+            AND CODE_CD 			= #{codeCd}
+        </if>
+        <if test="codeOther1 != null and !codeOther1.equals('')">
+            AND CODE_OTHER1      = #{codeOther1}
+        </if>
+        ORDER BY CODE_GROUP_CD ASC , CODE_ORDER ASC
+    </select>
+
+</mapper>

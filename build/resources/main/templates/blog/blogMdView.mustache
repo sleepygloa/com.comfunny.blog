@@ -1,0 +1,38 @@
+
+
+<div class="input-group">
+
+    <input class="form-control" type="text" list="blogCategoryAList" id="blogCategoryA" readonly >
+    <datalist id="blogCategoryAList">
+    </datalist>
+    <span class="input-group-text"> - </span>
+    <input class="form-control" type="text" list="blogCategoryBList" id="blogCategoryB" readonly>
+    <datalist id="blogCategoryBList">
+    </datalist>
+    <span class="input-group-text"> - </span>
+    <input class="form-control" type="text" list="blogCategoryCList" id="blogCategoryC" readonly>
+    <datalist id="blogCategoryCList">
+    </datalist>
+</div>
+
+<div id="blogContent" class="row mt-5">
+
+<!--    <a href="#" id="raw-switch" class="raw-switch" style="visibility:hidden">Raw: <span></span></a>
+    <aside id="markdown" contenteditable style="visibility:hidden; height:10px;" ></aside>
+    <section class="markdown-body" id="output-html"></section>-->
+
+</div>
+
+
+<script>
+alert('');
+    const editor = new toastui.Editor({
+        el: document.querySelector('#blogContent'),
+        viewer: true,
+        previewStyle: 'tab',
+        height: '500px',
+        initialValue: content
+      });
+      alert('1');
+    </script>
+

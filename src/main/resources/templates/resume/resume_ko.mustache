@@ -1,418 +1,149 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet"> <!--CDN 링크 -->
-<link href="/css/custom-response.css" rel="stylesheet">
+<!--<link href="/css/custom-response.css" rel="stylesheet">-->
 
 <head>
 
     <style>
-
+        @font-face {
+            font-family: 'naverFont';
+            src: url('/font/NanumBarunpenB.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * {
+            font-family: naverFont;
+        }
         a, p {
-            font : 0.6em;
+            font-size : 0.9em !important;
             margin:0px;
         }
         .table-center{
             vertical-align:middle;
             text-align:center;
         }
+        .category{
+            margin-top:150px;
+            padding-top:50px;
+        }
+        .navbarScroll{
+            position: fixed;
+            top: 0;
+            /* width: 100% */
+            left: 0;
+            right: 0;
+            opacity:0.6
+        }
+        .navActive{
+            color:red !important;
+            font-weight:900  !important;
+        }
+        .carousel-control-prev, .carousel-control-next, .carousel-bar{
+            border : 0
+        }
+        .table{
+            margin-top:30px;
+        }
+        .badge{
+            opacity:0.9
+        }
+        small{
+            color:#9e9898;
+        }
+
+
+        .slide{height:300px;overflow:hidden;position:relative;}
+        .slide li{position:absolute;left:0;right:0;top:0;bottom:0;opacity:0;transition:1s;}
+        .slide li:nth-child(1){background:#ffa;}
+        .slide li:nth-child(2){background:#faa;}
+        .slide li:nth-child(3){background:#afa;}
+        .slide li:nth-child(4){background:#aaf;}
+        .slide input{display:none;}
+        .slide .bullet{position:absolute;bottom:20px;left:0;right:0;text-align:center;z-index:10;}
+        .slide .bullet label{width:10px;height:10px;border-radius:10px;border:2px solid #666;display:inline-block;background:#fff;font-size:0;transition:0.5s;cursor:pointer;}
+        /* 슬라이드 조작 */
+        #pos1:checked ~ ul li:nth-child(1),
+        #pos2:checked ~ ul li:nth-child(2),
+        #pos3:checked ~ ul li:nth-child(3),
+        #pos4:checked ~ ul li:nth-child(4){opacity:1;}
+        /* bullet 조작 */
+        #pos1:checked ~ .bullet label:nth-child(1),
+        #pos2:checked ~ .bullet label:nth-child(2),
+        #pos3:checked ~ .bullet label:nth-child(3),
+        #pos4:checked ~ .bullet label:nth-child(4){background:#666;}
     </style>
 
 </head>
 
-<!--<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="padding-top:30px;">-->
-    <div class="container-sm">
+<div id="jumbo" class="jumbotron jumbotron-fluid" style="height:300px;background-color:white;">
+    <div class="container" >
+        <h3 class="display-4 align-middle"><strong>개발자 김선호</strong>입니다.</h3>
+    </div>
+</div>
 
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-4">Fluid jumbotron</h1>
-                <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><strong>KIM SEON HO</strong></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#jumbo" id="home" >HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navOhter" href="#summary">SUMMARY</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navOhter" href="#project">PROJECT</a>
+                </li>
+<!--                <li class="nav-item">
+                    <a class="nav-link navOhter" href="#award">AWARD</a>
+                </li>-->
+                <li class="nav-item">
+                    <a class="nav-link navOhter" href="#stack">STACK</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navOhter" href="#study">STUDY</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navOhter" href="#document">DOCUMENT</a>
+                </li>
+<!--                    <li class="nav-item">
+                    <a class="nav-link navOhter" href="#salary">SALARY</a>
+                </li>
+                -->
+                <li class="nav-item">
+                    <a class="nav-link navOhter" href="#contact">CONTACT</a>
+                </li>
+                <li class="nav-item" style="visibility:hidden ">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+                </li>
+            </ul>
         </div>
+    </div>
+</nav>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">KIM SEON HO</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCE</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#project">PROJECT</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#award">AWARD</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#stack">STACK</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#education">EDUCATION</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#document">DOCUMENT</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#salary">SALARY</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#contact">CONTACT</a>
-                        </li>
+<div class="container-sm overflow-auto">
 
+    <div id="summary" class="category">
+        <h1 class="text-center"><strong>SUMMARY</strong></h1>
+        <p class="text-center">안녕하세요. <strong>Javascript Fullstack</strong> 개발자 김선호 입니다</p>
+        <p class="text-center">생각하는것 모든지 다가능한 코딩에 빠져 사는 애아빠이고</p>
+        <p class="text-center">린 사고방식 (Lean Thinking), 애자일 (Agile) 방법론 등 <strong>개발자 다움을 사랑</strong>하는 개발자입니다.</p>
+    </div>
 
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <h3 id="project"><strong>PROJECT</strong></h3>
-        <p>항상 책임감을 가지고, 프로젝트 완료를 위해 달려갑니다.</p>
+    <div id="project" class="category">
+        <h3 class="text-center"><strong>PROJECT</strong></h3>
+        <p class="text-center">항상 책임감을 가지고, 프로젝트 완료를 위해 달려갑니다.</p>
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">프로젝트</th>
-                <th scope="col">소개</th>
-                <th scope="col">기간</th>
-                <th scope="col">관련자료</th>
-            </tr>
-            </thead>
-<!--            <span class="badge bg-primary">Primary</span> 파
-            <span class="badge bg-secondary">Secondary</span>회
-            <span class="badge bg-success">Success</span>초
-            <span class="badge bg-danger">Danger</span>빨
-            <span class="badge bg-warning text-dark">Warning</span>노
-            <span class="badge bg-info text-dark">Info</span>하늘
-            <span class="badge bg-light text-dark">Light</span>하양
-            <span class="badge bg-dark">Dark</span>블랙-->
-
-            <tbody>
-            <tr>
-                <th class="table-center" scope="row">깨끗한나라 WCS 개발</th>
-                <td>
-                    <p><strong>[엔디에스] <small>WCS - 창고제어시스템, 종이관련 원지의 창고관리를 위한 하드웨어와의 제어인터페이스 및 관리시스템 개발</small></strong></p>
-                    <p><small>#깨끗한나라 #WCS #JPA #AWS #SPRING #청주</small></p>
-                    <span class="badge bg-primary">진행중</span>
-                    <span class="badge bg-secondary">JAVASCRIPT</span>
-                    <span class="badge bg-secondary">SPRING</span>
-                    <span class="badge bg-secondary">JPA</span>
-                    <span class="badge bg-secondary">AWS</span>
-                    <span class="badge bg-secondary">MSSQL</span>
-                    <span class="badge bg-secondary">EXBUILDER6</span>
-                </td>
-                <td class="table-center">
-                    <p>2021.01~진행중</p>
-                    <p><small>풀스택/솔루션</small></p>
-                </td>
-                <td class="table-center">
-                    <!-- Button trigger modal -->
-
-                    <i class="far fa-file-alt fa-2x" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">관련 문서</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">3SFORYOU 정산시스템 개발</th>
-                <td>
-                    <p><strong>[엔디에스] <small>ERP - 정산시스템, 길찾기 API를 이용한 매니저별 방문매장 거리&유류비 산출, 월정산 개발</small></strong></p>
-                    <p><small>#3SFORYOU #ERP #정산 #NAVERAPI #보라매역</small></p>
-                    <span class="badge bg-secondary">JAVASCRIPT</span>
-                    <span class="badge bg-secondary">SPRING</span>
-                    <span class="badge bg-secondary">ORACLE</span>
-                    <span class="badge bg-secondary">NAVER API</span>
-                    <span class="badge bg-secondary">WEBSQUARE</span>
-                </td>
-                <td class="table-center">
-                    <p>2020.11~2020.12</p>
-                    <p><small>백엔드/솔루션</small></p>
-                </td>
-                <td class="table-center">
-                    <!-- Button trigger modal -->
-
-                    <i class="far fa-file-alt fa-2x" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">관련 문서</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">팀 솔루션 TMS 개발</th>
-                <td>
-                    <p><strong>[엔디에스] <small>TMS - 배차시스템, 입출고상품에 대한 고정배차와 지도API를 이용한 배송추적</small></strong></p>
-                    <p><small>#엔디에스 #TMS #배차 #DAUMAPI #보라매역</small></p>
-                    <span class="badge bg-secondary">JAVASCRIPT</span>
-                    <span class="badge bg-secondary">SPRING</span>
-                    <span class="badge bg-secondary">ORACLE</span>
-                    <span class="badge bg-secondary">DAUM API</span>
-                    <span class="badge bg-secondary">EXBUILDER6</span>
-                </td>
-                <td class="table-center">
-                    <p>2020.08~2020.10</p>
-                    <p><small>풀스택/솔루션</small></p>
-                </td>
-                <td class="table-center">
-                    <!-- Button trigger modal -->
-
-                    <i class="far fa-file-alt fa-2x" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">관련 문서</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">동원홈푸드 통합물류시스템 TMS 개발</th>
-                <td>
-                    <p><strong>[그리티스] <small>TMS - 배차시스템, 고정노선, 차량, 운전자관리 및 유동적인 반고정 배차</small></strong></p>
-                    <p><small>#동원홈푸드 #TMS #배차 #TMAPAPI #시화 #최적거리/최단거리알고리즘 #PL #반고정배차 #인터페이스 #정산 #배송기사앱</small></p>
-                    <span class="badge bg-secondary">JAVASCRIPT</span>
-                    <span class="badge bg-secondary">SPRING</span>
-                    <span class="badge bg-secondary">ORACLE</span>
-                    <span class="badge bg-secondary">TMAP API</span>
-                    <span class="badge bg-secondary">PL/SQL</span>
-                    <span class="badge bg-secondary">NEXACRO</span>
-                </td>
-                <td class="table-center">
-                    <p>2019.08~2020.06</p>
-                    <p><small>풀스택/솔루션</small></p>
-                </td>
-                <td class="table-center">
-                    <!-- Button trigger modal -->
-
-                    <i class="far fa-file-alt fa-2x" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">관련 문서</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">오리온 베트남 WMS 개발</th>
-                <td>
-                    <p><strong>[그리티스] <small>WMS - 베트남 호치만, 하노이 창고관리시스템 개발</small></strong></p>
-                    <p><small>#오리온베트남 #해외출장 #호치민 #하노이</small></p>
-                    <span class="badge bg-secondary">JAVASCRIPT</span>
-                    <span class="badge bg-secondary">SPRING</span>
-                    <span class="badge bg-secondary">ORACLE</span>
-                    <span class="badge bg-secondary">WEBAPP</span>
-                    <span class="badge bg-secondary">PL/SQL</span>
-                    <span class="badge bg-secondary">오픈소스</span>
-                </td>
-                <td class="table-center">
-                    <p>2018.07~2019.05</p>
-                    <p><small>풀스택/솔루션</small></p>
-                </td>
-                <td class="table-center">
-                    <!-- Button trigger modal -->
-
-                    <i class="far fa-file-alt fa-2x" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">관련 문서</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">한국이콜랩 WMS 개발</th>
-                <td>
-                    <p><strong>[그리티스] <small>WMS - 세정제, 식기세척기 관련 물류창고관리시스템</small></strong></p>
-                    <p><small>#한국이콜랩 #WMS #시화 #UI개발</small></p>
-                    <span class="badge bg-secondary">JAVASCRIPT</span>
-                    <span class="badge bg-secondary">SPRING</span>
-                    <span class="badge bg-secondary">ORACLE</span>
-                    <span class="badge bg-secondary">오픈소스</span>
-                </td>
-                <td class="table-center">
-                    <p>2018.02~2018.05</p>
-                    <p><small>클라이언트/솔루션</small></p>
-                </td>
-                <td class="table-center">
-                    <!-- Button trigger modal -->
-
-                    <i class="far fa-file-alt fa-2x" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">관련 문서</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">롯데정보통신 MMS 개발</th>
-                <td>
-                    <p><strong>[보우테크] <small>MMS - POS 자산관리 및 예방정검프로그램 개발</small></strong></p>
-                    <p><small>#롯데정보통신 #MMS #자산관리 #예방정검 #SI #UI개발</small></p>
-                    <span class="badge bg-secondary">JAVASCRIPT</span>
-                    <span class="badge bg-secondary">SPRING</span>
-                    <span class="badge bg-secondary">MyriaDB</span>
-                    <span class="badge bg-secondary">오픈소스</span>
-                </td>
-                <td class="table-center">
-                    <p>2017.11~2018.01</p>
-                    <p><small>클라이언트/솔루션</small></p>
-                </td>
-                <td class="table-center">
-                    <!-- Button trigger modal -->
-
-                    <i class="far fa-file-alt fa-2x" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">관련 문서</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">버텍스아이디 WMS 개발</th>
-                <td>
-                    <p><strong>[보우테크] <small>WMS - 사내 창고관리시스템 개발</small></strong></p>
-                    <p><small>#버텍스아이디 #WMS #창고관리시스템 #솔루션완성 #SI #UI개발</small></p>
-                    <span class="badge bg-secondary">JAVASCRIPT</span>
-                    <span class="badge bg-secondary">SPRING</span>
-                    <span class="badge bg-secondary">ORACLE</span>
-                    <span class="badge bg-secondary">오픈소스</span>
-                </td>
-                <td class="table-center">
-                    <p>2017.08~2017.10</p>
-                    <p><small>클라이언트/솔루션</small></p>
-                </td>
-                <td class="table-center">
-                    <!-- Button trigger modal -->
-
-                    <i class="far fa-file-alt fa-2x" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">관련 문서</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ...
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-
-
-        <h3 id="award"><strong>AWARD</strong></h3>
-        <p>항상 책임감을 가지고, 프로젝트 완료를 위해 달려갑니다.</p>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">프로젝트</th>
-                <th scope="col">소개</th>
-                <th scope="col">기간</th>
-                <th scope="col">관련자료</th>
+                <th scope="col" class="text-center">프로젝트</th>
+                <th scope="col" class="text-center">소개</th>
+                <th scope="col" class="text-center">기간</th>
+                <th scope="col" class="text-center">관련자료</th>
             </tr>
             </thead>
             <!--            <span class="badge bg-primary">Primary</span> 파
@@ -426,7 +157,7 @@
 
             <tbody>
             <tr>
-                <th class="table-center" scope="row">깨끗한나라 WCS 개발</th>
+                <th scope="row">깨끗한나라 WCS 개발</th>
                 <td>
                     <p><strong>[엔디에스] <small>WCS - 창고제어시스템, 종이관련 원지의 창고관리를 위한 하드웨어와의 제어인터페이스 및 관리시스템 개발</small></strong></p>
                     <p><small>#깨끗한나라 #WCS #JPA #AWS #SPRING #청주</small></p>
@@ -466,7 +197,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="table-center" scope="row">3SFORYOU 정산시스템 개발</th>
+                <th scope="row">3SFORYOU 정산시스템 개발</th>
                 <td>
                     <p><strong>[엔디에스] <small>ERP - 정산시스템, 길찾기 API를 이용한 매니저별 방문매장 거리&유류비 산출, 월정산 개발</small></strong></p>
                     <p><small>#3SFORYOU #ERP #정산 #NAVERAPI #보라매역</small></p>
@@ -504,7 +235,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="table-center" scope="row">팀 솔루션 TMS 개발</th>
+                <th scope="row">팀 솔루션 TMS 개발</th>
                 <td>
                     <p><strong>[엔디에스] <small>TMS - 배차시스템, 입출고상품에 대한 고정배차와 지도API를 이용한 배송추적</small></strong></p>
                     <p><small>#엔디에스 #TMS #배차 #DAUMAPI #보라매역</small></p>
@@ -542,7 +273,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="table-center" scope="row">동원홈푸드 통합물류시스템 TMS 개발</th>
+                <th scope="row">동원홈푸드 통합물류시스템 TMS 개발</th>
                 <td>
                     <p><strong>[그리티스] <small>TMS - 배차시스템, 고정노선, 차량, 운전자관리 및 유동적인 반고정 배차</small></strong></p>
                     <p><small>#동원홈푸드 #TMS #배차 #TMAPAPI #시화 #최적거리/최단거리알고리즘 #PL #반고정배차 #인터페이스 #정산 #배송기사앱</small></p>
@@ -581,7 +312,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="table-center" scope="row">오리온 베트남 WMS 개발</th>
+                <th scope="row">오리온 베트남 WMS 개발</th>
                 <td>
                     <p><strong>[그리티스] <small>WMS - 베트남 호치만, 하노이 창고관리시스템 개발</small></strong></p>
                     <p><small>#오리온베트남 #해외출장 #호치민 #하노이</small></p>
@@ -620,7 +351,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="table-center" scope="row">한국이콜랩 WMS 개발</th>
+                <th scope="row">한국이콜랩 WMS 개발</th>
                 <td>
                     <p><strong>[그리티스] <small>WMS - 세정제, 식기세척기 관련 물류창고관리시스템</small></strong></p>
                     <p><small>#한국이콜랩 #WMS #시화 #UI개발</small></p>
@@ -657,7 +388,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="table-center" scope="row">롯데정보통신 MMS 개발</th>
+                <th scope="row">롯데정보통신 MMS 개발</th>
                 <td>
                     <p><strong>[보우테크] <small>MMS - POS 자산관리 및 예방정검프로그램 개발</small></strong></p>
                     <p><small>#롯데정보통신 #MMS #자산관리 #예방정검 #SI #UI개발</small></p>
@@ -694,7 +425,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="table-center" scope="row">버텍스아이디 WMS 개발</th>
+                <th scope="row">버텍스아이디 WMS 개발</th>
                 <td>
                     <p><strong>[보우테크] <small>WMS - 사내 창고관리시스템 개발</small></strong></p>
                     <p><small>#버텍스아이디 #WMS #창고관리시스템 #솔루션완성 #SI #UI개발</small></p>
@@ -732,141 +463,313 @@
             </tr>
             </tbody>
         </table>
+    </div>
 
+    <!--
+    <div id="award" class="category">
+        <h3 ><strong>AWARD</strong></h3>
+        <p>항상 책임감을 가지고, 프로젝트 완료를 위해 달려갑니다.</p>
 
-
-        <h3 id="stack"><strong>STACK</strong></h3>
-        <p>항상 꾸준히 자기계발과 기술을 습득합니다. 습득한 기술은 최대한 업무에 활용하고, 할 수 있는 영역을 넓혀 나가고자 합니다.</p>
+    </div>
+-->
+    <div id="stack" class="category">
+        <h3 class="text-center"><strong>STACK</strong></h3>
+        <p class="text-center">항상 꾸준히 자기계발과 기술을 습득합니다. 습득한 기술은 최대한 업무에 활용하고, 할 수 있는 영역을 넓혀 나가고자 합니다.</p>
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">기술구분</th>
-                <th scope="col">로고</th>
-                <th scope="col">활용수준</th>
-                <th scope="col">평가</th>
+                <th scope="col" class="text-center">기술구분</th>
+                <th scope="col" class="text-center">로고</th>
+                <th scope="col" class="text-center">활용수준</th>
+                <th scope="col" class="text-center">평가</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="table-center" scope="row">Javascript</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>JAVASCRIPT, ECMASCRIPT 등을 위주로 개발하며 모듈화를 통한 플러그인 개발 및 SDK도 가능합니다.</small></p>
+                        <p><small>브라우저 호환성을 중요시하여 IE 환경에서도 정상 작동하도록 개발하고 있으며 최신 문법인 ES6 또한 자유자재로 사용하고 있습니다</small></p>
+                    </td>
+                    <td class="table-center">
+                        <p>중</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">Android</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>간단한 앱 개발이 가능하여, PDA 관련 스캔, 배송기사앱 개발이 가능합니다.</small></p>
+                        <!--<p><small>Cordova-ionic, React-Native, Flutter 를 이용한 하이브리드 앱 개발이 가능합니다.</small></p>-->
+                    </td>
+                    <td class="table-center">
+                        <p>하</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">IOS</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>간단한 앱 개발이 가능하여, PDA 관련 스캔, 배송기사앱 개발이 가능합니다.</small></p>
+                        <!--<p><small>Cordova-ionic, React-Native, Flutter 를 이용한 하이브리드 앱 개발이 가능합니다.</small></p>-->
+                    </td>
+                    <td class="table-center">
+                        <p>하</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">Spring</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>Spring F/W 의 작동환경을 분석하여 각종 Java 등의 언어로 이뤄진 MVC 외의 패턴의 프레임워크 구성이 가능합니다.</small></p>
+                        <p><small>Spring Boot, Spring Security, Spring Cloud 등을 사용하여 Cloud Service 에 배포하여 안전하고 탄탄한 간단한 서비스를 제공할 수 있습니다.</small></p>
+                    </td>
+                    <td class="table-center">
+                        <p>중</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">Jpa/Hibernate</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>Spring Boot 와 연계하여 JPA 설계가 가능하고 프로젝트 경험이 있습니다.</small></p>
+                        <p><small>RDBMS 에 의존성을 최소화하여 DB Transfer 에 대응 할 수 있습니다.</small></p>
+                    </td>
+                    <td class="table-center">
+                        <p>중</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">Oracle</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>관계형 데이터베이스를 설계하고 생산성 높은 API를 개발하고 있습니다.</small></p>
+                        <p><small>PL/SQL 을 이용한 비즈니스 로직을 패키지화하여 구현 가능합니다.</small></p>
+                        <p><small>최근 Query 최적화를 이용한 대용량 처리에 대한 대안을 공부하고 있습니다.</small></p>
+                    </td>
+                    <td class="table-center">
+
+                        <p>중</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">Mssql</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>Oracle 수준의 Query 작성과 개발환경 세팅가능합니다.</small></p>
+                        <p><small>주로 DB Transfer 환경에서 경험하였습니다.</small></p>
+                    </td>
+                    <td class="table-center">
+
+                        <p>하</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">MariaDB</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>주로 오픈소스 프로젝트에서 Cloud Service 제공시 선정하여 개발한 경험이있습니다.</small></p>
+                    </td>
+                    <td class="table-center">
+                        <p>중</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">AWS EC2</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>개발서버를 EC2에 두고 개발한 경험이 있으며 github, travis 를 이용한 CI/CD 자동화 모듈 개발 할 수 있습니다.</small></p>
+                    </td>
+                    <td class="table-center">
+                        <p>하</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-center" scope="row">AWS S3</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>이미지, 파일 등을 AWS에서 제공하는 AWS S3 라이브러리를 연동하여 사용하고 있습니다</small></p>
+                        <p><small>파일을 업로드하고 퍼블릭 주소를 반환받아 문자열 형태로 데이터베이스에 보관하여 사용하고 있습니다</small></p>
+                    </td>
+                    <td class="table-center">
+                        <p>하</p>
+                    </td>
+                </tr>
+    <!--            <tr>
+                    <th class="table-center" scope="row">AWS EC2</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>NODE.JS 앱은 ELASTICBEANSTALK으로 WORDPRESS는 UBUNTU를 통해 앱을 배포하고 있습니다.</small></p>
+                        <p><small>CLOUDWATCH를 통해 서버 로그를 분석하고, 환경 알림 설정을 통해 앱에 문제가 있을 시 메일을 받도록 설정합니다</small></p>
+                    </td>
+                    <td class="table-center">
+
+                        <p>하</p>
+                    </td>
+                </tr>
+    -->
+                <tr>
+                    <th class="table-center" scope="row">AWS Lightsail</th>
+                    <td class="table-center">
+                        <p>아이콘</p>
+                    </td>
+                    <td>
+                        <p><small>EC2 보다 가볍게 제공하는 Lightsail을 이용하여 현재 블로그, 포트폴리오, 각종 프로젝트를 넣어 관리하고 있습니다.</small></p>
+                        <p><small>Server와 DB를 구축하여, Domain 까지 등록하는 간단한 호스팅 가능합니다.</small></p>
+                    </td>
+                    <td class="table-center">
+                        <p>중</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="study" class="category" >
+        <h3 class="text-center"><strong>STUDY</strong></h3>
+        <p class="text-center">꾸준히 공부하여 자료를 남깁니다. 관련한 자료와 결과물입니다.</p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center">제목</th>
+                <th scope="col" class="text-center">내용</th>
+                <th scope="col" class="text-center">링크</th>
+                <th scope="col" class="text-center">관련 첨부</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <th class="table-center" scope="row">Javascript</th>
+                <th class="table-center" scope="row">정리중.</th>
                 <td class="table-center">
-                    <p>아이콘</p>
+                    <p>정리중</p>
                 </td>
                 <td>
-                    <p><small>asldkfjasopfijsofjslkafjasldkfjaslkfjaslfk;djfl;</small></p>
-                    <p><small>32523542345325235324523523453252345423523</small></p>
-                    <p><small>ㄴㅇㄹㄴㅁㄹㄴㅇㅁㄹㄴㅁㄹㄴㅁㅇㄻㄴㅇㄹㄴㅁㅇㄻㄴㄹㄴㅁㅇㄹㄴㅁㄹ</small></p>
+                    <p><small>http://github.com/sleepygloa/study/resume</small></p>
                 </td>
                 <td class="table-center">
-
-                    <p>추워요..</p>
+                    <p>모달</p>
                 </td>
             </tr>
-            <tr>
-                <th class="table-center" scope="row">Oracle</th>
-                <td class="table-center">>
-                    <p>아이콘</p>
-                </td>
-                <td>
-                    <p><small>asldkfjasopfijsofjslkafjasldkfjaslkfjaslfk;djfl;</small></p>
-                    <p><small>32523542345325235324523523453252345423523</small></p>
-                    <p><small>ㄴㅇㄹㄴㅁㄹㄴㅇㅁㄹㄴㅁㄹㄴㅁㅇㄻㄴㅇㄹㄴㅁㅇㄻㄴㄹㄴㅁㅇㄹㄴㅁㄹ</small></p>
-                </td>
-                <td class="table-center">
 
-                    <p>추워요..</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">Mssql</th>
-                <td class="table-center">>
-                    <p>아이콘</p>
-                </td>
-                <td>
-                    <p><small>asldkfjasopfijsofjslkafjasldkfjaslkfjaslfk;djfl;</small></p>
-                    <p><small>32523542345325235324523523453252345423523</small></p>
-                    <p><small>ㄴㅇㄹㄴㅁㄹㄴㅇㅁㄹㄴㅁㄹㄴㅁㅇㄻㄴㅇㄹㄴㅁㅇㄻㄴㄹㄴㅁㅇㄹㄴㅁㄹ</small></p>
-                </td>
-                <td class="table-center">
-
-                    <p>추워요..</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">MyriaDB</th>
-                <td class="table-center">>
-                    <p>아이콘</p>
-                </td>
-                <td>
-                    <p><small>asldkfjasopfijsofjslkafjasldkfjaslkfjaslfk;djfl;</small></p>
-                    <p><small>32523542345325235324523523453252345423523</small></p>
-                    <p><small>ㄴㅇㄹㄴㅁㄹㄴㅇㅁㄹㄴㅁㄹㄴㅁㅇㄻㄴㅇㄹㄴㅁㅇㄻㄴㄹㄴㅁㅇㄹㄴㅁㄹ</small></p>
-                </td>
-                <td class="table-center">
-
-                    <p>추워요..</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">AWS EC2/S3</th>
-                <td class="table-center">>
-                    <p>아이콘</p>
-                </td>
-                <td>
-                    <p><small>asldkfjasopfijsofjslkafjasldkfjaslkfjaslfk;djfl;</small></p>
-                    <p><small>32523542345325235324523523453252345423523</small></p>
-                    <p><small>ㄴㅇㄹㄴㅁㄹㄴㅇㅁㄹㄴㅁㄹㄴㅁㅇㄻㄴㅇㄹㄴㅁㅇㄻㄴㄹㄴㅁㅇㄹㄴㅁㄹ</small></p>
-                </td>
-                <td class="table-center">
-
-                    <p>추워요..</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="table-center" scope="row">AWS Lightsail</th>
-                <td class="table-center">>
-                    <p>아이콘</p>
-                </td>
-                <td>
-                    <p><small>asldkfjasopfijsofjslkafjasldkfjaslkfjaslfk;djfl;</small></p>
-                    <p><small>32523542345325235324523523453252345423523</small></p>
-                    <p><small>ㄴㅇㄹㄴㅁㄹㄴㅇㅁㄹㄴㅁㄹㄴㅁㅇㄻㄴㅇㄹㄴㅁㅇㄻㄴㄹㄴㅁㅇㄹㄴㅁㄹ</small></p>
-                </td>
-                <td class="table-center">
-
-                    <p>추워요..</p>
-                </td>
-            </tr>
             </tbody>
         </table>
-
-        <h3 id="document"><strong>DOCUMENT</strong></h3>
-        <p>가장 중요한 자산은 대화 라고 생각합니다. 일상속에서, 프로젝트속에서, 개발도중에, 자기계발하면서 만나고, 남기는자료는 저의 자산이 되고 가치가 됩니다.</p>
-        <p>아래에서 그동안의 노력을 보실 수 있습니다.</p>
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="/images/resume/github.png" class="d-block w-100" alt="githubFeed">
-                </div>
-<!--                <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                </div>-->
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
     </div>
+
+    <div id="document" class="category">
+        <h3 id="document" class="text-center"><strong>DOCUMENT</strong></h3>
+        <p class="text-center">가장 중요한 자산은 대화 라고 생각합니다. </p>
+        <p class="text-center">일상속에서, 프로젝트속에서, 개발도중에, 자기계발하면서 만나고, 남기는자료는 저의 자산이 되고 가치가 됩니다.</p>
+        <p class="text-center" style="margin-bottom:100px;">아래에서 그동안의 노력을 보실 수 있습니다.</p>
+        <div class="slide">
+            <input type="radio" name="pos" id="pos1" checked>
+            <input type="radio" name="pos" id="pos2">
+            <input type="radio" name="pos" id="pos3">
+            <input type="radio" name="pos" id="pos4">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <p class="bullet">
+                <label for="pos1">1</label>
+                <label for="pos2">2</label>
+                <label for="pos3">3</label>
+                <label for="pos4">4</label>
+            </p>
+        </div>
+    </div>
+
+    <div id="contact" class="category">
+        <h3 id="document" class="text-center"><strong>CONTACT</strong></h3>
+        <p></p>
+        <p class="text-center">끝까지 읽어주셔서 감사합니다.</p>
+        <p class="text-center">언제 어느자리에서든 꾸준한 개발자가되어 함께 하고 싶습니다.</p>
+    </div>
+
+    <div class="category" style="margin-bottom:200px;">
+        <div class="card" style="width: 18rem; margin:0 auto;">
+            <img src="/images/me2.jpg" class="card-img-top" alt="me2">
+            <div class="card-body">
+                <p class="card-text">EMAIL : sleepygloa@gmail.com</p>
+                <p class="card-text">PHONE : 010-3359-3878</p>
+                <p class="card-text">WEBSITE : <a href="http://www.sleepygloa.xyz">sleepygloa.xyz</a></p>
+                <p class="card-text">GITHUB : <a href="http://github.com/sleepygloa">github.com/sleepygloa</a></p>
+            </div>
+        </div>
+    </div>
+
+</div>
 <!--</main>-->
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+<script>
+    $(window).bind('wheel', function(event){
+        if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+            // scroll up
+            setNavbar();
+        }
+        else {
+            // scroll down
+            setNavbar();
+
+        }
+    });
+
+
+
+    function setNavbar(){
+        var _scrollTop = window.scrollY || document.documentElement.scrollTop;
+        if(_scrollTop > 250){
+            $('.navbar').addClass('navbarScroll');
+        }else{
+            $('.navbar').removeClass('navbarScroll');
+            $('.nav-link').removeClass('navActive');
+            $('#home').addClass('navActive');
+        }
+    }
+    function setNavbarClass(){
+        $('.nav-link').removeClass('navActive');
+        $(this).addClass('navActive');
+    }
+
+    $('.nav-link').click(function(){
+        setNavbarClass();
+        $('.nav-link').removeClass('navActive');
+        $(this).addClass('navActive');
+    });
+
+    $('#home').click(function(){
+        $('.navbar').removeClass('navbarScroll');
+    });
+
+    $('.navOhter').click(function(){
+        $('.navbar').addClass('navbarScroll');
+    })
+
+</script>
