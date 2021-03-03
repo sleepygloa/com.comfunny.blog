@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/images/**", "/js/**", "/plugin/**", "/h2-console/**", "/profile",
+                    .antMatchers("/", "/css/**", "/images/**", "/js/**", "/images/**", "/plugin/**", "/h2-console/**", "/profile",
                                 "/api/**", "/api/juso/**", "/i/**", "/b/**", "/blogs/**",
                                 "/popup/**", "/resume/**", "/common/**","/session"
                                 ).permitAll()

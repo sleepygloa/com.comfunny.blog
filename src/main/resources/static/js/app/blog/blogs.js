@@ -21,47 +21,28 @@ var blogsJs = function(){
             var idx = $('#blogIdx').val();
             if(idx != '') getContent(idx);
 
+            fnEvents();
+
 		}
     }
 
 	function fnEvents(){
-    	//조회
-    	$('#blogSearchBtn').click(function(){
-    		fnSearch();
-    		flag = "";
-    	});
 
     	//추가
     	$("#blogAddBtn").click(function(){
-    		fnMarkdown('INSERT');
-    		flag = "INSERT";
+    		getContentUpdate();
     	});
 
     	//수정
     	$("#blogUpdateBtn").click(function(){
-    		fnMarkdown('UPDATE');
-    		flag = "UPDATE";
+            getContentUpdate();
     	});
 
     	//저장버튼
     	$("#blogSaveBtn").click(function(){
     		fnSave();
     	});
-    	//행삭제버튼
-    	$("#blogDelBtn").click(function(){
-    		fnDel();
-    	});
 
-        //이미지 변환
-        $("#blogImgBtn").click(function(){
-            var fileUpload = $('<input type="file" class="form-control" id="blogFileUpload" aria-describedby="blogFileUploadAddon" aria-label="Upload" >');
-            fileUpload.trigger('click', function(){
-
-            });
-            fileUpload.on('change', function(){
-                getBase64($(this)[0].files[0]);
-            });
-        });
 	}
 
 
@@ -662,6 +643,7 @@ function blogReSave(ref, pRef){
 //  	  obj.currentTarget.style.height = "50px";
 //  	  obj.currentTarget.style.height = (12+obj.target.scrollHeight)+"px";
 //  	}
+
 }();
 
 
