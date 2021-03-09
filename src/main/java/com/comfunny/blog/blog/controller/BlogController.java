@@ -39,8 +39,29 @@ public class BlogController {
             model.addAttribute("userEmail", user.getEmail());
             model.addAttribute("userPic", user.getPicture());
         }
-        return "blog/blogs";
+        return blogPath(model, user, Long.valueOf((int)list.get(0).get("idx")));
     }
 
+    @GetMapping("/blogs/{idx}")
+    public String blogPath(Model model, @LoginUser SessionUser user, @PathVariable("idx") Long idx){
+
+        List<Map<String, Object>> list = blogService.findAlldesc();
+        model.addAttribute("list", list);
+
+
+        if(list.size() > 0){
+
+            model.addAttribute("detail", blogService.findById(idx));
+//
+//            model.addAttribute("re", blogService.listRe(Long.valueOf((int)list.get(0).get("idx"))));
+        }
+
+        if(user != null){
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            model.addAttribute("userPic", user.getPicture());
+        }
+        return "blog/blogs";
+    }
 
 }

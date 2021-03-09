@@ -121,8 +121,7 @@ public class BlogService {
     }
 
     @Transactional
-    public void deleteRe(Map map){
-        int ref = (int)map.get("ref");
+    public void deleteRe(Long ref){
 
         int cnt = blogReRepository.findMaster(ref);
         if(cnt == 0) new IllegalArgumentException("해당 게시글이 없습니다. id="+ref);

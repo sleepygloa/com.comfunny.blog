@@ -23,41 +23,7 @@ public class BlogRestController {
     private final BlogService blogService;
 
     /***************************************
-     * 블로그 리스트 조회
-     ***************************************/
-//    @GetMapping("/blogss")
-//    public List<BlogListResponseDto> blogFindAllDesc(@RequestParam(value="searchA", defaultValue = "") String searchA, @RequestParam(value="searchB", defaultValue = "") String searchB, Model model){
-//        if(searchA.equals("")){
-////            List<BlogListResponseDto> list = blogService.findAlldesc();
-////            model.addAttribute("list", list);
-//            return null;
-//
-//        }else{
-////            if(searchB.equals("")){
-////                try {
-////                    searchA  = URLDecoder.decode(searchA, StandardCharsets.UTF_8.toString());
-////                } catch (UnsupportedEncodingException e) {
-////                    e.printStackTrace();
-////                }
-////                return blogService.findAlldesc(searchA);
-////
-////            }else{
-////                try {
-////                    searchA  = URLDecoder.decode(searchA, StandardCharsets.UTF_8.toString());
-////                    searchB  = URLDecoder.decode(searchB, StandardCharsets.UTF_8.toString());
-////                } catch (UnsupportedEncodingException e) {
-////                    e.printStackTrace();
-////                }
-////                return blogService.findAlldesc(searchA, searchB);
-////            }
-//
-//        }
-//
-//    }
-
-
-    /***************************************
-     * 글 상세보기
+     * 글 상세보기(미사용)
      ***************************************/
     @GetMapping("/blogs/content/{idx}")
     public BlogListResponseDto blogFindById(@PathVariable("idx") Long idx, Model model){
@@ -132,10 +98,27 @@ public class BlogRestController {
     }
 
     /***************************************
+     * 댓글 수정 저장
+     ***************************************/
+    @PutMapping("/blogs/content/re/{ref}")
+    public Long updateRe(@PathVariable("ref") Long ref, @RequestBody BlogReSaveRequestDto requestDto, @LoginUser SessionUser user){
+        requestDto.setInUserId(user.getName());
+        requestDto.setUpUserId(user.getName());
+        requestDto.setInUserEmail(user.getEmail());
+        requestDto.setUpUserEmail(user.getEmail());
+
+        requestDto.setRef(ref);
+
+        return blogService.saveRe(requestDto);
+    }
+
+    /***************************************
      * 댓글 삭제
      ***************************************/
-    @DeleteMapping("/b/blog/deleteRe")
-    public void deleteRe(@RequestBody Map data){ blogService.deleteRe(data); }
+    @DeleteMapping("/blogs/content/re/{ref}")
+    public void deleteRe(@PathVariable("ref") Long ref, @LoginUser SessionUser user){
+        blogService.deleteRe(ref);
+    }
 
     /***************************************
      * 글 저장 (md)

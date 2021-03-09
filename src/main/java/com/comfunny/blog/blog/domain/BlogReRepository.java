@@ -27,7 +27,7 @@ public interface BlogReRepository extends JpaRepository<BlogRe, Long> {
 //    List<BlogRe> listRe(@Param("idx") int idx);
 
     @Query(value = "SELECT count(*) as cnt FROM blog_re WHERE REF = :ref ", nativeQuery = true)
-    int findMaster(@Param("ref") int ref);
+    int findMaster(@Param("ref") long ref);
 
     @Query(value = "SELECT CASE WHEN MAX(REF) IS NULL THEN 1 ELSE MAX(REF)+1 END AS MAX FROM blog_re ", nativeQuery = true)
     int findMaxMaster();
@@ -37,7 +37,7 @@ public interface BlogReRepository extends JpaRepository<BlogRe, Long> {
     void insertRe(@Param("idx") int idx, @Param("ref") int ref, @Param("pRef") int pRef, @Param("name") String name, @Param("email") String email, @Param("content") String content);
 
     @Query(value = "UPDATE blog_re SET DEL_YN = 'Y' WHERE REF = :ref", nativeQuery = true)
-    void deleteRe(@Param("ref") int ref);
+    void deleteRe(@Param("ref") long ref);
 
     @Query(value = "UPDATE blog_re SET CONTENT = :content, UP_USER_ID = :name, UP_USER_EMAIL = :email, UP_DT = now() WHERE REF = :ref AND IDX = :idx ", nativeQuery = true)
     void updateRe(@Param("idx") int idx, @Param("ref") int ref, @Param("content") String content, @Param("name") String name, @Param("email") String email);
