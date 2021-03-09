@@ -252,11 +252,13 @@ function fnReContent(flag, ref, pref){
                         });
 
                         //댓글쓰기일때.
-                        if(flag != 'REUPDATE' && dt_grid[i].ref == pref) getViewInsert(reBody, {
-                                                                         ref : 0,
-                                                                         pref : dt_grid[i].p_ref,
-                                                                         flag : flag
-                                                                     });
+                        if(flag != 'REUPDATE' && dt_grid[i].ref == pref) {
+                            getViewInsert(reBody, {
+                                                 ref : 0,
+                                                 pref : dt_grid[i].ref,
+                                                 flag : flag
+                                             });
+                        }
                     }
             }
         });
@@ -375,7 +377,7 @@ function fnReContent(flag, ref, pref){
             //세션확인
             if(app != undefined && app.userName != ''){
                 //댓글달기
-                if(dtGridRef != 0) ddDiv.append(ddBtnReAdd);
+                if(dtGridPRef == 0) ddDiv.append(ddBtnReAdd);
                 //댓글수정하기
                 if(rowData != undefined && app.userName == rowData.up_user_id) ddDiv.append(ddBtnReUpdate);
                 //글쓰기, 댓글저장
