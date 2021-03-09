@@ -282,7 +282,7 @@ function fnReContent(flag, ref, pref){
         var ddContentDiv = $('<div class="input-group input-group-sm" />');
 
             if(dtGridRef == 0 || (flag == 'REUPDATE')){
-                var ddIdTextArea = $('<textarea id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" readonly style="margin-left:33px;"/>');
+                var ddIdTextArea = $('<textarea id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" readonly style="margin-left:45px;"/>');
                 ddIdTextArea.keydown(function(el){
                     if(el.keyCode == 13){
                         ddContentDiv.css('height', (12+el.target.scrollHeight)+"px");
@@ -301,7 +301,7 @@ function fnReContent(flag, ref, pref){
 
             //댓글리스트, 신규댓글확인
             }else {
-                var ddIdTextArea = $('<pre id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" style="margin-bottom:0px;margin-left:33px;" />');
+                var ddIdTextArea = $('<pre id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="" aria-label="With textarea" style="margin-bottom:0px;margin-left:45px;border:0px; background:white; padding:10px;"  />');
                 ddIdTextArea.text(rowData.content);
                 ddContentDiv.append(ddIdTextArea);
             }
@@ -309,13 +309,13 @@ function fnReContent(flag, ref, pref){
         var ddDiv = $('<div class="input-group input-group-sm mb-3" />');
             //이미지
             var ddImg = (dtGridRef != 0 ? rowData.picture : app.userPicture);
-            var ddImgDiv = $('<button type="button" class="btn btn-outline-secondary"></button>');
-            var ddImgDivImg = $('<img src="'+ddImg+'" style="width:15px; height:15px; border-radius:15px"/>');
+            var ddImgDiv = $('<button type="button" class="btn btn-outline-secondary" style="border:0px;"></button>');
+            var ddImgDivImg = $('<img src="'+ddImg+'" style="width:30px; height:30px; border-radius:15px"/>');
             ddImgDiv.append(ddImgDivImg);
 
             //작성자
             var ddId = (dtGridRef != 0 ? rowData.up_user_id : (app.userName != '' ? app.userName : '로그인해주세요'));
-            var ddIdInput = $('<input id="blogName_'+dtGridRef+'_'+dtGridPRef+'" type="text" class="form-control" aria-label="Text input with segmented dropdown button" value="" readonly>');
+            var ddIdInput = $('<input id="blogName_'+dtGridRef+'_'+dtGridPRef+'" type="text" class="form-control" aria-label="Text input with segmented dropdown button" value="" readonly style="background:transparent; border:0px;">');
 
             //비밀번호
             var ddPw = $('<input id="blogPw_'+dtGridRef+'_'+dtGridPRef+'" type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="비밀번호" readonly>');
@@ -336,27 +336,27 @@ function fnReContent(flag, ref, pref){
             //버튼 엘리먼트 추가.
             //*******************************************************************
             var ddBtnInsertText = (flag == 'REUPDATE' || dtGridRef == 0 && dtGridPRef != 0 ? '댓글저장' : '글쓰기');
-            var ddBtnInsert = $('<button id="blogInsertBtn_'+dtGridRef+'_'+dtGridPRef+'" type="button" class="btn btn-outline-secondary" >'+ddBtnInsertText+'</button>');
+            var ddBtnInsert = $('<button id="blogInsertBtn_'+dtGridRef+'_'+dtGridPRef+'" type="button" class="btn btn-outline-secondary" style="border:0px;">'+ddBtnInsertText+'</button>');
             ddBtnInsert.on('click', function(){
                 var el = $(this);
                 var split = el.attr("id").split("_");
                 blogReSave(parseInt(split[1]), parseInt(split[2]));
             });
 
-            var ddBtnReAdd = $('<button id="blogReAddBtn_'+dtGridRef+'_'+dtGridPRef+'" type="button" class="btn btn-outline-secondary" >댓글쓰기</button>');
+            var ddBtnReAdd = $('<button id="blogReAddBtn_'+dtGridRef+'_'+dtGridPRef+'" type="button" class="btn btn-outline-secondary" style="border:0px;">댓글쓰기</button>');
             ddBtnReAdd.on('click', function(){
             var el = $(this);
             var split = el.attr("id").split("_");
                 fnReContent('READD', 0, parseInt(split[1]));
             });
 
-            var ddBtnReUpdate = $('<button id="blogReUpdateBtn_'+dtGridRef+'_'+dtGridPRef+'" type="button" class="btn btn-outline-secondary" >댓글수정</button>');
+            var ddBtnReUpdate = $('<button id="blogReUpdateBtn_'+dtGridRef+'_'+dtGridPRef+'" type="button" class="btn btn-outline-secondary" style="border:0px;">댓글수정</button>');
             ddBtnReUpdate.on('click', function(){
             var el = $(this);
             var split = el.attr("id").split("_");
                 fnReContent('REUPDATE', parseInt(split[1]), parseInt(split[2]));
             });
-            var ddBtnReDelete = $('<button id="blogReDeleteBtn_'+dtGridRef+'_'+dtGridPRef+'" type="button" class="btn btn-outline-secondary" >삭제</button>');
+            var ddBtnReDelete = $('<button id="blogReDeleteBtn_'+dtGridRef+'_'+dtGridPRef+'" type="button" class="btn btn-outline-secondary" style="border:0px;">삭제</button>');
             ddBtnReDelete.on('click', function(){
             var el = $(this);
             var split = el.attr("id").split("_");
