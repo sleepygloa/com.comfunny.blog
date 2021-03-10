@@ -68,7 +68,7 @@ function getContent(){
         $('#blogUpdateMarkdown').css('display', 'none');
         $('#blogTitle').attr('readonly', true);
         $('#blogUpdateBtn').css('display', 'block');
-        $('#blogDelBtn').css('display', 'none');
+        $('#blogDeleteBtn').css('display', 'none');
         $('#blogSaveBtn').css('display', 'none');
         $('#blogCancelBtn').css('display', 'none');
 
@@ -93,30 +93,32 @@ function getContentUpdate(){
     $('#blogUpdateMarkdown').css('display', 'block');
     $('#blogTitle').attr('readonly', false);
     $('#blogUpdateBtn').css('display', 'none');
-    $('#blogDelBtn').css('display', 'block');
+    $('#blogDeleteBtn').css('display', 'block');
     $('#blogSaveBtn').css('display', 'block');
     $('#blogCancelBtn').css('display', 'block');
 
-    //form 세팅
-    $('#blogIdx').val('');
-    $('#blogTitle').val('');
-    editor.setMarkdown('');
+
+
 
     if(idx > 0){
         $.ajax({
             type : 'GET',
-            url : '/blogs/'+idx,
+            url : '/blogs/content/'+idx,
             contentType : 'application/json; charset=utf-8'
         }).done(function(data){
+
             //form 세팅
-            $('#blogIdx').val(data.idx);
-            $('#blogTitle').val(data.title);
+//            $('#blogIdx').val(data.idx);
+//            $('#blogTitle').val(data.title);
             editor.setMarkdown(data.markdownContent);
         }).fail(function(error){
             alert(JSON.stringify(error));
         });
-
-
+    }else{
+        //form 세팅
+        $('#blogIdx').val('');
+        $('#blogTitle').val('');
+        editor.setMarkdown('');
     }
 
 }
@@ -159,7 +161,7 @@ function fnDelete(){
 
     $.ajax({
         type : 'DELETE',
-        url : '/blogs',
+        url : '/blogs/' + idx,
     }).done(function(data){
 
         alert('삭제되었습니다.');

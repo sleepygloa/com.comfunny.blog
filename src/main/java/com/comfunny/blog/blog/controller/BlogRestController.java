@@ -23,6 +23,14 @@ public class BlogRestController {
     private final BlogService blogService;
 
     /***************************************
+     * 글 상세보기(미사용)
+     ***************************************/
+    @GetMapping("/blogs/content/{idx}")
+    public BlogListResponseDto blogFindById(@PathVariable("idx") Long idx, Model model){
+        return blogService.findById(idx);
+    }
+
+    /***************************************
      * 글  신규 저장
      ***************************************/
     @PostMapping("/blogs/")
@@ -62,8 +70,8 @@ public class BlogRestController {
      * 글삭제
      ***************************************/
     @DeleteMapping("/blogs/{idx}")
-    public void delete(@RequestBody Map data){
-        blogService.delete(data);
+    public void delete(@PathVariable("idx") int idx){
+        blogService.delete(idx);
     }
 
 
@@ -111,14 +119,14 @@ public class BlogRestController {
     public void deleteRe(@PathVariable("ref") Long ref, @LoginUser SessionUser user){
         blogService.deleteRe(ref);
     }
-
-    /***************************************
-     * 글 저장 (md)
-     ***************************************/
-    @PostMapping("/b/blog/saveMd")
-    public void saveMd(@RequestBody Map data, @LoginUser SessionUser user){
-        blogService.saveMd(data, user);
-    }
+//
+//    /***************************************
+//     * 글 저장 (md)
+//     ***************************************/
+//    @PostMapping("/b/blog/saveMd")
+//    public void saveMd(@RequestBody Map data, @LoginUser SessionUser user){
+//        blogService.saveMd(data, user);
+//    }
 
 
     //	//블로그 글 수정완료 후 파일 업로드
