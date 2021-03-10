@@ -7,19 +7,10 @@ var blogsJs = function(){
 
             //css
             $('#blogRe').css('background-color', '#E8F2FF');
-//            leftMenu(7);
-//
-//			fnEvents();
-//
-//			blogJs.fnList();
-            $('[id^="idx_"]').on('click', function(){
 
-                var id = $(this).attr("id");
-                var idx = id.split('idx_')[1];
-                getContent(idx);
-            })
-            var idx = $('#blogIdx').val();
-            if(idx != '') getContent(idx);
+            initPage();
+
+            fnReContent('VIEW');
 
             fnEvents();
 
@@ -38,90 +29,99 @@ var blogsJs = function(){
             getContentUpdate();
     	});
 
+    	//수정취소
+    	$("#blogCancelBtn").click(function(){
+            getContent();
+    	});
+
     	//저장버튼
     	$("#blogSaveBtn").click(function(){
     		fnSave();
     	});
 
+    	//삭제버튼
+    	$("#blogDeleteBtn").click(function(){
+    		fnDelete();
+    	});
+
 	}
 
+function initPage(){
+    if(app.userRole == 'A'){
+        $('#blogUpdateBtn').css('display','block');
+        $('#blogAddBtn').css('display','block');
+    }
+}
 
-    function getContent(idx){
+
+function getContent(){
+    var idx = $('#blogIdx').val();
+    $.ajax({
+        type : 'GET',
+        url : '/blogs/'+idx,
+        contentType : 'application/json; charset=utf-8'
+    }).done(function(data){
+        console.log(data);
+
+        //element 세팅
+        $('#blogViewMarkdown').css('display', 'block');
+        $('#blogUpdateMarkdown').css('display', 'none');
+        $('#blogTitle').attr('readonly', true);
+        $('#blogUpdateBtn').css('display', 'block');
+        $('#blogDelBtn').css('display', 'none');
+        $('#blogSaveBtn').css('display', 'none');
+        $('#blogCancelBtn').css('display', 'none');
+
+        //form 세팅
+        $('#blogIdx').val(data.idx);
+        $('#blogTitle').val(data.title);
+        viewer.setMarkdown(data.markdownContent);
+
+        fnReContent('VIEW');
+
+
+    }).fail(function(error){
+        alert(JSON.stringify(error));
+    });
+}
+
+function getContentUpdate(){
+    var idx = $('#blogIdx').val();
+
+    //element 세팅
+    $('#blogViewMarkdown').css('display', 'none');
+    $('#blogUpdateMarkdown').css('display', 'block');
+    $('#blogTitle').attr('readonly', false);
+    $('#blogUpdateBtn').css('display', 'none');
+    $('#blogDelBtn').css('display', 'block');
+    $('#blogSaveBtn').css('display', 'block');
+    $('#blogCancelBtn').css('display', 'block');
+
+    //form 세팅
+    $('#blogIdx').val('');
+    $('#blogTitle').val('');
+    editor.setMarkdown('');
+
+    if(idx > 0){
         $.ajax({
             type : 'GET',
-            url : '/blogs/content/'+idx,
+            url : '/blogs/'+idx,
             contentType : 'application/json; charset=utf-8'
         }).done(function(data){
-            console.log(data);
-
-            //element 세팅
-            $('#blogViewMarkdown').css('display', 'block');
-            $('#blogUpdateMarkdown').css('display', 'none');
-            $('#blogTitle').attr('readonly', true);
-            $('#blogUpdateBtn').css('display', 'block');
-            $('#blogDelBtn').css('display', 'none');
-            $('#blogSaveBtn').css('display', 'none');
-
             //form 세팅
             $('#blogIdx').val(data.idx);
             $('#blogTitle').val(data.title);
-            viewer.setMarkdown(data.markdownContent);
-
-            fnReContent('VIEW');
-
-
+            editor.setMarkdown(data.markdownContent);
         }).fail(function(error){
             alert(JSON.stringify(error));
         });
-    }
-    function getContentUpdate(){
-        var idx = $('#blogIdx').val();
 
-        //element 세팅
-        $('#blogViewMarkdown').css('display', 'none');
-        $('#blogUpdateMarkdown').css('display', 'block');
-        $('#blogTitle').attr('readonly', false);
-        $('#blogUpdateBtn').css('display', 'none');
-        $('#blogDelBtn').css('display', 'block');
-        $('#blogSaveBtn').css('display', 'block');
-
-        //form 세팅
-        $('#blogIdx').val('');
-        $('#blogTitle').val('');
-        editor.setMarkdown('');
-
-        if(idx > 0){
-            $.ajax({
-                type : 'GET',
-                url : '/blogs/content/'+idx,
-                contentType : 'application/json; charset=utf-8'
-            }).done(function(data){
-
-                //element 세팅
-                $('#blogViewMarkdown').css('display', 'none');
-                $('#blogUpdateMarkdown').css('display', 'block');
-                $('#blogTitle').attr('readonly', false);
-                $('#blogUpdateBtn').css('display', 'none');
-                $('#blogDelBtn').css('display', 'block');
-                $('#blogSaveBtn').css('display', 'block');
-
-                //form 세팅
-                $('#blogIdx').val(data.idx);
-                $('#blogTitle').val(data.title);
-                editor.setMarkdown(data.markdownContent);
-
-
-
-            }).fail(function(error){
-                alert(JSON.stringify(error));
-            });
-
-
-        }
 
     }
 
-function save(){
+}
+//글저장
+function fnSave(){
     var idx = $('#blogIdx').val();
 
     var data = {
@@ -130,10 +130,10 @@ function save(){
     }
 
     var type = 'POST';
-    var url = '/blogs/content/';
+    var url = '/blogs/';
     if(idx > 0) {
         type = 'PUT';
-        url = '/blogs/content/'+idx;
+        url = '/blogs/'+idx;
     }
 
     $.ajax({
@@ -153,8 +153,22 @@ function save(){
     });
 }
 
+//글삭제
+function fnDelete(){
+    var idx = $('#blogIdx').val();
 
+    $.ajax({
+        type : 'DELETE',
+        url : '/blogs',
+    }).done(function(data){
 
+        alert('삭제되었습니다.');
+        window.location.href='/blogs/';
+
+    }).fail(function(error){
+        alert(JSON.stringify(error));
+    });
+}
 
 //댓글 신규저장, 수정저장
 function blogReSave(ref, pRef){
@@ -169,7 +183,7 @@ function blogReSave(ref, pRef){
 
     //신규인지 수정인지
     var type = 'POST';
-    var url = '/blogs/content/re';
+    var url = '/blogs/re';
     if(ref != 0){
         type = 'PUT';
         url = url + '/' + ref;
@@ -197,7 +211,7 @@ function blogReDelete(ref){
 
     $.ajax({
         type : 'DELETE',
-        url : '/blogs/content/re/'+ref,
+        url : '/blogs/re/'+ref,
     }).done(function(data){
 
         alert('삭제되었습니다.');
@@ -210,7 +224,7 @@ function blogReDelete(ref){
 
 //댓글 리스트
 function fnReContent(flag, ref, pref){
-    console.log(flag,ref, pref);
+
         var reBody = $('#blogRe');
         reBody.empty();
 
@@ -219,7 +233,7 @@ function fnReContent(flag, ref, pref){
 
     	$.ajax({
             type : 'GET',
-            url : '/blogs/content/re/'+idx,
+            url : '/blogs/re/'+idx,
     		dataType    : "json",
     		async:false,
     		contentType : "application/json; charset=utf-8",
@@ -282,7 +296,7 @@ function fnReContent(flag, ref, pref){
         var ddContentDiv = $('<div class="input-group input-group-sm" />');
 
             if(dtGridRef == 0 || (flag == 'REUPDATE')){
-                var ddIdTextArea = $('<textarea id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" readonly style="margin-left:45px;"/>');
+                var ddIdTextArea = $('<textarea id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="form-control" aria-label="With textarea" readonly style="margin-left:45px; border:0px; background:white; padding:10px;"/>');
                 ddIdTextArea.keydown(function(el){
                     if(el.keyCode == 13){
                         ddContentDiv.css('height', (12+el.target.scrollHeight)+"px");
@@ -318,17 +332,22 @@ function fnReContent(flag, ref, pref){
             var ddIdInput = $('<input id="blogName_'+dtGridRef+'_'+dtGridPRef+'" type="text" class="form-control" aria-label="Text input with segmented dropdown button" value="" readonly style="background:transparent; border:0px;">');
 
             //비밀번호
-            var ddPw = $('<input id="blogPw_'+dtGridRef+'_'+dtGridPRef+'" type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="비밀번호" readonly>');
+            var ddPw = $('<input id="blogPw_'+dtGridRef+'_'+dtGridPRef+'" type="text" class="form-control" aria-label="Text input with segmented dropdown button" placeholder="비밀번호" readonly style="background:transparent; border:0px;">');
 
             if(dtGridRef == 0 || flag == 'REUPDATE'){
+
                 if(app.userName != ''){
                     ddIdInput.val(ddId);
                     ddPw.attr('readonly', false);
+                }else{
+                    ddIdInput.val(ddId);
                 }
             }else{
+                var dt = rowData.up_dt;
                 //댓글리스트의 일반적인 텍스트 : 작성자 + 일시
-                var ddIdDt = '' + rowData.up_user_id + ' | ' + rowData.up_dt;
+                var ddIdDt = '' + rowData.up_user_id + ' | ' + (dt.substr(0,10) + " " + dt.substr(11,8));
                 ddIdInput.val(ddIdDt);
+                ddIdInput.css('font-size', '0.8em');
             }
 
 
@@ -377,7 +396,7 @@ function fnReContent(flag, ref, pref){
             //세션확인
             if(app != undefined && app.userName != ''){
                 //댓글달기
-                if(dtGridPRef == 0) ddDiv.append(ddBtnReAdd);
+                if(dtGridPRef == 0 && dtGridRef != 0) ddDiv.append(ddBtnReAdd);
                 //댓글수정하기
                 if(rowData != undefined && app.userName == rowData.up_user_id) ddDiv.append(ddBtnReUpdate);
                 //글쓰기, 댓글저장

@@ -23,17 +23,9 @@ public class BlogRestController {
     private final BlogService blogService;
 
     /***************************************
-     * 글 상세보기(미사용)
-     ***************************************/
-    @GetMapping("/blogs/content/{idx}")
-    public BlogListResponseDto blogFindById(@PathVariable("idx") Long idx, Model model){
-        return blogService.findById(idx);
-    }
-
-    /***************************************
      * 글  신규 저장
      ***************************************/
-    @PostMapping("/blogs/content/")
+    @PostMapping("/blogs/")
     public Long save(@RequestBody BlogSaveRequestDto requestDto, @LoginUser SessionUser user){
         requestDto.setInUserId(user.getName());
         requestDto.setUpUserId(user.getName());
@@ -46,7 +38,7 @@ public class BlogRestController {
     /***************************************
      * 글 수정 저장
      ***************************************/
-    @PutMapping("/blogs/content/{idx}")
+    @PutMapping("/blogs/{idx}")
     public Long update(@PathVariable("idx") Long idx, @RequestBody BlogSaveRequestDto requestDto, @LoginUser SessionUser user){
         requestDto.setInUserId(user.getName());
         requestDto.setUpUserId(user.getName());
@@ -69,7 +61,7 @@ public class BlogRestController {
     /***************************************
      * 글삭제
      ***************************************/
-    @DeleteMapping("/b/blog/delete")
+    @DeleteMapping("/blogs/{idx}")
     public void delete(@RequestBody Map data){
         blogService.delete(data);
     }
@@ -79,7 +71,7 @@ public class BlogRestController {
     /***************************************
      * 댓글 리스트 조회
      ***************************************/
-    @GetMapping("/blogs/content/re/{idx}")
+    @GetMapping("/blogs/re/{idx}")
     public List<Map<String, Object>> listRe(@PathVariable("idx") Long idx){
         return blogService.listRe(idx);
     }
@@ -87,7 +79,7 @@ public class BlogRestController {
     /***************************************
      * 댓글 신규 저장
      ***************************************/
-    @PostMapping("/blogs/content/re")
+    @PostMapping("/blogs/re")
     public Long saveRe(@RequestBody BlogReSaveRequestDto requestDto, @LoginUser SessionUser user){
         requestDto.setInUserId(user.getName());
         requestDto.setUpUserId(user.getName());
@@ -100,7 +92,7 @@ public class BlogRestController {
     /***************************************
      * 댓글 수정 저장
      ***************************************/
-    @PutMapping("/blogs/content/re/{ref}")
+    @PutMapping("/blogs/re/{ref}")
     public Long updateRe(@PathVariable("ref") Long ref, @RequestBody BlogReSaveRequestDto requestDto, @LoginUser SessionUser user){
         requestDto.setInUserId(user.getName());
         requestDto.setUpUserId(user.getName());
@@ -115,7 +107,7 @@ public class BlogRestController {
     /***************************************
      * 댓글 삭제
      ***************************************/
-    @DeleteMapping("/blogs/content/re/{ref}")
+    @DeleteMapping("/blogs/re/{ref}")
     public void deleteRe(@PathVariable("ref") Long ref, @LoginUser SessionUser user){
         blogService.deleteRe(ref);
     }
