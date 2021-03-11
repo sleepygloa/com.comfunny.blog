@@ -145,9 +145,23 @@
 
 
 
-GitHubCalendar(".calendar", "sleepygloa", { responsive: true, tooltips: false, global_stats: false}).then(function() {
-    // delete the space underneath the module bar which is caused by minheight
-    document.getElementsByClassName('calendar')[0].style.minHeight = "100px";
-    // hide more and less legen below the contribution graph
-    //document.getElementsByClassName('contrib-legend')[0].style.display = "none";
-});
+
+var IndexJs = function(){
+    return{
+        init : function(){
+            if(app.userRole == 'A')  $('#adminMenu').css('display', 'block');
+
+        GitHubCalendar(".calendar", "sleepygloa", { responsive: true, tooltips: false, global_stats: false}).then(function() {
+            // delete the space underneath the module bar which is caused by minheight
+            document.getElementsByClassName('calendar')[0].style.minHeight = "100px";
+            // hide more and less legen below the contribution graph
+            //document.getElementsByClassName('contrib-legend')[0].style.display = "none";
+        });
+
+        }
+    }
+}();
+
+$(document).ready(function(){
+    IndexJs.init();
+})

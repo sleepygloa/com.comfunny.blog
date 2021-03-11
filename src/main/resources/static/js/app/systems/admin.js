@@ -9,7 +9,7 @@ var adminJs = function(){
 	return {
 		init : function(){
 
-            leftMenu(3);
+
 
 
 		},

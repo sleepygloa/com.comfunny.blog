@@ -12,41 +12,42 @@ public class SystemController {
     /************************************************************
      * 관리자 페이지로 이동
      *************************************************************/
-    @GetMapping("/system")
+    @GetMapping("/systems")
     public String admin(Model model){
-        return "system/admin";
+
+        return "systems/admin";
     }
 
     /************************************************************
      * 메뉴 페이지로 이동
      *************************************************************/
-    @GetMapping("/system/menu")
+    @GetMapping("/systems/menus")
     public String menu(Model model){
-        return "system/menu";
+        return "systems/menu";
     }
 
     /************************************************************
      * 공통코드 페이지로 이동
      *************************************************************/
-    @GetMapping("/system/code")
+    @GetMapping("/systems/code")
     public String code(Model model){
-        return "system/code";
+        return "systems/code";
     }
 
     /************************************************************
      * 메세지 페이지로 이동
      *************************************************************/
-    @GetMapping("/system/message")
+    @GetMapping("/systems/message")
     public String message(Model model){
-        return "system/message";
+        return "systems/message";
     }
 
     /************************************************************
      * 도메인 페이지로 이동
      *************************************************************/
-    @GetMapping("/system/domain")
+    @GetMapping("/systems/domain")
     public String domain(Model model){
-        return "system/domain";
+        return "systems/domain";
     }
 
 }

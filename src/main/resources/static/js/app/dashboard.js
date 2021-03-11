@@ -27,7 +27,7 @@ function getSession(){
 function leftMenu(menuSeq){
     $('#menuUl').empty();
 
-    var url = '/b/menu/list';
+    var url = '/menu/list';
 //        if(menuSeq == 2) = '/resume/ko';
     //if(menuSeq == 3) url = '/a/'; //관리자
     if(menuSeq == undefined) menuSeq = -1;

@@ -46,7 +46,7 @@ public class IndexController {
     /************************************************************
      * 로그인 페이지로 이동
      *************************************************************/
-    @GetMapping("/i/login")
+    @GetMapping("/api/login")
     public String login(){
         return "login";
     }
