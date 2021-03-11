@@ -21,7 +21,7 @@ public class SystemController {
     /************************************************************
      * 메뉴 페이지로 이동
      *************************************************************/
-    @GetMapping("/systems/menus")
+    @GetMapping("/systems/menu")
     public String menu(Model model){
         return "systems/menu";
     }

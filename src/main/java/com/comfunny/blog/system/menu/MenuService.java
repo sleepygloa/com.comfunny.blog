@@ -2,10 +2,13 @@ package com.comfunny.blog.system.menu;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -14,18 +17,21 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
+    @Autowired
+    private MenuDao menuDao;
+
     @Transactional(readOnly = true)
-    public List<MenuListResponseDto> findAlldesc(){
-        return menuRepository.findAllDesc().stream()
-                .map(MenuListResponseDto::new)
-                .collect(Collectors.toList());
+    public List<Map<String, Object>> findAlldesc() throws Exception{
+        return menuDao.list();
     }
 
     @Transactional(readOnly = true)
-    public List<MenuListResponseDto> findAlldesc(int menuSeq){
-        return menuRepository.findAllDesc(menuSeq).stream()
-                .map(MenuListResponseDto::new)
-                .collect(Collectors.toList());
+    public List<Map<String, Object>> systemList() throws Exception{
+
+        //관리자메뉴만
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("menuCd", 3);
+        return menuDao.systemList(map);
     }
 
     @Transactional

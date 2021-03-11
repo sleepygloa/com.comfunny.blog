@@ -22,8 +22,13 @@ var adminFooterJs = function(){
         }).done(function(data){
             console.log(data);
 
+            var ul = $('#systemMenuUl');
+            ul.empty;
 
-
+            for(var i = 0; i < data.length; i++){
+                var li = $('<li class="nav-item"><a class="nav-link" aria-current="page" href="'+data[i].menuUrl+'">'+data[i].menuNm+'</a></li>');
+                ul.append(li);
+            }
         }).fail(function(error){
             alert(JSON.stringify(error));
         });

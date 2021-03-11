@@ -16,21 +16,13 @@ public class MenuRestController {
     private final MenuService menuService;
 
     @GetMapping("/menu/list")
-    public List<MenuListResponseDto> menuList(@RequestParam(value="menuSeq", defaultValue = "-1") int menuSeq){
-        if(menuSeq == -1){
-            return menuService.findAlldesc();
-        }else{
-            return menuService.findAlldesc(menuSeq);
-        }
+    public List<Map<String, Object>> menuList(@RequestParam(value="menuSeq", defaultValue = "-1") int menuSeq) throws Exception{
+        return menuService.findAlldesc();
     }
 
     @GetMapping("/systems/menu/list")
-    public List<MenuListResponseDto> list(@RequestParam(value="menuSeq", defaultValue = "-1") int menuSeq){
-        if(menuSeq == -1){
-            return menuService.findAlldesc();
-        }else{
-            return menuService.findAlldesc(menuSeq);
-        }
+    public List<Map<String, Object>> list()  throws Exception{
+        return menuService.systemList();
     }
 
 

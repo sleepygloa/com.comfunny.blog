@@ -48,7 +48,7 @@ var MenuApp = function () {
     //그리드 초기화
     function fnList(){
 		$grid.paragonGrid({
-	        url              : '/b/menu/list',
+	        url              : '/menu/list',
 //			pageable         : false,
 			//sortable         : false,
             rownumbers		: true,
@@ -59,7 +59,7 @@ var MenuApp = function () {
             rowClickFocus	: true,
 			height			: '628',
 			colModel:[
-			    {editable:false,name:'menuSeq',        width:50,  align:"center"},
+			    {editable:false,name:'menuSeq',         width:50,  align:"center"},
 			    {editable:true, name:"menuParentSeq",   width:50,  align:"center"},
 			    {editable:true, name:'menuNm',          width:100},
 			    {editable:true, name:'menuUrl',         width:150,   align:"left"},

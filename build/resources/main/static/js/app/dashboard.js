@@ -125,7 +125,7 @@ function leftMenu(menuSeq){
             alert(JSON.stringify(error));
         });
 }
-leftMenu();
+//leftMenu();
 getSession();
 
 //글 컨텐츠 불러오기.

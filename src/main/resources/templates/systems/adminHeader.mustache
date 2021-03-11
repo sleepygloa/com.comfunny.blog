@@ -30,12 +30,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                    {{#list}}
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{{list.url}}">{{list.menunm}}</a>
-                        </li>
-                    {{/list}}
+                <ul id="systemMenuUl" class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                 </ul>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
