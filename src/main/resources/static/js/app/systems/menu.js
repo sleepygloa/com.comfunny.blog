@@ -78,33 +78,6 @@ var MenuApp = function () {
 			//ExpandColumn	: "MENU_NM",
         });
 
-		//[In]  Icon UI 생성
-		function inMakeMenuIcon(value, options, rowObject) {
-			value = (value === null) ? "" :value ;
-        	var div =$("<div/>");
-			var iconEl = $("<i/>");
-			var iconTxt = $("<label/>");
-			iconEl.addClass("fa "+value);
-			iconTxt.text(value);
-			iconTxt.addClass("ico-label");
-			iconTxt.css("text-indent",10);
-			div.append(iconEl).append(iconTxt);
-
-            return div.html();
-		}
-		//[In]  Icon 값 get
-		function inGetIconElValue(elem, oper, value) {
-			if (oper === "get") {
-				return $(elem).val();
-			}
-		}
-		//[In]  Icon input 박스 생성
-		function inCreateIconEl(elem, editOptions) {
-			var div =$("<div/>");
-			div.html(elem);
-			var value = div.find(".ico-label").text();
-			return $("<input>", {value:value });
-		}
 	}
 
 
