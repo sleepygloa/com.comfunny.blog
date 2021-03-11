@@ -29,9 +29,11 @@
         <form>
             <div class="row mb-3">
                 <div class="col-sm-10">
-                    <input type="hidden" class="form-control" id="blogIdx" value="{{detail.idx}}" readonly>
-                    <input type="text" class="form-control" id="blogTitle" value="{{detail.title}}" readonly style="background-color:white; border:0px;font-size:50px;text-align:center;">
-                    <input type="hidden" class="form-control" id="blogContentHidden" value="{{detail.markdownContent}}" readonly>
+                    {{#detail}}
+                        <input type="hidden" class="form-control" id="blogIdx" value="{{detail.idx}}" readonly>
+                        <input type="text" class="form-control" id="blogTitle" value="{{detail.title}}" readonly style="background-color:white; border:0px;font-size:50px;text-align:center;">
+                        <input type="hidden" class="form-control" id="blogContentHidden" value="{{detail.markdownContent}}" readonly>
+                    {{/detail}}
                 </div>
             </div>
         </form>

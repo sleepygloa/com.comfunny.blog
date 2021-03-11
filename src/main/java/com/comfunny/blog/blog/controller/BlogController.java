@@ -39,7 +39,12 @@ public class BlogController {
             model.addAttribute("userEmail", user.getEmail());
             model.addAttribute("userPic", user.getPicture());
         }
-        return blogPath(model, user, Long.valueOf((int)list.get(0).get("idx")));
+        if(list.size() == 0){
+            return blogPath(model, user, 0l);
+        }else{
+            return blogPath(model, user, Long.valueOf((int)list.get(0).get("idx")));
+        }
+
     }
 
     @GetMapping("/blogs/{idx}")
