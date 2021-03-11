@@ -311,8 +311,6 @@ function fnReContent(flag, ref, pref){
                 }else{
                     ddIdTextArea.text('로그인 후 이용해 주세요. 소통과 알림을 위해 로그인을 권장하고있습니다.');
                 }
-                if(rowData != undefined && rowData.delYn == 'Y') ddIdTextArea.text('삭제된 글입니다.');
-
                 ddContentDiv.append(ddIdTextArea);
 
             //댓글리스트, 신규댓글확인
@@ -320,6 +318,8 @@ function fnReContent(flag, ref, pref){
                 var ddIdTextArea = $('<pre id="blogContent_'+dtGridRef+'_'+dtGridPRef+'" class="" aria-label="With textarea" style="margin-bottom:0px;margin-left:45px;border:0px; background:white; padding:10px;"  />');
                 ddIdTextArea.text(rowData.content);
                 ddContentDiv.append(ddIdTextArea);
+
+                if(rowData != undefined && rowData.del_yn == 'Y') ddIdTextArea.text('삭제된 글입니다.');
             }
 
         var ddDiv = $('<div class="input-group input-group-sm mb-3" />');
@@ -348,7 +348,11 @@ function fnReContent(flag, ref, pref){
                 var dt = rowData.up_dt;
                 //댓글리스트의 일반적인 텍스트 : 작성자 + 일시
                 var ddIdDt = '' + rowData.up_user_id + ' | ' + (dt.substr(0,10) + " " + dt.substr(11,8));
-                ddIdInput.val(ddIdDt);
+
+                if(rowData != undefined && rowData.del_yn == 'Y'){
+                }else{
+                    ddIdInput.val(ddIdDt);
+                }
                 ddIdInput.css('font-size', '0.8em');
             }
 
@@ -392,19 +396,23 @@ function fnReContent(flag, ref, pref){
 
         if(dtGridRef == undefined || dtGridRef == 0) ddDiv.append(ddPw); //신규글일때만 추가
 
-        if(flag == 'REUPDATE'){
-            ddDiv.append(ddBtnReDelete).append(ddBtnInsert)
+        if(rowData != undefined && rowData.del_yn == 'Y'){
         }else{
-            //세션확인
-            if(app != undefined && app.userName != ''){
-                //댓글달기
-                if(dtGridPRef == 0 && dtGridRef != 0) ddDiv.append(ddBtnReAdd);
-                //댓글수정하기
-                if(rowData != undefined && app.userName == rowData.up_user_id) ddDiv.append(ddBtnReUpdate);
-                //글쓰기, 댓글저장
-                if(dtGridRef == 0) ddDiv.append(ddBtnInsert);
+            if(flag == 'REUPDATE'){
+                ddDiv.append(ddBtnReDelete).append(ddBtnInsert)
+            }else{
+                //세션확인
+                if(app != undefined && app.userName != ''){
+                    //댓글달기
+                    if(dtGridPRef == 0 && dtGridRef != 0) ddDiv.append(ddBtnReAdd);
+                    //댓글수정하기
+                    if(rowData != undefined && app.userName == rowData.up_user_id) ddDiv.append(ddBtnReUpdate);
+                    //글쓰기, 댓글저장
+                    if(dtGridRef == 0) ddDiv.append(ddBtnInsert);
+                }
             }
         }
+
 
         //*******************************************************************
         //최종 엘리먼트 추가.

@@ -18,7 +18,7 @@
     <select id="listRe" resultType="java.util.HashMap" >
         WITH RECURSIVE CTE AS (
         SELECT
-        B.ref
+          B.ref
         , B.idx
         , B.p_ref
         , B.content
@@ -27,6 +27,7 @@
         , B.up_user_id
         , B.up_user_email
         , B.up_dt
+        , B.del_yn
         , 1 AS LEVEL
         , CONCAT(B.ref) AS SORT
         FROM blog_re B
@@ -43,6 +44,7 @@
         , BB.up_user_id
         , BB.up_user_email
         , BB.up_dt
+        , BB.del_yn
         , 1 + LEVEL AS LEVEL
         , CONCAT(SORT, '  ', CONCAT(BB.ref)) AS SORT
         FROM blog_re BB
@@ -51,10 +53,10 @@
         WHERE BB.idx = #{idx}
         )
         SELECT B.*
-        , U.picture
-        FROM CTE B
-        JOIN user U
-        ON B.in_user_email = U.email
+             , U.picture
+          FROM CTE B
+          JOIN user U
+            ON B.in_user_email = U.email
         ORDER BY B.SORT
 
     </select>
