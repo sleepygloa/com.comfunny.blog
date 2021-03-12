@@ -17,8 +17,6 @@ import java.util.Map;
 @Service
 public class GameService {
 
-    private final MenuRepository menuRepository;
-
     @Autowired
     private GameDao gameDao;
 

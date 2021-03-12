@@ -1,7 +1,7 @@
 var MenuApp = function () {
 	"use strict";
 
-	var $grid = $("#systemMenuGrid");
+	var $grid;
 
 	var gridComboUseYn;
 
@@ -31,52 +31,156 @@ var MenuApp = function () {
     	});
 
     	//저장버튼
-    	$("#systemMenuSaveRowBtn").click(function(){
+    	$("#systemMenuSaveBtn").click(function(){
     		fnSave();
     	});
     	//행삭제버튼
-    	$("#systemMenuDelRowBtn").click(function(){
+    	$("#systemMenuDelBtn").click(function(){
     		fnDel();
     	});
     }
 
     //조회
     function fnSearch(){
-    	$grid.paragonGridSearch();
+    	$grid.readData();
     }
 
     //그리드 초기화
     function fnList(){
-		$grid.paragonGrid({
-	        url              : '/menu/list',
-//			pageable         : false,
-			//sortable         : false,
-            rownumbers		: true,
-//            shrinkToFit		: false,
-            rowNum :50,
-            multiselect		: true,
-			rowEditable      : true,
-            rowClickFocus	: true,
-			height			: '628',
-			colModel:[
-			    {editable:false,name:'menuSeq',         width:50,  align:"center"},
-			    {editable:true, name:"menuParentSeq",   width:50,  align:"center"},
-			    {editable:true, name:'menuNm',          width:100},
-			    {editable:true, name:'menuUrl',         width:150,   align:"left"},
-			    {editable:true, name:'menuIcon',        width:100,  align:"center"},
-			    {editable:true, name:'menuOrder',       width:80,   align:"center"},
-			    {editable:true, name:'useYn',           width:50,  align:"center",
-			        edittype:'select', formatter:'select', editoptions: { value : {Y:"사용", N:"미사용"} }
+        $grid = new tui.Grid({
+            el: document.getElementById('systemMenuGrid'),
+            data: {
+                api: {
+                    readData: { url: '/menu/list', method: 'GET' },
+//                    createData: { url: '/api/createData', method: 'POST' },
+//                    updateData: { url: '/api/updateData', method: 'PUT' },
+//                    modifyData: { url: '/api/modifyData', method: 'PUT' },
+//                    deleteData: { url: '/api/deleteData', method: 'DELETE' }
                 },
-			    {editable:true, name:'blogYn',          width:50,   align:"center",
-			        edittype:'select', formatter:'select', editoptions: { value : {Y:"사용", N:"미사용"} }
-                },
-//			    {editable: tr
-            ],
-            caption			: "메뉴 목록",
-            domainId		: 'MENU_LIST',
-			//ExpandColumn	: "MENU_NM",
-        });
+                contentType: 'application/json',
+            },
+            //data : [{"delYn":"N","menuOrder":"2","menuCd":"resume","createdDate":"2021-01-15T07:20:49.000+0000","childCnt":0,"menuSeq":2,"menuUrl":"/resume/ko","menuParentSeq":0,"modifiedDate":"2021-01-18T01:41:23.000+0000","useYn":"Y","menuLev":1,"menuNm":"이력서"},{"menuCd":"system","childCnt":4,"menuSeq":3,"deviceFlag":"","delYn":"N","menuOrder":"30","createdDate":"2021-01-15T07:34:46.000+0000","menuUrl":"/systems","blogYn":"Y","menuParentSeq":0,"modifiedDate":"2021-01-18T00:59:34.000+0000","useYn":"Y","menuLev":1,"menuNm":"관리자"},{"menuCd":"system","childCnt":0,"menuSeq":6,"deviceFlag":"","delYn":"N","menuOrder":"31","upUserId":"","inUserId":"","createdDate":"2021-01-18T00:50:43.000+0000","menuUrl":"/systems/menu","blogYn":"Y","menuParentSeq":3,"modifiedDate":"2021-01-18T01:00:02.000+0000","useYn":"Y","menuLev":2,"menuNm":"메뉴관리"},{"delYn":"N","menuOrder":"32","childCnt":0,"menuSeq":11,"menuIcon":"","menuUrl":"/systems/code","blogYn":"Y","menuParentSeq":3,"useYn":"Y","menuLev":2,"menuNm":"코드관리"},{"delYn":"N","menuOrder":"33","childCnt":0,"menuSeq":12,"menuIcon":"","menuUrl":"/systems/message","blogYn":"Y","menuParentSeq":3,"useYn":"Y","menuLev":2,"menuNm":"메세지관리"},{"delYn":"N","menuOrder":"34","childCnt":0,"menuSeq":13,"menuIcon":"","menuUrl":"/systems/domain","blogYn":"Y","menuParentSeq":3,"useYn":"Y","menuLev":2,"menuNm":"도메인관리"},{"menuCd":"blog","childCnt":2,"menuSeq":7,"menuIcon":"","deviceFlag":"","delYn":"N","menuOrder":"100","createdDate":"2021-01-18T00:50:43.000+0000","menuUrl":"/b/blog","blogYn":"","menuParentSeq":0,"modifiedDate":"2021-01-18T01:00:02.000+0000","useYn":"Y","menuLev":1,"menuNm":"블로그관리"},{"menuCd":"blog","childCnt":0,"menuSeq":9,"deviceFlag":"A","delYn":"N","menuOrder":"101","createdDate":"2021-01-18T00:50:43.000+0000","menuUrl":"/b/blog/list","menuParentSeq":7,"modifiedDate":"2021-01-18T01:00:02.000+0000","useYn":"Y","menuLev":2,"menuNm":"전체보기"},{"menuCd":"blog","childCnt":0,"menuSeq":8,"menuIcon":"","deviceFlag":"","delYn":"N","menuOrder":"102","createdDate":"2021-01-18T00:50:43.000+0000","menuUrl":"/b/blog/list?searchA=유니티","blogYn":"","menuParentSeq":7,"modifiedDate":"2021-01-18T01:00:02.000+0000","useYn":"Y","menuLev":2,"menuNm":"유니티"},{"menuCd":"blog","childCnt":0,"menuSeq":10,"deviceFlag":"A","delYn":"N","menuOrder":"103","createdDate":"2021-01-18T00:50:43.000+0000","menuUrl":"/b/blog/list?searchA=유니티&searchB=프로젝트1-방치형","menuParentSeq":8,"modifiedDate":"2021-01-18T01:00:02.000+0000","useYn":"Y","menuLev":3,"menuNm":"프로젝트1-방치형"}],
+            scrollX: false,
+            scrollY: false,
+//      minBodyHeight: 30, //최소높이
+//      rowHeaders: ['rowNum'], //??
+//      pageOptions: { //페이징 기능
+//        perPage: 5
+//      },
+
+//      treeColumnOptions: { //tree 기능
+//        name: 'name',
+//        useCascadingCheckbox: true
+//      },
+            columns: [
+                        {
+                            header: '메뉴SEQ',
+                            name: 'menuSeq',
+//                            sortingType: 'desc',
+//                            sortable: true,
+//                            filter: 'select',
+//                            defaultValue: 2,
+//                            editor: {
+//                                    type: 'select',
+//                                    options: {
+//                                            listItems: [
+//                                                        { text: 'Select', value: '' },
+//                                                        { text: 'Domestic', value: '01' },
+//                                                        { text: 'Overseas', value: '02' },
+//                                                        { text: 'Etc', value: '03' }
+//                                                        ]
+//                                            }
+//                                    }
+                        },
+                        {
+                            header: '메뉴부모SEQ',
+                            name: 'menuParentSeq',
+                        },
+                        {
+                            header: '메뉴명',
+                            name: 'menuNm',
+                        },
+                        {
+                            header: '메뉴URL',
+                            name: 'menuUrl',
+                        },
+                        {
+                            header: '메뉴아이콘',
+                            name: 'menuIcon',
+                        },
+                        {
+                            header: '메뉴순번',
+                            name: 'menuOrder',
+
+                        },
+                        {
+                            header: '사용유무',
+                            name: 'useYn',
+                            editor: {
+                                    type: 'select',
+                                    options: {
+                                            listItems: [
+                                                        { text: '사용', value: 'Y' },
+                                                        { text: '미사용', value: 'N' },
+                                                        ]
+                                            }
+                                    }
+                        },
+                    ],
+            columnOptions: {
+                            resizable: true,
+//                            frozenCount: 1,
+//                            frozenBorderWidth: 2,
+//                            minWidth: 300
+            }
+//     summary: {
+//        height: 40,
+//        position: 'bottom', // or 'top'
+//        columnContent: {
+//          c2: {
+//            template: function(valueMap) {
+//              return `MAX: ${valueMap.max}<br>MIN: ${valueMap.min}`;
+//            }
+//          },
+//          c3: {
+//            template: function(valueMap) {
+//              return `TOTAL: ${valueMap.sum} <br>AVG: ${valueMap.avg.toFixed(2)}`;
+//            }
+//          }
+//        }
+//        }
+    });
+
+//		$grid.paragonGrid({
+//	        url              : '/menu/list',
+////			pageable         : false,
+//			//sortable         : false,
+//            rownumbers		: true,
+////            shrinkToFit		: false,
+//            rowNum :50,
+//            //multiselect		: true,
+//			rowEditable      : true,
+//            rowClickFocus	: true,
+//			//height			: '628',
+//			colModel:[
+//			    {editable:false,name:'menuSeq',         width:50,  align:"center"},
+//			    {editable:true, name:"menuParentSeq",   width:50,  align:"center"},
+//			    {editable:true, name:'menuNm',          width:100},
+//			    {editable:true, name:'menuUrl',         width:150,   align:"left"},
+//			    {editable:true, name:'menuIcon',        width:100,  align:"center"},
+//			    {editable:true, name:'menuOrder',       width:80,   align:"center"},
+//			    {editable:true, name:'useYn',           width:50,  align:"center",
+//			        edittype:'select', formatter:'select', editoptions: { value : {Y:"사용", N:"미사용"} }
+//                },
+//			    {editable:true, name:'blogYn',          width:50,   align:"center",
+//			        edittype:'select', formatter:'select', editoptions: { value : {Y:"사용", N:"미사용"} }
+//                },
+////			    {editable: tr
+//            ],
+//            caption			: "메뉴 목록",
+//            domainId		: 'MENU_LIST',
+//			//ExpandColumn	: "MENU_NM",
+//        });
 
 	}
 
@@ -86,7 +190,7 @@ var MenuApp = function () {
     //[Fn] 메뉴 내용저장
     function fnSave(){
         //삭제버튼 이벤트 로직 수행.
-        var saveUrl 	= "/b/menu/save";
+        var saveUrl 	= "/systems/menus";
         var msg 		= "저장하시겠습니까?"
 
         var rowData = {
@@ -103,6 +207,22 @@ var MenuApp = function () {
 
         //1. 체크된 리스트.
         var jsonData = $grid.getSelectedJsonDataChk("list", rowData, $grid);
+        console.log(jsonData);
+        $.ajax({
+            type : 'POST',
+            url : '',
+            dataType : 'json',
+            contentType : 'application/json; charset=utf-8',
+            data : JSON.stringify(data)
+        }).done(function(data){
+            console.log(data);
+
+            alert('저장되었습니다');
+            window.location.href='/blogs/';
+
+        }).fail(function(error){
+            alert(JSON.stringify(error));
+        });
 
         //ajax
         WMSUtil.ajax('POST', jsonData, saveUrl, msg, function(){
@@ -113,35 +233,7 @@ var MenuApp = function () {
 
     //추가
     function fnAdd(){
-
-        $grid.paragonGridAddRow();
-//
-//
-//		var pop = PopApp.paragonOpenPopup({
-//    		ajaxUrl		: '/ctrl/settings/system/menu/newPopup',
-//    		id			: 'menuNewPopUp',
-//    		width		: '50',
-//    		minWidth	: '700',
-//    		btnName		: "저장",
-//    		visible		:  true, //기본값 false :바로 활성화  TODO 사용설명서 명시해야함
-////    		title 		: "메뉴 등록",
-//    		domainId	: 'MENU_ADD_BTN',
-//    		onload		: function(){
-//    			//POPUP창 이벤트 실행
-//    			MenuApp.initPopup();
-//    			var rowid= $grid.jqGrid('getGridParam','selrow');
-//        		var selectBox = $("#popMenuParentSeq");
-//    			if(rowid != null){
-//    				var lastRowData = $grid.getRowData( rowid );
-//    				var menuSeq = lastRowData.MENU_SEQ;
-//    				var menuNm = lastRowData.MENU_NM;
-//    				var option = $("<option>", {value: menuSeq , selected: true });
-//    				option.text(menuNm)
-//    				selectBox.append(option);
-//
-//    			}
-//    		}
-//		});
+        $grid.appendRow();
     }
 
 
@@ -196,8 +288,8 @@ var MenuApp = function () {
     //삭제
     function fnDel(){
 
-    	var addFlag = $grid.paragonGridCheckedDeleteData();
-
+    	var addFlag = $grid.removeRow();
+return;
         if(addFlag === false){
             //삭제버튼 이벤트 로직 수행.
             var saveUrl 	= "/ctrl/inbound/inboundExam/updateIbExamDelete";

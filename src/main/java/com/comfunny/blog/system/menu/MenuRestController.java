@@ -4,8 +4,10 @@ package com.comfunny.blog.system.menu;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +18,14 @@ public class MenuRestController {
     private final MenuService menuService;
 
     @GetMapping("/menu/list")
-    public List<Map<String, Object>> menuList(@RequestParam(value="menuSeq", defaultValue = "-1") int menuSeq) throws Exception{
-        return menuService.findAlldesc();
+    public Map<String, Object> menuList(Model model, @RequestParam(value="menuSeq", defaultValue = "-1") int menuSeq) throws Exception{
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("contents", menuService.findAlldesc());
+
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("data", map);
+        map2.put("result", true);
+        return map;
     }
 
     @GetMapping("/systems/menu/list")

@@ -9,7 +9,7 @@
          WHERE (ID = #{id} OR ANDROID_ID = #{androidId} AND IOS_ID = #{iosId})
     </select>
 
-    <insert id="findById" >
+    <insert id="regId" >
    INSERT INTO GAME_USER
               (
                ID

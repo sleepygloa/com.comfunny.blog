@@ -26,12 +26,6 @@ public class BlogService {
     //글 제목
     private final BlogRepository blogRepository;
 
-    //글 카테고리
-    private final BlogCategoryRepository blogCategoryRepository;
-
-    //글 상세
-    private final BlogDetailRepository blogDetailRepository;
-
     //댓글
     private final BlogReRepository blogReRepository;
 
