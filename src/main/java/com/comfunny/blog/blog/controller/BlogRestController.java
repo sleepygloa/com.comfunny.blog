@@ -22,6 +22,14 @@ public class BlogRestController {
 
     private final BlogService blogService;
 
+
+    @PostMapping("/blogs/content/json")
+    public Map<String, Object> jsonText(@RequestBody Map<String, Object> map) throws Exception{
+        System.out.println(map.toString());
+
+        return map;
+    }
+
     /***************************************
      * 글 상세보기(미사용)
      ***************************************/

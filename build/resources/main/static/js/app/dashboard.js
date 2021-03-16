@@ -40,7 +40,8 @@ function leftMenu(menuSeq){
         },
         dataType : 'json',
         contentType : 'application/json; charset=utf-8'
-        }).done(function(data){
+        }).done(function(result){
+            var data = result.data.contents;
 
             var beforeMenuLev = 1;
             var beforeChildCnt = 0;
