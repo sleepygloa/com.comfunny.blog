@@ -48,8 +48,12 @@ var blogsJs = function(){
 
 function initPage(){
     if(app.userRole == 'A'){
-        $('#blogUpdateBtn').css('display','block');
         $('#blogAddBtn').css('display','block');
+
+        var idx = $('#blogIdx').val();
+        if(idx != "" && idx > -1){
+            $('#blogUpdateBtn').css('display','block');
+        }
     }
 }
 
@@ -66,11 +70,15 @@ function getContent(){
         //element 세팅
         $('#blogViewMarkdown').css('display', 'block');
         $('#blogUpdateMarkdown').css('display', 'none');
-        $('#blogTitle').attr('readonly', true);
-        $('#blogUpdateBtn').css('display', 'block');
+        $('#blogTitle').css('display','block').attr('readonly', true);
+        $('#blogUpdateBtn').css('display', 'none');
         $('#blogDeleteBtn').css('display', 'none');
         $('#blogSaveBtn').css('display', 'none');
         $('#blogCancelBtn').css('display', 'none');
+        $('#blogRe').css('display','block');
+        $('#blogAddBtn').css('display','block');
+        $('#blogUpdateBtn').css('display','block');
+
 
         //form 세팅
         $('#blogIdx').val(data.idx);
@@ -91,13 +99,14 @@ function getContentUpdate(){
     //element 세팅
     $('#blogViewMarkdown').css('display', 'none');
     $('#blogUpdateMarkdown').css('display', 'block');
-    $('#blogTitle').attr('readonly', false);
+    $('#blogTitle').css('display','block').attr('readonly', false);
     $('#blogUpdateBtn').css('display', 'none');
     $('#blogDeleteBtn').css('display', 'block');
     $('#blogSaveBtn').css('display', 'block');
     $('#blogCancelBtn').css('display', 'block');
-
-
+    //댓글 창 안보이게
+    $('#blogRe').css('display','none');
+    $('#blogAddBtn').css('display','none');
 
 
     if(idx > 0){
@@ -119,6 +128,8 @@ function getContentUpdate(){
         $('#blogIdx').val('');
         $('#blogTitle').val('');
         editor.setMarkdown('');
+
+
     }
 
 }
@@ -233,51 +244,53 @@ function fnReContent(flag, ref, pref){
         var idx = $('#blogIdx').val();
         var reAddFlag = false;
 
-    	$.ajax({
-            type : 'GET',
-            url : '/blogs/re/'+idx,
-    		dataType    : "json",
-    		async:false,
-    		contentType : "application/json; charset=utf-8",
-    		success     : function(result){
-                //CSS
-                var reContent = 0;
-                var imgWidth = 10
+        if(idx != "" & idx > -1){
+            $.ajax({
+                type : 'GET',
+                url : '/blogs/re/'+idx,
+                dataType    : "json",
+                async:false,
+                contentType : "application/json; charset=utf-8",
+                success     : function(result){
+                    //CSS
+                    var reContent = 0;
+                    var imgWidth = 10
 
-                var dt_grid = result;
+                    var dt_grid = result;
 
-                //-1 : 댓글 신규 작성 폼.
-                for(var i = 0; i < dt_grid.length; i++){
-                        //글수정
-                        if(ref == dt_grid[i].ref && pref == dt_grid[i].p_ref && flag == 'REUPDATE'){
+                    //-1 : 댓글 신규 작성 폼.
+                    for(var i = 0; i < dt_grid.length; i++){
+                            //글수정
+                            if(ref == dt_grid[i].ref && pref == dt_grid[i].p_ref && flag == 'REUPDATE'){
+                                getViewInsert(reBody, {
+                                    ref : dt_grid[i].ref,
+                                    pref : dt_grid[i].p_ref,
+                                    rowData : dt_grid[i],
+                                    flag : flag
+                                });
+                                continue;
+                            }
+
+                            //일반적인 리스트
                             getViewInsert(reBody, {
                                 ref : dt_grid[i].ref,
                                 pref : dt_grid[i].p_ref,
                                 rowData : dt_grid[i],
-                                flag : flag
+                                flag : 'VIEW'
                             });
-                            continue;
-                        }
 
-                        //일반적인 리스트
-                        getViewInsert(reBody, {
-                            ref : dt_grid[i].ref,
-                            pref : dt_grid[i].p_ref,
-                            rowData : dt_grid[i],
-                            flag : 'VIEW'
-                        });
-
-                        //댓글쓰기일때.
-                        if(flag != 'REUPDATE' && dt_grid[i].ref == pref) {
-                            getViewInsert(reBody, {
-                                                 ref : 0,
-                                                 pref : dt_grid[i].ref,
-                                                 flag : flag
-                                             });
+                            //댓글쓰기일때.
+                            if(flag != 'REUPDATE' && dt_grid[i].ref == pref) {
+                                getViewInsert(reBody, {
+                                                     ref : 0,
+                                                     pref : dt_grid[i].ref,
+                                                     flag : flag
+                                                 });
+                            }
                         }
-                    }
-            }
-        });
+                }
+            });
+        }
         getViewInsert(reBody);
     }
 

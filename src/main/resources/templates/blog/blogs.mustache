@@ -1,74 +1,84 @@
 {{>header}}
 <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">-->
+<header>
+    <style>
+        #blogHeaderBtnArea{
+            display:flex;
+            justify-contents: right;
+        }
+        #blogHeaderBtnArea > button{
+            margin-left:5px;
+            margin-right:5px;
+        }
 
+        #blogTitle{
+            background-color:white;
+            border:0px;
+            font-size:35px;
+            text-align:center;
+
+        }
+    </style>
+</header>
 <div class="container-fluid">
     <div class="container">
-        <button type="button" id="blogAddBtn"  class="btn btn-sm btn-info m-r-5" style="display:none;">
-            <i class="fa fa-plus"></i> <!--<i data-domain-id="MENU_ADD_BTN" >-->글 추가</i>
-        </button>
-
-
-
-        <table class="table">
-            <thead>
-            <tr>
-
-                <th scope="col">title</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#list}}
-                <tr>
-
-                    <th scope="row"><a href="/blogs/{{idx}}" style="text-decoration:none; color:black;">{{title}}</a></th>
-                </tr>
-            {{/list}}
-
-            </tbody>
-        </table>
-        <form>
-            <div class="row mb-3">
-                <div class="col-sm-10">
-                    {{#detail}}
-                        <input type="hidden" class="form-control" id="blogIdx" value="{{detail.idx}}" readonly>
-                        <input type="text" class="form-control" id="blogTitle" value="{{detail.title}}" readonly style="background-color:white; border:0px;font-size:50px;text-align:center;">
-                        <input type="hidden" class="form-control" id="blogContentHidden" value="{{detail.markdownContent}}" readonly>
-                    {{/detail}}
-                </div>
-            </div>
-        </form>
-    </div>
-
-
-
-
-
-        <div id="blogViewMarkdown" class="container col-xs-w100" >
-
-        </div>
-        <div id="blogUpdateMarkdown" class="container  col-xs-w100" style="display:none;">
-
-        </div>
-
-    <div class="container" style="padding-top:30px;">
-        <div class="col-xs-w50">
-            <button type="button" id="blogUpdateBtn" class="btn btn-sm btn-warning m-r-5" style="display:none">
+        <div id="blogHeaderBtnArea">
+            <span id="blogAddBtn"  class="badge bg-primary" style="display:none;">
+                <i class="fa fa-plus"></i> 글 추가</i>
+            </span>
+            <span id="blogUpdateBtn" class="badge bg-info" style="display:none">
                 <i class="fa fa-minus"></i>수정하기</i>
-            </button>
-            <button type="button" id="blogDeleteBtn"  class="btn btn-sm btn-danger m-r-5" style="display:none;">
+            </span>
+            <span id="blogDeleteBtn"  class="badge bg-warning" style="display:none;">
                 <i class="fa fa-minus"></i>글삭제</i>
-            </button>
-            <button type="button" id="blogSaveBtn"  class="btn btn-sm btn-success" style="display:none;">
+            </span>
+            <span id="blogSaveBtn"  class="badge bg-success" style="display:none;">
                 <i class="fa fa-download"></i>저장</i>
-            </button>
-            <button type="button" id="blogCancelBtn" class="btn btn-sm btn-default" style="display:none;">
+            </span>
+            <span id="blogCancelBtn" class="badge bg-black" style="display:none;">
                 <i class="fa fa-download"></i>작성취소</i>
-            </button>
+            </span>
         </div>
 
-    </div>
-    <div class="container" style="padding-top:30px;">
+        <div id="blogContentArea">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">title</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#list}}
+                    <tr>
+                        <th scope="row"><a href="/blogs/{{idx}}" style="text-decoration:none; color:black;">{{title}}</a></th>
+                    </tr>
+                {{/list}}
 
+                </tbody>
+            </table>
+        </div>
+        <div id="blogTitleArea">
+            <form>
+                <div class="row mb-3">
+                    <div class="col-sm-10">
+                        <input type="hidden" class="form-control" id="blogIdx" value="{{#detail}}{{detail.idx}}{{/detail}}" readonly>
+                        <input type="text" class="form-control" id="blogTitle" value="{{#detail}}{{detail.title}}{{/detail}}" placeholder="title" readonly style="display:none;">
+                        <input type="hidden" class="form-control" id="blogContentHidden" value="{{#detail}}{{detail.markdownContent}}{{/detail}}" readonly>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div id="blogViewMarkdown" class="container col-xs-w100" >
+
+    </div>
+    <div id="blogUpdateMarkdown" class="container  col-xs-w100" style="display:none;">
+
+    </div>
+
+    <div id="blogReArea" class="container">
         <div id="blogRe" style="padding:20px 10px; margin-top:30px;">
 
 
