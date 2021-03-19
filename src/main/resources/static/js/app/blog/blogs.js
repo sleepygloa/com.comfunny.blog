@@ -21,12 +21,13 @@ var blogsJs = function(){
 
     	//추가
     	$("#blogAddBtn").click(function(){
-    		getContentUpdate();
+    		getContentUpdate(-1);
     	});
 
     	//수정
     	$("#blogUpdateBtn").click(function(){
-            getContentUpdate();
+    	    var idx = $('#blogIdx').val();
+            getContentUpdate(idx);
     	});
 
     	//수정취소
@@ -93,8 +94,8 @@ function getContent(){
     });
 }
 
-function getContentUpdate(){
-    var idx = $('#blogIdx').val();
+function getContentUpdate(idx){
+
 
     //element 세팅
     $('#blogViewMarkdown').css('display', 'none');
